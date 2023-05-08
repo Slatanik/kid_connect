@@ -1,0 +1,193 @@
+/*-------------------------------------Backgraund-------------------------------------------------------------*/
+
+.bg-logo {
+  background-image: url("{% static  static\img\Logo Kids Connect.png %}");
+  background-size: cover;  /*para que la imagen cubra todo el fondo */
+  opacity: 0.9; /*para hacer la imagen un poco transparente */
+
+}
+.col {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  
+}
+
+
+/*--------------------------------------------------------------------------------------------------*/
+/*-------------------------------------NAVBAR-------------------------------------------------------------*/
+
+nav img {
+
+    width: 50px;
+    height: 50px;
+  }
+
+nav {
+    background: rgb(246,217,6);
+    background: linear-gradient(90deg, rgba(246,217,6,1) 0%, rgba(223,152,31,1) 100%);
+}
+/*--------------------------------------------------------------------------------------------------*/
+
+/*----------------------LOGIN----------------------------------------------------------------------------*/
+.container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: center; 
+  
+}
+
+.form-login {
+    width: 400px;
+    height: 340px;
+    background: #fcb203;
+    margin-left: 10px;
+    margin-top: 120px;
+    box-shadow: 7px 13px 37px rgb(0, 0, 0);
+    padding: 20px 30px;
+    border-top: 4px solid #fcb203;
+    color: white;
+  }
+  
+  .form-login h5 {
+    margin: 0;
+    text-align: center;
+    height: 40px;
+    margin-bottom: 30px;
+    border-bottom: 1px solid;
+    font-size: 20px;
+  }
+  
+  .controls {
+    width: 100%;
+    border: 1px solid #017bab;
+    margin-bottom: 15px;
+    padding: 11px 10px;
+    background: #70acc7;
+    font-size: 14px;
+    font-weight: bold;
+  }
+  
+  .buttons {
+    width: 100%;
+    height: 40px;
+    background: #017bab;
+    border: none;
+    color: white;
+    margin-bottom: 16px;
+  }
+  
+  .form-login p{
+    height: 40px;
+    text-align: center;
+    border-bottom: 1px solid;
+  }
+  
+  .form-login a {
+    color: white;
+    text-decoration: none;
+    font-size: 14px;
+  }
+  
+  .form-login a:hover {
+    text-decoration: underline;
+  }
+
+/*--------------------------------------------------------------------------------------------------*/
+
+
+.logo {
+    margin-left: 10px;
+    margin-top: 120px;
+}
+/*------------------------Footer--------------------------------------------------------------------------*/
+footer{
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  background: rgb(246,217,6);
+  background: linear-gradient(90deg, rgba(246,217,6,1) 0%, rgba(223,152,31,1) 100%);
+  padding: 0.2px
+}
+
+.divFooter{
+  color: rgb(0, 0, 0); 
+  
+}
+
+/*------------------------Home--------------------------------------------------------------------------*/
+
+:root {
+  --primary: #111B54;
+  --light: #ffffff;
+  --grey: #efefef;
+}
+
+body {
+  overflow: hidden;
+  font-family: 'Muli', sans-serif;
+  font-weight: 300;
+  color: var(--primary);
+}
+
+a:hover {
+  text-decoration: none;
+}
+
+.bg-primary { background-color: var(--primary) !important; }
+
+.bg-light { background-color: var(--light) !important; }
+
+.bg-grey { background-color: var(--grey) !important; }
+
+.bg-mix { background: linear-gradient(180deg, var(--light) 50%, var(--grey) 0); }
+
+.btn-primary {
+  background-color: var(--primary);
+  border: 0;
+}
+
+.btn-primary:hover {
+  background-color: var(--primary);
+}
+
+#sidebar-container {
+  min-height: 100vh;
+}
+
+#sidebar-container .logo{
+  padding: 0.875rem 1.25rem;
+}
+
+#sidebar-container .menu {
+  width: 18rem;
+}
+
+#content {
+  overflow-y: auto;
+  height: 100vh;
+  padding-bottom: 5rem;
+}
+
+.avatar {
+  max-width: 35px;
+}
+
+.btn-search {
+  right: 0;
+}
+
+.stat {
+  border-right: 1px solid var(--grey);
+}
+
+
+@media (max-width: 768px) {
+  #sidebar-container {
+    display: none;
+  }
+  .stat {
+      border: 0;
+  }
+}

@@ -1,0 +1,42 @@
+{% extends 'layout.html' %}
+{% load static %}
+{% block content %}
+
+<LINK REL=StyleSheet HREF='{% static 'css/Style.css' %}' TYPE="text/css">
+
+<div class="container">
+  
+
+  <body>
+  <style>
+    body {
+        background-image: url("{% static 'img\Logo Kids Connect.png' %}");
+        background-repeat: no-repeat;
+        background-size: 80%;
+    }
+</style>
+        <div >
+          <div class="container text-center">
+            <div class="row align-items-center">
+              <div class="col">
+                <section class="form-login">
+                  <h5>Ingreso Kids Connect</h5>
+                  <input class="controls" type="text" name="usuario" value="" placeholder="Usuario">
+                  <input class="controls" type="password" name="contrasena" value="" placeholder="Contraseña">
+                  <input class="buttons" type="submit" name="" value="Ingresar">
+                  <p><a href="#">¿Olvidastes tu Contraseña?</a></p>
+                </section>
+              </div>
+            </div>
+          </div>
+        </div>
+      </body>
+      <footer>
+        <div class="divfooter"><center>
+          <p>Kids Connect SPA</p>
+          <p>Cristobal Briceño - Paulo Ramirez - Manuel Martí</p>
+        </center></div>
+</div>
+
+
+{% endblock %}
