@@ -10,6 +10,11 @@ def home(request):
 
 
 def menu(request):
+            if request.method == 'POST':
+                usuario = request.POST.get('usuario', '')  # Obtén el valor ingresado en el campo "usuario"
+                return render(request, 'menu.html', {'usuario': usuario})
+            else:
+                return render(request, 'menu.html')
     #url = "http://tmp.enred.cl/rest/get_region.php"  # URL de la API externa
     #url2 = "http://tmp.enred.cl/rest/get_mensaje.php"
     #headers = {

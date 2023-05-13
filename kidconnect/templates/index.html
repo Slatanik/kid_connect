@@ -21,10 +21,15 @@
               <div class="col">
                 <section class="form-login">
                   <h5>Ingreso Kids Connect</h5>
-                  <input class="controls" type="text" name="usuario" value="" placeholder="Usuario">
-                  <input class="controls" type="password" name="contrasena" value="" placeholder="Contraseña">
-                  <input class="buttons" type="submit" name="" value="Ingresar">
-                  <a class="btn btn-primary" href="menu" role="button">Link</a>
+                  <form action="{% url 'menu' %}" method="post">
+                    {% csrf_token %}
+                    <input type="text" name="usuario" placeholder="Ingrese su nombre de usuario">
+                    <input class="controls" type="password" name="contrasena" value="" placeholder="Contraseña">
+                    {% comment %} <input class="buttons" type="submit" name="" value="Ingresar"> {% endcomment %}
+                    <a class="btn btn-primary" href="menu" role="button">Link</a>
+                    <button type="submit">Enviar Nombre</button>
+                  </form>
+
                 </section>
               </div>
             </div>
