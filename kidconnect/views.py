@@ -8,6 +8,8 @@ from django.shortcuts import redirect
 def home(request):
     return render (request,"index.html")
 
+def correo(request):
+    return render (request,"correo.html")
 
 def menu(request):
     #url = "http://tmp.enred.cl/rest/get_region.php"  # URL de la API externa
@@ -34,7 +36,7 @@ def menu(request):
     
 
 def alumno(request):
-    url = "http://tmp.enred.cl/rest/get_region.php"  # URL de la API externa
+    url = "http://tmp.enred.cl/rest/get_ficha_all.php"  # URL de la API externa
     #url2 = "http://tmp.enred.cl/rest/get_mensaje.php"
     #headers = {
         #'Authorization': 'Bearer ' + settings.API_TOKEN  # Ejemplo de encabezado de autenticación
@@ -46,7 +48,7 @@ def alumno(request):
             datos = response.json()
             #amimales = response2.json()
             # Procesar los datos obtenidos de la API
-            return render (request,'menu.html', {'datos':datos})#, 'animales' : amimales})
+            return render (request,'alumno.html', {'datos':datos})#, 'animales' : amimales})
         else:
             # Manejar errores de solicitud
             print('Error en la solicitud:', response.status_code)
@@ -54,7 +56,7 @@ def alumno(request):
         # Manejar errores de conexión
         print('Error de conexión:', e)
 
-    return None
+    return render (request, 'alumno.html')
 
 def docente(request):
     return render(request, "docente.html")
@@ -93,3 +95,5 @@ def llamar_endpoint(request):
             return JsonResponse({'error': 'Error de conexión: {}'.format(e)})
 
     return JsonResponse({'error': 'Método no permitido.'})
+
+

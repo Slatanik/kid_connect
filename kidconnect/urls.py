@@ -9,5 +9,6 @@ urlpatterns = [
         path('alumno', views.alumno),
         path('evento', views.evento),
         path('docente', views.docente),
+        path('correo', views.correo),
         path('llamar-endpoint/', views.llamar_endpoint, name='llamar_endpoint'),
         ]
