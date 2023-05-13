@@ -17,6 +17,7 @@ def menu(request):
                 return render(request, 'menu.html', {'usuario': usuario})
             else:
                 return render(request, 'menu.html')
+            
     #url = "http://tmp.enred.cl/rest/get_region.php"  # URL de la API externa
     #url2 = "http://tmp.enred.cl/rest/get_mensaje.php"
     #headers = {
@@ -29,7 +30,7 @@ def menu(request):
         #     datos = response.json()
         #     amimales = response2.json()
         #     Procesar los datos obtenidos de la API
-              return render (request,'menu.html')#, {'datos':datos}) #'animales' : amimales})
+        #      return render (request,'menu.html')#, {'datos':datos}) #'animales' : amimales})
         #else:
             # Manejar errores de solicitud
             #print('Error en la solicitud:', response.status_code)
