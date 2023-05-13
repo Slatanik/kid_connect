@@ -114,6 +114,16 @@
                                     </div>
 
                                     <button class="btn btn-primary w-100">Ver todas</button>
+                                    <h1>Enviar Correo</h1> 
+                                    <form action="{% url 'correo' %}" method="POST">
+                                      {% csrf_token %}
+                                      
+                                      <!-- Otros campos del formulario -->
+                                      
+                                      <input type="hidden" name="id" value= 1>
+                                      <input class="controls" type="text" name="texto" value="correo">                                
+                                      <button type="submit">Enviar</button>
+                                    </form>
                                 </div>
                             </div>
                           </div>

@@ -79,7 +79,7 @@ WSGI_APPLICATION = 'core.wsgi.application'
 DATABASES = {
         'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'kids_connect',
+        'NAME': 'kc_final',
         'USER': 'postgres',
         'PASSWORD': 'Postgres$37116',
         'HOST': 'tmp.enred.cl',

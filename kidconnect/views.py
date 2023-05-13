@@ -4,12 +4,16 @@ from kidconnect.models import Evento
 from django.shortcuts import render
 from django.http import JsonResponse
 from django.shortcuts import redirect
+from models import TipMsj
 
 def home(request):
     return render (request,"index.html")
 
 def correo(request):
-    return render (request,"correo.html")
+    context = {
+        "crearCorreo" : crearMensaje 
+    }
+    return render (request,"correo.html",context)
 
 def menu(request):
             if request.method == 'POST':
@@ -101,5 +105,10 @@ def llamar_endpoint(request):
             return JsonResponse({'error': 'Error de conexión: {}'.format(e)})
 
     return JsonResponse({'error': 'Método no permitido.'})
+
+
+def crearMensaje(request,id,texto):
+    mensaje =  TipMsj(cod_tip_m=id,nom_tip_m=texto) 
+    mensaje.save()
 
 
