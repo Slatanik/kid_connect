@@ -10,27 +10,27 @@ def home(request):
 
 
 def menu(request):
-    url = "http://tmp.enred.cl/rest/get_region.php"  # URL de la API externa
+    #url = "http://tmp.enred.cl/rest/get_region.php"  # URL de la API externa
     #url2 = "http://tmp.enred.cl/rest/get_mensaje.php"
     #headers = {
         #'Authorization': 'Bearer ' + settings.API_TOKEN  # Ejemplo de encabezado de autenticación
     #}
-    try:
-        response = requests.get(url)
-        #response2 = requests.get(url2)
-        if response.status_code == 200:
-            datos = response.json()
-            #amimales = response2.json()
-            # Procesar los datos obtenidos de la API
-            return render (request,'menu.html', {'datos':datos}) #'animales' : amimales})
-        else:
+    #try:
+        # response = requests.get(url)
+        # response2 = requests.get(url2)
+        # if response.status_code == 200:
+        #     datos = response.json()
+        #     amimales = response2.json()
+        #     Procesar los datos obtenidos de la API
+              return render (request,'menu.html')#, {'datos':datos}) #'animales' : amimales})
+        #else:
             # Manejar errores de solicitud
-            print('Error en la solicitud:', response.status_code)
-    except requests.exceptions.RequestException as e:
+            #print('Error en la solicitud:', response.status_code)
+    #except requests.exceptions.RequestException as e:
         # Manejar errores de conexión
-        print('Error de conexión:', e)
+        #print('Error de conexión:', e)
 
-    return None
+    #return None
     
 
 def alumno(request):
