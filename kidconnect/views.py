@@ -4,23 +4,22 @@ from kidconnect.models import Evento
 from django.shortcuts import render
 from django.http import JsonResponse
 from django.shortcuts import redirect
-from models import TipMsj
+
 
 def home(request):
     return render (request,"index.html")
 
 def correo(request):
-    context = {
-        "crearCorreo" : crearMensaje 
-    }
-    return render (request,"correo.html",context)
+    return render (request,"correo.html")
+
+#def correo(request):
+    #context = {
+    #    "crearCorreo" : crearMensaje 
+    #}
+    #return render (request,"correo.html",context)
 
 def menu(request):
-            if request.method == 'POST':
-                usuario = request.POST.get('usuario', '')  # Obtén el valor ingresado en el campo "usuario"
-                return render(request, 'menu.html', {'usuario': usuario})
-            else:
-                return render(request, 'menu.html')
+         return render(request, 'menu.html')
             
     #url = "http://tmp.enred.cl/rest/get_region.php"  # URL de la API externa
     #url2 = "http://tmp.enred.cl/rest/get_mensaje.php"
@@ -28,18 +27,18 @@ def menu(request):
         #'Authorization': 'Bearer ' + settings.API_TOKEN  # Ejemplo de encabezado de autenticación
     #}
     #try:
-        # response = requests.get(url)
-        # response2 = requests.get(url2)
-        # if response.status_code == 200:
-        #     datos = response.json()
-        #     amimales = response2.json()
-        #     Procesar los datos obtenidos de la API
-        #      return render (request,'menu.html')#, {'datos':datos}) #'animales' : amimales})
+        #response = requests.get(url)
+        #response2 = requests.get(url2)
+        #if response.status_code == 200:
+            #datos = response.json()
+            #animales = response2.json()
+            #Procesar los datos obtenidos de la API
+            #return render(request, 'menu.html', {'datos': datos, 'animales': animales})
         #else:
-            # Manejar errores de solicitud
+            #Manejar errores de solicitud
             #print('Error en la solicitud:', response.status_code)
     #except requests.exceptions.RequestException as e:
-        # Manejar errores de conexión
+        #Manejar errores de conexión
         #print('Error de conexión:', e)
 
     #return None
@@ -108,7 +107,18 @@ def llamar_endpoint(request):
 
 
 def crearMensaje(request,id,texto):
-    mensaje =  TipMsj(cod_tip_m=id,nom_tip_m=texto) 
+    mensaje =  'TipMsj'(cod_tip_m=id,nom_tip_m=texto) 
     mensaje.save()
 
 
+
+
+def procesar_datos(request):
+    if request.method == 'POST':
+        nombre = request.POST['nombre']
+        email = request.POST['email']
+        # Aquí puedes procesar los datos recibidos en la solicitud POST
+        # por ejemplo, puedes guardar los datos en una base de datos.
+        return render(request, 'resultado.html', {'nombre': nombre, 'email': email})
+    else:
+        return render(request, 'formulario.html')
