@@ -71,22 +71,43 @@
                                   <div class="card-header bg-light">
                                     <h6 class="font-weight-bold mb-0">Ficha Alumno</h6>
                                   </div>
-                                  <div class="card-body"><ul>
-                                    {% for i in datos %}
-                                    <div>
-                                        <ul>
-                                          <li>Rut Alumno: {{ i.alumno_numrun_alu }}</li> 
-                                          <li>Codigo: {{ i.id_fch }}</li> 
-                                          <li> Fecha Creacion:{{i.per_fch}}</li>
-                                          <li>Contenido: {{i.des_fch}}</li>
-                                        </ul>
-                                      </div>
-                                      <hr>
-                                    {% endfor %}
-                                          
-                                </ul>                                  
-                                  </div>
-                              </div>
+                                  
+                                  <form id="miFormulario">
+                                    <label for="cod_reg">Código:</label>
+                                    <input type="text" id="cod_reg" name="cod_reg"><br><br>
+                                    <label for="nom_reg">Nombre:</label>
+                                    <input type="text" id="nom_reg" name="nom_reg"><br><br>
+                                    <input type="submit" value="Enviar">
+                                  </form>
+                              
+                                  <script>
+                                    const form = document.getElementById('miFormulario');
+                                    form.addEventListener('submit', function(event) {
+                                      event.preventDefault(); // Evita que la página se recargue al enviar el formulario
+                              
+                                      const datos = new FormData(form); // Obtiene los datos del formulario
+                              
+                                      fetch('http://tmp.enred.cl/rest/post_region.php', {
+                                        method: 'POST',
+                                        body: datos
+                                      })
+                                      .then(response => {
+                                        if (!response.ok) {
+                                          throw new Error('Error al enviar la solicitud');
+                                        }
+                                        return response.json();
+                                      })
+                                      .then(data => {
+                                        console.log('El registro ha sido creado:', data);
+                                      })
+                                      .catch(error => {
+                                        console.error(error);
+                                      });
+                                    });
+                                  </script>
+                                
+                             
+                             
                           </div>
                           <div class="col-lg-4 my-3">
                             <div class="card rounded-0">

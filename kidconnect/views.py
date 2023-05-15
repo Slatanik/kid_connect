@@ -12,11 +12,7 @@ def correo(request):
     return render (request,"correo.html")
 
 def menu(request):
-            if request.method == 'POST':
-                usuario = request.POST.get('usuario', '')  # Obtén el valor ingresado en el campo "usuario"
-                return render(request, 'menu.html', {'usuario': usuario})
-            else:
-                return render(request, 'menu.html')
+    return render (request,"menu.html")
             
     #url = "http://tmp.enred.cl/rest/get_region.php"  # URL de la API externa
     #url2 = "http://tmp.enred.cl/rest/get_mensaje.php"
@@ -42,27 +38,26 @@ def menu(request):
     
 
 def alumno(request):
-    url = "http://tmp.enred.cl/rest/get_ficha_all.php"  # URL de la API externa
-    #url2 = "http://tmp.enred.cl/rest/get_mensaje.php"
-    #headers = {
-        #'Authorization': 'Bearer ' + settings.API_TOKEN  # Ejemplo de encabezado de autenticación
-    #}
-    try:
-        response = requests.get(url)
-        #response2 = requests.get(url2)
-        if response.status_code == 200:
-            datos = response.json()
-            #amimales = response2.json()
-            # Procesar los datos obtenidos de la API
-            return render (request,'alumno.html', {'datos':datos})#, 'animales' : amimales})
-        else:
-            # Manejar errores de solicitud
-            print('Error en la solicitud:', response.status_code)
-    except requests.exceptions.RequestException as e:
-        # Manejar errores de conexión
-        print('Error de conexión:', e)
-
     return render (request, 'alumno.html')
+#     url = "http://tmp.enred.cl/rest/get_ficha_all.php"  # URL de la API externa
+#     url2 = "http://tmp.enred.cl/rest/get_mensaje.php"
+#     
+#     try:
+#         response = requests.get(url)
+#         response2 = requests.get(url2)
+#         if response.status_code == 200:
+#             datos = response.json()
+#             amimales = response2.json()
+#             Procesar los datos obtenidos de la API
+#             return render (request,'alumno.html', {'datos':datos})#, 'animales' : amimales})
+#         else:
+#             Manejar errores de solicitud
+#             print('Error en la solicitud:', response.status_code)
+#     except requests.exceptions.RequestException as e:
+#         Manejar errores de conexión
+#         print('Error de conexión:', e)
+
+    
 
 def docente(request):
     return render(request, "docente.html")
@@ -103,3 +98,15 @@ def llamar_endpoint(request):
     return JsonResponse({'error': 'Método no permitido.'})
 
 
+
+
+
+def post_region(request):
+    url = 'http://tmp.enred.cl/rest/post_region.php'
+    data = {
+        # Aquí puedes agregar los datos que deseas enviar en la solicitud POST
+        'cod_reg': '1',
+        'nom_reg': 'Tarapaca'
+    }
+    response = requests.post(url, data=data)
+    return JsonResponse(response.json())
