@@ -37,25 +37,24 @@ def menu(request):
     #return None
     
 
-def alumno(request):
-    return render (request, 'alumno.html')
-#     url = "http://tmp.enred.cl/rest/get_ficha_all.php"  # URL de la API externa
-#     url2 = "http://tmp.enred.cl/rest/get_mensaje.php"
-#     
-#     try:
-#         response = requests.get(url)
-#         response2 = requests.get(url2)
-#         if response.status_code == 200:
-#             datos = response.json()
-#             amimales = response2.json()
-#             Procesar los datos obtenidos de la API
-#             return render (request,'alumno.html', {'datos':datos})#, 'animales' : amimales})
-#         else:
-#             Manejar errores de solicitud
-#             print('Error en la solicitud:', response.status_code)
-#     except requests.exceptions.RequestException as e:
-#         Manejar errores de conexión
-#         print('Error de conexión:', e)
+def alumno(request):  
+    url = "https://tmp.enred.cl/kc/rest/get_ficha_all.php"  # URL de la API externa
+#    url2 = "http://tmp.enred.cl/rest/get_mensaje.php"
+    
+    try:
+        response = requests.get(url)
+#        response2 = requests.get(url2)
+        if response.status_code == 200:
+            datos = response.json()
+#            amimales = response2.json()
+#            Procesar los datos obtenidos de la API
+            return render (request,'alumno.html', {'datos':datos})#, 'animales' : amimales})
+        else:
+#            Manejar errores de solicitud
+            print('Error en la solicitud:', response.status_code)
+    except requests.exceptions.RequestException as e:
+#        Manejar errores de conexión
+        print('Error de conexión:', e)
 
     
 
