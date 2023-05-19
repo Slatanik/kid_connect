@@ -69,24 +69,29 @@
                           <div class="col-lg-8 my-3">
                               <div class="card rounded-0">
                                   <div class="card-header bg-light">
-                                    <h6 class="font-weight-bold mb-0">Ficha Alumno</h6>
+                                    <h6 class="font-weight-bold mb-0">Ficha Alumno
+                                      <form class="form-inline position-relative d-inline-block my-2">
+                                        <input class="form-control" type="search" placeholder="Buscar por Rut" aria-label="Buscar">
+                                        <button class="btn position-absolute btn-search" type="submit"><i class="icon ion-md-search"></i></button>
+                                      </form>
+                                    </h6>
                                   </div> 
                                   <div>
-                                   
+                                    
                               </head>
                             
                                   </div>
                                   
                                   <div>
-                                    <center><button id="toggle-btn">Crear ficha Alumno</button><center>
+                                    <div><button id="toggle-btn">Actualizar ficha Alumno</button><div>
 
                                     <form id="miFormulario">
                                         <label for="nom_alu">Nombre alumno:</label>
-                                        <input type="text" id="nom_alu" name="nom_alu"><br><br>
+                                        <input type="text" id="nom_alu" name="nom_alu">
                                         <label for="ap_pat_alu">Apellido Paterno:</label>
-                                        <input type="text" id="ap_pat_alu" name="ap_pat_alu"><br><br>
+                                        <input type="text" id="ap_pat_alu" name="ap_pat_alu">
                                         
-                                        <center><input type="submit" value="Enviar"><center>
+                                        <div><input type="submit" value="Enviar"><div>
                                     </form>
                                 
                                     <!--<script>
@@ -108,12 +113,12 @@
                                     const form = document.getElementById('miFormulario');
                                     form.addEventListener('submit', function(event) {
                                       event.preventDefault(); // Evita que la página se recargue al enviar el formulario
-                              
+                                      
                                       const datos = new FormData(form); // Obtiene los datos del formulario
                               
                                       fetch('http://tmp.enred.cl/kc/rest/post_ficha.php', {
                                         method: 'POST',
-                                        body: datos
+                                        body: {}
                                       })
                                       .then(response => {
                                         if (!response.ok) {
