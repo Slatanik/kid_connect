@@ -71,9 +71,10 @@
                                   <div class="card-header bg-light">
                                     <h6 class="font-weight-bold mb-0">Ficha Alumno
                                       <form class="form-inline position-relative d-inline-block my-2">
-                                        <input class="form-control" type="search" placeholder="Buscar por Rut" aria-label="Buscar">
-                                        <button class="btn position-absolute btn-search" type="submit"><i class="icon ion-md-search"></i></button>
+                                        <input class="form-control" type="search" placeholder="Buscar por Rut" aria-label="Buscar" id="rutBusqueda">
+                                        <button class="btn position-absolute btn-search" id='Buscar' type="submit"><i class="icon ion-md-search"></i></button>
                                       </form>
+
                                     </h6>
                                   </div> 
                                   <div>
@@ -83,6 +84,62 @@
                                   </div>
                                   
                                   <div>
+                                    <div id="rutDiv">
+                                      <label>Rut Alumno:</label>
+                                      <span id="rut_alumno" value=""></span>
+                                    </div>
+                                    
+                                    <div id="fechaDiv">
+                                      <label>Fecha:</label>
+                                      <span id="fecha" value=""></span>
+                                    
+                                    <div id="contenidoDiv">
+                                      <label>Contenido:</label>
+                                      <sapn id="contenido"></sapn>
+                                    </div>
+                                    
+                                    <script>
+                                      const form = document.getElementById('Buscar');
+                                      form.addEventListener('click', function(event) {
+                                        event.preventDefault(); // Evita la recarga de la página
+                                        const rut = document.getElementById('rutBusqueda');
+                                              fetch(`http://tmp.enred.cl/kc/rest/get_ficha_id.php?nombreFuncion=buscarFichaPorRut&rut_alumno=${rut.value}`, {
+                                                method: 'GET',
+                                              })
+                                                .then(response => {
+                                                  if (!response.ok) {
+                                                    throw new Error('Error al enviar la solicitud');
+                                                  }
+                                                  return response.json();
+                                                })
+                                                .then(data => {
+                                                  const nombreAlumno = document.getElementById('rut_alumno');
+                                                  const fecha = document.getElementById('fecha');
+                                                  const contenido = document.getElementById('contenido');
+                                                  nombreAlumno.textContent = data.data.alumno_rut_alu
+                                                  fecha.textContent = data.data.fec_cre
+                                                  contenido.textContent = data.data.con_fc
+                                                })
+                                                .catch(error => {
+                                                  console.error(error);
+                                                });
+                                            });
+                                    </script>
+
+                                    {% comment %} {% for i in datos %}
+                                    <div>
+                                        <ul>
+                                          <li>Rut Alumno: {{ i.alumno_numrun_alu }}</li> 
+                                          <li>Codigo: {{ i.id_fch }}</li> 
+                                          <li> Fecha Creacion:{{i.per_fch}}</li>
+                                          <li>Contenido: {{i.des_fch}}</li>
+                                        </ul>
+                                      </div>
+                                      <hr>
+                                    {% endfor %} {% endcomment %}
+
+
+
                                     <div><button id="toggle-btn">Actualizar ficha Alumno</button><div>
 
                                     <form id="miFormulario">
@@ -107,7 +164,7 @@
                                                 formulario.style.display = 'none';
                                             }
                                         });
-                                    </script>-->    
+                                    </>-->    
                                   </div>                              
                                   <script>
                                     const form = document.getElementById('miFormulario');
