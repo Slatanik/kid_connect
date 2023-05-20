@@ -9,3 +9,7 @@ html, body {
     max-width: 1100px;
     margin: 40px auto;
   }
+
+  .header-cell {
+    background-color: #d2e3f4;
+  }

@@ -1,7 +1,32 @@
 {% extends 'layout.html' %}
 {% load static %}
 {% block content %}
-
+<head>
+    <style>
+        table {
+          border-collapse: collapse;
+          width: 100%;
+        }
+        
+        th, td {
+          text-align: center;
+          padding: 8px;
+        }
+        
+        th {
+          background-color: #f2f2f2;
+        }
+        
+        td {
+          border: 1px solid #ddd;
+          cursor: pointer;
+        }
+        
+        .today {
+          background-color: #4CAF50;
+          color: white;
+        }
+      </style>
 <body>
     <div class="d-flex" id="content-wrapper">
         <!-- Sidebar -->
@@ -65,6 +90,8 @@
                           <div class="col-lg-9 col-md-8">
                             <h1 class="font-weight-bold mb-0">Calendario</h1>
                             <p class="lead text-muted">Revisa la última información</p>
+
+
                           </div>
                           <div class="col-lg-3 col-md-4 d-flex">
                             <button class="btn btn-primary w-100 align-self-center">Crear Evento</button>
@@ -121,8 +148,98 @@
                                     <h6 class="font-weight-bold mb-0">EVENTOS</h6>
                                   </div>
                                   <div class="card-body">               
-                                    <div id='calendar'></div>
-                                        <script src="static\css\evento.js"></script>                                    
+                                    <table>
+                                        <thead>
+
+                                          <tr>
+                                            <th colspan="2" ><button id="prev-btn">Prev</button></th>
+                                            <th colspan="3"  id="month-year"> </th>
+                                            <th colspan="2" ><button id="next-btn">Next</button></th>
+                                          </tr>
+                                          <tr>
+                                            <th>Domingo</th>
+                                            <th>Lunes</th>
+                                            <th>Martes</th>
+                                            <th>Miércoles</th>
+                                            <th>Jueves</th>
+                                            <th>Viernes</th>
+                                            <th>Sábado</th>
+                                          </tr>
+                                        </thead>
+                                        <tbody id="calendar-body"></tbody>
+                                      </table>
+                                    
+                                    <script>
+                                         document.addEventListener("DOMContentLoaded", function() {
+                                        var currentDate = new Date();
+                                        var currentMonth = currentDate.getMonth();
+                                        var currentYear = currentDate.getFullYear();
+                                      
+                                        displayCalendar(currentMonth, currentYear);
+                                      
+                                        var prevBtn = document.getElementById("prev-btn");
+                                        var nextBtn = document.getElementById("next-btn");
+                                      
+                                        prevBtn.addEventListener("click", function() {
+                                          currentMonth--;
+                                          if (currentMonth < 0) {
+                                            currentMonth = 11;
+                                            currentYear--;
+                                          }
+                                          displayCalendar(currentMonth, currentYear);
+                                        });
+                                      
+                                        nextBtn.addEventListener("click", function() {
+                                          currentMonth++;
+                                          if (currentMonth > 11) {
+                                            currentMonth = 0;
+                                            currentYear++;
+                                          }
+                                          displayCalendar(currentMonth, currentYear);
+                                        });
+                                      
+                                        function displayCalendar(month, year) {
+                                          var calendarBody = document.getElementById("calendar-body");
+                                          var monthYear = document.getElementById("month-year");
+                                          monthYear.innerHTML = getMonthName(month) + " " + year;
+                                      
+                                          var firstDay = new Date(year, month, 1).getDay();
+                                          var daysInMonth = new Date(year, month + 1, 0).getDate();
+                                          calendarBody.innerHTML = "";
+                                      
+                                          var date = 1;
+                                          for (var i = 0; i < 6; i++) {
+                                            var row = document.createElement("tr");
+                                      
+                                            for (var j = 0; j < 7; j++) {
+                                              if (i === 0 && j < firstDay) {
+                                                var cell = document.createElement("td");
+                                                row.appendChild(cell);
+                                              } else if (date > daysInMonth) {
+                                                break;
+                                              } else {
+                                                var cell = document.createElement("td");
+                                                cell.textContent = date;
+                                                if (date === currentDate.getDate() && year === currentDate.getFullYear() && month === currentDate.getMonth()) {
+                                                  cell.classList.add("today");
+                                                }
+                                                row.appendChild(cell);
+                                                date++;
+                                              }
+                                            }
+                                      
+                                            calendarBody.appendChild(row);
+                                          }
+                                        }
+                                      
+                                        function getMonthName(month) {
+                                          var monthNames = [
+                                            "Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"
+                                          ];
+                                          return monthNames[month];
+                                        }
+                                      }); </script>
+                                    <script src="static\css\evento.js"></script>                                    
                                   </div>
                               </div>
                           </div>                         
