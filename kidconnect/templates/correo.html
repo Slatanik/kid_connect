@@ -10,15 +10,15 @@
                 <h4 class="text-light font-weight-bold mb-0">Kids connect</h4>
             </div>
             <div class="menu">
-                <a href="evento" class="d-block text-light p-3 border-0"><i class="icon ion-md-apps lead mr-2"></i>
-                    Calendario</a>
-                <a href="docente" class="d-block text-light p-3 border-0"><i class="icon ion-md-people lead mr-2"></i>
-                    Profesores</a>          
-                <a href="alumno" class="d-block text-light p-3 border-0"><i class="icon ion-md-book outline mr-2"></i>
-                    Estudiante</a>
-                <a href="correo" class="d-block text-light p-3 border-0"><i class="icon ion-md-mail-unread mr-2"></i>
-                    Mensajes</a>
-            </div>
+              <a href="{% url 'evento' %}" class="d-block text-light p-3 border-0"><i class="icon ion-md-apps lead mr-2"></i>
+                  Calendario</a>
+              <a href="{% url 'docente' %}" class="d-block text-light p-3 border-0"><i class="icon ion-md-people lead mr-2"></i>
+                  Profesores</a>          
+              <a href="{% url 'alumno' %}" class="d-block text-light p-3 border-0"><i class="icon ion-md-book outline mr-2"></i>
+                  Estudiante</a>
+              <a href= "{% url 'correo' %}" class="d-block text-light p-3 border-0"><i class="icon ion-md-mail-unread mr-2"></i>
+                  Mensajes</a>
+          </div>
         </div>
         <!-- Fin sidebar -->
 
@@ -69,25 +69,64 @@
                           <div class="col-lg-8 my-3">
                               <div class="card rounded-0">
                                   <div class="card-header bg-light">
-                                    <h6 class="font-weight-bold mb-0">Ficha Alumno</h6>
+                                    <h6 class="font-weight-bold mb-0">Mensajes</h6>
                                   </div>
-                                  <div class="card-body"><ul>
-                                    {% for i in datos %}
-                                    <div>
-                                        <ul>
-                                          <li>Rut Alumno: {{ i.alumno_numrun_alu }}</li> 
-                                          <li>Codigo: {{ i.id_fch }}</li> 
-                                          <li> Fecha Creacion:{{i.per_fch}}</li>
-                                          <li>Contenido: {{i.des_fch}}</li>
-                                        </ul>
-                                      </div>
+                                  <div class="card-body">
+                                   
+                                      <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal" >Redactar mensaje</button>
+                                      
                                       <hr>
-                                    {% endfor %}
+                                      <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal" >Leer mensaje</button>
+                                    
+                                    <hr>
                                           
-                                </ul>                                  
+                                                             
                                   </div>
                               </div>
                           </div>
+
+
+
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">New message</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form>
+          <div class="form-group">
+            <label for="recipient-name" class="col-form-label">Recipient:</label>
+            <input type="text" class="form-control" id="recipient-name">
+          </div>
+          <div class="form-group">
+            <label for="message-text" class="col-form-label">Message:</label>
+            <textarea class="form-control" id="message-text"></textarea>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary">Send message</button>
+      </div>
+    </div>
+  </div>
+</div>
+<script>  
+$('#exampleModal').on('show.bs.modal', function (event) {
+  var button = $(event.relatedTarget) // Button that triggered the modal
+  var recipient = button.data('whatever') // Extract info from data-* attributes
+  // If necessary, you could initiate an AJAX request here (and then do the updating in a callback).
+  // Update the modal's content. We'll use jQuery here, but you could use a data binding library or other methods instead.
+  var modal = $(this)
+  modal.find('.modal-title').text('New message to ' + recipient)
+  modal.find('.modal-body input').val(recipient)
+})
+</script>
+
                           <div class="col-lg-4 my-3">
                             <div class="card rounded-0">
                                 <div class="card-header bg-light">
@@ -111,8 +150,7 @@
                                           <h6 class="d-inline-block mb-0">CURSO 2</h6><span class="badge badge-success ml-2">FALTO PEPITO</span>
                                           <small class="d-block text-muted">Curso BAILE</small>
                                         </div>
-                                    </div>
-
+                                      </div>
                                     <button class="btn btn-primary w-100">Ver todas</button>
                                 </div>
                             </div>

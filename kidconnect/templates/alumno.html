@@ -10,15 +10,15 @@
                 <h4 class="text-light font-weight-bold mb-0">Kids connect</h4>
             </div>
             <div class="menu">
-                <a href="evento" class="d-block text-light p-3 border-0"><i class="icon ion-md-apps lead mr-2"></i>
-                    Calendario</a>
-                <a href="docente" class="d-block text-light p-3 border-0"><i class="icon ion-md-people lead mr-2"></i>
-                    Profesores</a>          
-                <a href="alumno" class="d-block text-light p-3 border-0"><i class="icon ion-md-book outline mr-2"></i>
-                    Estudiante</a>
-                <a href="correo" class="d-block text-light p-3 border-0"><i class="icon ion-md-mail-unread mr-2"></i>
-                    Mensajes</a>
-            </div>
+              <a href="{% url 'evento' %}" class="d-block text-light p-3 border-0"><i class="icon ion-md-apps lead mr-2"></i>
+                  Calendario</a>
+              <a href="{% url 'docente' %}" class="d-block text-light p-3 border-0"><i class="icon ion-md-people lead mr-2"></i>
+                  Profesores</a>          
+              <a href="{% url 'alumno' %}" class="d-block text-light p-3 border-0"><i class="icon ion-md-book outline mr-2"></i>
+                  Estudiante</a>
+              <a href= "{% url 'correo' %}" class="d-block text-light p-3 border-0"><i class="icon ion-md-mail-unread mr-2"></i>
+                  Mensajes</a>
+          </div>
         </div>
         <!-- Fin sidebar -->
 
