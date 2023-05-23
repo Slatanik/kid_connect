@@ -64,15 +64,15 @@ def evento(request):
     return render(request, "evento.html")
 
 
-def obtener_usuario_por_rut(request):
-    if 'numrun' in request.GET:
-        numrun = request.GET['numrun']
-        # Realiza la lógica para obtener el usuario por el rut
-        # ...
-        # Supongamos que obtienes el usuario en la variable 'usuario'
-        return JsonResponse({'usuario': usuario})
-    else:
-        return JsonResponse({'error': 'Parámetro numrun faltante en la URL.'})
+# def obtener_usuario_por_rut(request):
+#     if 'numrun' in request.GET:
+#         numrun = request.GET['numrun']
+#         # Realiza la lógica para obtener el usuario por el rut
+#         # ...
+#         # Supongamos que obtienes el usuario en la variable 'usuario'
+#         return JsonResponse({'usuario': usuario})
+#     else:
+#         return JsonResponse({'error': 'Parámetro numrun faltante en la URL.'})
 
 def llamar_endpoint(request):
     if request.method == 'POST':
