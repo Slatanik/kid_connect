@@ -1,17 +1,19 @@
 import requests
 from django.conf import settings
 from kidconnect.models import Evento
-from django.shortcuts import render
 from django.http import JsonResponse
-from django.shortcuts import redirect
+from django.shortcuts import render, redirect
+
 def home(request):
     return render (request,"index.html")
 
 def correo(request):
     return render (request,"correo.html")
 
+
 def menu(request):
-    return render (request,"menu.html")
+    # Lógica adicional para la página de menú
+    return render(request, 'menu.html')
             
     #url = "http://tmp.enred.cl/rest/get_region.php"  # URL de la API externa
     #url2 = "http://tmp.enred.cl/rest/get_mensaje.php"
@@ -108,3 +110,35 @@ def post_region(request):
     }
     response = requests.post(url, data=data)
     return JsonResponse(response.json())
+
+from django.shortcuts import render
+
+def login(request):
+    if request.method == 'POST':
+        # Obtén los datos del formulario de inicio de sesión
+        usuario = request.POST.get('usuario')
+        contrasena = request.POST.get('contrasena')
+
+        # Construye el cuerpo de la solicitud POST
+        data = {
+            'rut': usuario,
+            'password': contrasena
+        }
+
+        # Realiza la solicitud a la API
+        api_url = 'http://tmp.enred.cl/kc/rest/login.php'  # Reemplaza con la URL de tu API
+        response = requests.post(api_url, json=data)
+
+        # Analiza la respuesta de la API
+        if response.status_code == 200:
+            # Los datos son válidos
+            return redirect('menu')
+        else:
+            # Los datos son inválidos o hubo un error en la solicitud a la API
+            error_message = 'Error en la solicitud a la API'
+            if response.status_code == 401:
+                error_message = 'Datos inválidos'
+            return render(request, 'index.html', {'error_message': error_message})
+
+    return render(request, 'index.html')
+

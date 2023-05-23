@@ -5,40 +5,41 @@
 <LINK REL=StyleSheet HREF='{% static 'css/Style.css' %}' TYPE="text/css">
 
 <div class="container">
-  
-
   <body>
-  <style>
-    body {
-        background-image: url("{% static 'img\Logo Kids Connect.png' %}");
-        background-repeat: no-repeat;
-        background-size: 80%;
-    }
-</style>
-        <div >
-          <div class="container text-center">
-            <div class="row align-items-center">
-              <div class="col">
-                <section class="form-login">
-                  <h5>Ingreso Kids Connect</h5>
-                  <input class="controls" type="text" name="usuario" id="myInput" placeholder="Usuario">
-                  <input class="controls" type="password" name="contrasena" value="" placeholder="Contraseña">
-                  <input class="buttons" type="submit" name="" value="Ingresar">
-                  <a class="btn btn-primary" href="menu" role="button">Link</a>
-                  <button onclick="guardarValor()">Guardar</button>
-
-                </section>
-              </div>
-            </div>
-          </div>
+    <style>
+      body {
+          background-image: url("{% static 'img/Logo Kids Connect.png' %}");
+          background-repeat: no-repeat;
+          background-size: contain;
+          background-position: center calc(50% + 80px);
+          background-origin: content-box;
+          margin-top: 50px; 
+          opacity: 0.95;
+      }
+    </style>
+    <div class="container text-center">
+      <div class="row align-items-center">
+        <div class="col">
+          <section class="form-login" style="border-radius: 11px;">
+            <h5>Ingreso Kids Connect</h5>
+            <form method="POST" action="{% url 'index' %}">
+              {% csrf_token %}
+              <input class="controls" type="text" name="usuario" id="myInput" placeholder="Usuario">
+              <input class="controls" type="password" name="contrasena" id="mypass" value="" placeholder="Contraseña">
+              <input class="buttons rounded" type="submit" value="Ingresar" id="">
+            </form>
+            
+          </section>
         </div>
-      </body>
-      <footer>
-        <div class="divfooter"><center>
-          <p>Kids Connect SPA</p>
-          <p>Cristobal Briceño - Paulo Ramirez - Manuel Martí</p>
-        </center></div>
+      </div>
+    </div>
+  </body>
+  <footer>
+    <div class="divfooter pt-3" ><center>
+      <p>Kids Connect SPA</p>
+      <p>Cristobal Briceño - Paulo Ramirez - Manuel Martí</p>
+    </center></div>
+  </footer>
 </div>
-
 
 {% endblock %}

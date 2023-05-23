@@ -10,15 +10,15 @@
                 <h4 class="text-light font-weight-bold mb-0">Kids connect</h4>
             </div>
             <div class="menu">
-                <a href="evento" class="d-block text-light p-3 border-0"><i class="icon ion-md-apps lead mr-2"></i>
-                    Calendario</a>
-                <a href="docente" class="d-block text-light p-3 border-0"><i class="icon ion-md-people lead mr-2"></i>
-                    Profesores</a>          
-                <a href="alumno" class="d-block text-light p-3 border-0"><i class="icon ion-md-book outline mr-2"></i>
-                    Estudiante</a>
-                <a href="correo" class="d-block text-light p-3 border-0"><i class="icon ion-md-mail-unread mr-2"></i>
-                    Mensajes</a>
-            </div>
+              <a href="{% url 'evento' %}" class="d-block text-light p-3 border-0"><i class="icon ion-md-apps lead mr-2"></i>
+                  Calendario</a>
+              <a href="{% url 'docente' %}" class="d-block text-light p-3 border-0"><i class="icon ion-md-people lead mr-2"></i>
+                  Profesores</a>          
+              <a href="{% url 'alumno' %}" class="d-block text-light p-3 border-0"><i class="icon ion-md-book outline mr-2"></i>
+                  Estudiante</a>
+              <a href= "{% url 'correo' %}" class="d-block text-light p-3 border-0"><i class="icon ion-md-mail-unread mr-2"></i>
+                  Mensajes</a>
+          </div>
         </div>
         <!-- Fin sidebar -->
 
@@ -98,20 +98,6 @@
                                       <sapn id="contenido"></sapn>
                                     </div>
 
-                                    {% comment %} {% for i in datos %}
-                                    <div>
-                                        <ul>
-                                          <li>Rut Alumno: {{ i.alumno_numrun_alu }}</li> 
-                                          <li>Codigo: {{ i.id_fch }}</li> 
-                                          <li> Fecha Creacion:{{i.per_fch}}</li>
-                                          <li>Contenido: {{i.des_fch}}</li>
-                                        </ul>
-                                      </div>
-                                      <hr>
-                                    {% endfor %} {% endcomment %}
-
-
-
                                     <div><button id="toggle-btn">Actualizar ficha Alumno</button><div>
 
                                     <form id="miFormulario">
@@ -122,21 +108,6 @@
                                         
                                         <div><input type="submit" value="Enviar"><div>
                                     </form>
-                                
-                                    <!--<script>
-                                        // Obtener referencia al botón y al formulario
-                                        var toggleBtn = document.getElementById('toggle-btn');
-                                        var formulario = document.getElementById('miFormulario');
-                                
-                                        // Agregar un controlador de eventos para alternar la visibilidad del formulario al hacer clic en el botón
-                                        toggleBtn.addEventListener('click', function() {
-                                            if (formulario.style.display === 'none') {
-                                                formulario.style.display = 'block';
-                                            } else {
-                                                formulario.style.display = 'none';
-                                            }
-                                        });
-                                    </>-->    
                                   </div>                              
                             
                           </div>
