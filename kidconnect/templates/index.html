@@ -27,6 +27,12 @@
               <input class="controls" type="text" name="usuario" id="myInput" placeholder="Usuario">
               <input class="controls" type="password" name="contrasena" id="mypass" value="" placeholder="Contraseña">
               <input class="buttons rounded" type="submit" value="Ingresar" id="">
+              <br></br>
+              <h6>{% if mensaje %}
+                <p>Usuario Incorrecto</p>
+                  {% else %}
+                <p>Ingresa tus credenciales </p>
+                   {% endif %}</h6> 
             </form>
           </section>
         </div>

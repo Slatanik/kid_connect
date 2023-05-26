@@ -14,5 +14,6 @@ urlpatterns = [
         path('evento', views.evento, name='evento'),
         path('correo', views.correo, name='correo'),
         path('llamar-endpoint/', views.llamar_endpoint, name='llamar_endpoint'),
-        path('post-region/', post_region, name='post_region')
+        path('post-region/', post_region, name='post_region'),
+        path('crearAlumno', views.crearAlumno, name='crearAlumno'),
         ]

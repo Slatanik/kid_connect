@@ -126,19 +126,80 @@ def login(request):
         }
 
         # Realiza la solicitud a la API
-        api_url = 'http://tmp.enred.cl/kc/rest/login.php'  # Reemplaza con la URL de tu API
+        api_url = 'http://tmp.enred.cl/kc/rest/login.php'  
+        response = requests.post(api_url, json=data)
+        data = response.json()
+        api_urlget_userdata = 'http://tmp.enred.cl/kc/rest/get_user_id.php?nombreFuncion={}&rut_us={}'.format( "buscarUsuarioPorRut", usuario)
+
+        if data['valid']:
+            request.session['user_id'] = usuario
+        
+            dataUsuario = requests.get(api_urlget_userdata)
+            print(dataUsuario)
+            dataUsuario = dataUsuario.json()
+
+            request.session['perfil'] = dataUsuario["data"]["tipo_us_cod_tip"]#aqui estoy asignando la respuesta de cod_tip que devolvera api si metemeto Cod_tip en .php de la api
+            request.session['nombreDeUsuario'] = dataUsuario["data"]["nom_us"]
+            return redirect('menu')
+
+        else:
+            print("no valido")
+            return render(request, 'index.html', {'mensaje':'Usuario Incorrecto'})
+        # Analiza la respuesta de la API
+     #   if response.status_code == 200:
+     #       # Los datos son válidos
+     #       return redirect('menu')
+     #   else:
+    #        # Los datos son inválidos o hubo un error en la solicitud a la API
+     #       error_message = 'Error en la solicitud a la API'
+    #        if response.status_code == 401:
+     #           error_message = 'Datos inválidos'
+    #        return render(request, 'index.html', {'error_message': error_message})
+
+  #  return render(request, 'index.html')
+
+import requests
+
+def crearAlumno(request):
+    if request.method == "GET":
+        return render(request, "crearAlumno.html")
+    else:
+        rut_alu = request.POST.get('rut_alu', None)
+        dv_alu = request.POST.get('dv_alu', None)
+        nom_alu = request.POST.get('nom_alu', None)
+        ap_pat_alu = request.POST.get('ap_pat_alu', None)
+        ap_mat_alu = request.POST.get('ap_mat_alu', None)
+        dir_alu = request.POST.get('dir_alu', None)
+        curso_cod_cur = request.POST.get('curso_cod_cur', None)
+        curso_cod_niv = request.POST.get('curso_cod_niv', None)
+        usuario_rut_us = request.POST.get('usuario_rut_us', None)
+        usuario_jardin_cod_jar = request.POST.get('usuario_jardin_cod_jar', None)
+        usuario_cod_tip = request.POST.get('usuario_cod_tip', None)
+        curso_cod_jor = request.POST.get('curso_cod_jor', None)
+        curso_cod_jar = request.POST.get('curso_cod_jar', None)
+
+        data = {
+            'rut_alu': rut_alu,
+            'dv_alu': dv_alu,
+            'nom_alu': nom_alu,
+            'ap_pat_alu': ap_pat_alu,
+            'ap_mat_alu': ap_mat_alu,
+            'dir_alu': dir_alu,
+            'curso_cod_cur': curso_cod_cur,
+            'curso_cod_niv': curso_cod_niv,
+            'usuario_rut_us': usuario_rut_us,
+            'usuario_jardin_cod_jar': usuario_jardin_cod_jar,
+            'usuario_cod_tip': usuario_cod_tip,
+            'curso_cod_jor': curso_cod_jor,
+            'curso_cod_jar': curso_cod_jar
+        }
+
+        api_url = 'http://tmp.enred.cl/kc/rest/post_alumno.php'
         response = requests.post(api_url, json=data)
 
-        # Analiza la respuesta de la API
-        if response.status_code == 200:
-            # Los datos son válidos
-            return redirect('menu')
-        else:
-            # Los datos son inválidos o hubo un error en la solicitud a la API
-            error_message = 'Error en la solicitud a la API'
-            if response.status_code == 401:
-                error_message = 'Datos inválidos'
-            return render(request, 'index.html', {'error_message': error_message})
-
-    return render(request, 'index.html')
-
+        if rut_alu is None or dv_alu is None or nom_alu is None or ap_pat_alu is None or ap_mat_alu is None or dir_alu is None or curso_cod_cur is None or curso_cod_niv is None or usuario_rut_us is None or usuario_jardin_cod_jar is None or usuario_cod_tip is None or curso_cod_jor is None or curso_cod_jar is None:
+            return render(request, "crearAlumno.html", {'message':'NO SE HA PODIDO CREAR EL ALUMNO'})
+        
+        # Aquí puedes realizar las operaciones necesarias con los datos recibidos
+        
+        return render(request, "crearAlumno.html")
