@@ -14,7 +14,7 @@
                   Calendario</a>
               <a href="{% url 'docente' %}" class="d-block text-light p-3 border-0"><i class="icon ion-md-people lead mr-2"></i>
                   Profesores</a>          
-              <a href="{% url 'alumno' %}" class="d-block text-light p-3 border-0"><i class="icon ion-md-book outline mr-2"></i>
+              <a href="{% url 'crearUsuario' %}" class="d-block text-light p-3 border-0"><i class="icon ion-md-book outline mr-2"></i>
                   Estudiante</a>
               <a href= "{% url 'correo' %}" class="d-block text-light p-3 border-0"><i class="icon ion-md-mail-unread mr-2"></i>
                   Mensajes</a>
@@ -81,36 +81,90 @@
 
                                     </h6>
                                   </div> 
-                                  <div>
-                                    
-                              </head>
-                            
-                                  </div>
-                                  
-                                  <div>
-                                    <div id="rutDiv">
-                                      <label>Rut Alumno:</label>
-                                      <span id="rut_alumno" value=""></span>
+                                  <div class="card rounded-0">
+                                    <div class="card-header bg-light">
+                                        <h6 class="font-weight-bold mb-0">TRABAJOS </h6>
                                     </div>
-                                    
-                                    <div id="fechaDiv">
-                                      <label>Fecha:</label>
-                                      <span id="fecha" value=""></span>
-                                    
-                                    <div id="contenidoDiv">
-                                      <label>Contenido:</label>
-                                      <sapn id="contenido"></sapn>
-                                    </div>
-                                  </div>
-                                    <div><button id="toggle-btn">Actualizar ficha Alumno</button><div>
-
-                                    <form id="formActualizarContenidoFicha">
-                                        <input id="form_rutalumno" value="" disabled hidden>
-                                        <label for="nom_alu">agregue contido al alumno:</label>
-                                        <input type="text" id="nom_alu" name="nom_alu">     
-                                        <div><input type="submit" value="Enviar"><div>
+                                    <div class="card-body pt-2">
+                                      <h1>Formulario de Registro de Usuario</h1>
+                                        <form id="registroForm">
+                                        <label for="rut_us">RUT:</label>
+                                        <input type="text" id="rut_us" name="rut_us" required><br>
+    
+                                        <label for="dv_us">DV:</label>
+                                        <input type="text" id="dv_us" name="dv_us" required><br>
+    
+                                        <label for="nom_us">Nombre:</label>
+                                        <input type="text" id="nom_us" name="nom_us" required><br>
+    
+                                        <label for="ap_pat_us">Apellido Paterno:</label>
+                                        <input type="text" id="ap_pat_us" name="ap_pat_us" required><br>
+    
+                                        <label for="ap_mat_us">Apellido Materno:</label>
+                                        <input type="text" id="ap_mat_us" name="ap_mat_us" required><br>
+    
+                                        <label for="dir_us">Dirección:</label>
+                                        <input type="text" id="dir_us" name="dir_us" required><br>
+    
+                                        <label for="tel_us">Teléfono:</label>
+                                        <input type="text" id="tel_us" name="tel_us" required><br>
+    
+                                        <label for="mail_us">Correo Electrónico:</label>
+                                        <input type="email" id="mail_us" name="mail_us" required><br>
+    
+                                        <label for="jardin_cod_jar">Código del Jardín:</label>
+                                        <input type="text" id="jardin_cod_jar" name="jardin_cod_jar" required><br>
+    
+                                        <label for="tipo_us_cod_tip">Código del Tipo de Usuario:</label>
+                                        <input type="text" id="tipo_us_cod_tip" name="tipo_us_cod_tip" required><br>
+    
+                                        <label for="cod_cur">Código del Curso:</label>
+                                        <input type="text" id="cod_cur" name="cod_cur" required><br>
+    
+                                        <button type="submit">Registrar</button>
                                     </form>
-                                  </div>                              
+                                <script>
+                                  const form = document.getElementById('registroForm');
+                                  form.addEventListener('submit', function(event) {
+                                      event.preventDefault(); // Evita que la página se recargue al enviar el formulario
+                              
+                                      // Obtener los valores de los campos del formulario
+                                      const rut_us = document.getElementById('rut_us').value;
+                                      // Obtener el valor de los demás campos del formulario
+                              
+                                      // Crear un objeto con los datos del formulario
+                                      const formData = {
+                                          rut_us: rut_us,
+                                          // Resto de los campos
+                                      };
+                              
+                                      // Convertir el objeto a JSON
+                                      const jsonData = JSON.stringify(formData);
+                                      console.log(jsonData);
+                                      fetch('http://tmp.enred.cl/kc/rest/user.php', {
+                                          method: 'POST',
+                                          headers: {
+                                              'Content-Type': 'application/json'
+                                          },
+                                          body: jsonData
+                                      })
+                                      .then(response => {
+                                        
+                                          if (!response.ok) {
+                                              throw new Error('Error al enviar la solicitud');
+                                          }
+                                          return response.json();
+                                      })
+                                      .then(data => {
+                                          console.log('El registro ha sido creado:', data);
+                                          // Realiza acciones adicionales si es necesario
+                                      })
+                                      .catch(error => {
+                                          console.error(error);
+                                          // Maneja el error de alguna manera apropiada
+                                      });
+                                  });
+                              </script>   
                             
                           </div>
                           <div class="col-lg-4 my-3">
