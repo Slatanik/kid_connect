@@ -3,6 +3,7 @@ from django.conf import settings
 from kidconnect.models import Evento
 from django.http import JsonResponse
 from django.shortcuts import render, redirect
+from django.contrib.auth import logout
 
 def home(request):
     return render (request,"index.html")
@@ -137,7 +138,7 @@ def login(request):
             dataUsuario = requests.get(api_urlget_userdata)
             print(dataUsuario)
             dataUsuario = dataUsuario.json()
-
+            request.session['data'] = dataUsuario
             request.session['perfil'] = dataUsuario["data"]["tipo_us_cod_tip"]#aqui estoy asignando la respuesta de cod_tip que devolvera api si metemeto Cod_tip en .php de la api
             request.session['nombreDeUsuario'] = dataUsuario["data"]["nom_us"]
             return redirect('menu')
@@ -203,3 +204,8 @@ def crearAlumno(request):
         # Aquí puedes realizar las operaciones necesarias con los datos recibidos
         
         return render(request, "crearAlumno.html")
+
+
+def cerrarSesion(request):
+    logout(request)
+    return render(request, "index.html")

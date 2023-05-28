@@ -7,7 +7,7 @@
         <!-- Sidebar -->
         <div id="sidebar-container" class="bg-primary">
             <div class="logo">
-                <h4 class="text-light font-weight-bold mb-0" ><a  class="text-light"  href= "{% url 'menu' %}">Kids connect</a></h4>
+                <h4 class="text-light font-weight-bold mb-0" ><a class="text-light" href= "{% url 'menu' %}">Kids connect</a></h4>
             </div>
             <div class="menu">
                 <a href="{% url 'evento' %}" class="d-block text-light p-3 border-0"><i class="icon ion-md-apps lead mr-2"></i>
@@ -18,8 +18,9 @@
                     Estudiante</a>
                 <a href= "{% url 'correo' %}" class="d-block text-light p-3 border-0"><i class="icon ion-md-mail-unread mr-2"></i>
                     Mensajes</a>
-                    <a href= "{% url 'crearAlumno' %}" class="d-block text-light p-3 border-0"><i class="icon ion-md-people lead mr-2"></i>
-                        Crear Alumno</a>
+                {% if request.session.perfil == '1' %}
+                <a href= "{% url 'crearAlumno' %}" class="d-block text-light p-3 border-0"><i class="icon ion-md-people lead mr-2"></i>Crear Alumno</a>
+                {% endif %}
             </div>
         </div>
         <!-- Fin sidebar -->
@@ -40,16 +41,28 @@
                   <input class="form-control" type="search" placeholder="Buscar" aria-label="Buscar">
                   <button class="btn position-absolute btn-search" type="submit"><i class="icon ion-md-search"></i></button>
                 </form>
+                <div class="menu" id="menu-container">
+                  <a href="{% url 'evento' %}" class="d-block text-primary p-3 border-0"><i class="icon ion-md-apps lead mr-2"></i>
+                      Calendario</a>
+                  <a href="{% url 'docente' %}" class="d-block text-primary p-3 border-0"><i class="icon ion-md-people lead mr-2"></i>
+                      Profesores</a>          
+                  <a href="{% url 'crearUsuario' %}" class="d-block text-primary p-3 border-0"><i class="icon ion-md-book outline mr-2"></i>
+                      Estudiante</a>
+                  <a href= "{% url 'correo' %}" class="d-block text-primary p-3 border-0"><i class="icon ion-md-mail-unread mr-2"></i>
+                      Mensajes</a>
+                  {% if request.session.perfil == '1' %}
+                  <a href="{% url 'crearAlumno' %}" class="d-block text-light p-3 border-0"> <i class="icon ion-md-people lead mr-2"></i>Crear Alumno</a>
+                  {% endif %}
+                </div>
                 <ul class="navbar-nav ml-auto mt-2 mt-lg-0">
                   <li class="nav-item dropdown">
                     <a class="nav-link text-dark dropdown-toggle" href="#" id="navbarDropdown" role="button"
-                      data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                      
-                      
-                    Estimado :<span id="storedValue"></span>
+                      data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">                  
+                      <i class="icon ion-md-settings"></i><span id="storedValue"></span>
+
                     </a>
-                    <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">                
-                      <a class="dropdown-item" href="home">Cerrar sesión</a>
+                    <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+                      <a class="dropdown-item" href="{% url 'cerrarSesion' %}">Cerrar sesión</a>
                     </div>
                   </li>
                 </ul>
@@ -208,6 +221,26 @@
             });
             </script>
 </body>
-
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+      var menuContainer = document.getElementById('menu-container');
+      var navbarToggle = document.querySelector('.navbar-toggler');
+  
+      // Ocultar el menú inicialmente
+      menuContainer.style.display = 'none';
+  
+      // Agregar evento de clic al botón de toggle navigation
+      navbarToggle.addEventListener('click', function() {
+        // Verificar si la barra de navegación se está abriendo o cerrando
+        if (menuContainer.style.display === 'none') {
+          // Mostrar el menú si la barra de navegación se está abriendo
+          menuContainer.style.display = 'block';
+        } else {
+          // Ocultar el menú si la barra de navegación se está cerrando
+          menuContainer.style.display = 'none';
+        }
+      });
+    });
+  </script>
 
 {% endblock %}

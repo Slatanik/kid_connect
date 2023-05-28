@@ -6,10 +6,10 @@
     <div class="d-flex" id="content-wrapper">
         <!-- Sidebar -->
         <div id="sidebar-container" class="bg-primary">
-            <div class="logo">
-              <h4 class="text-light font-weight-bold mb-0" ><a  class="text-light" href= "{% url 'menu' %}">Kids connect</a></h4>
-            </div>
-            <div class="menu">
+          <div class="logo">
+              <h4 class="text-light font-weight-bold mb-0" ><a class="text-light" href= "{% url 'menu' %}">Kids connect</a></h4>
+          </div>
+          <div class="menu">
               <a href="{% url 'evento' %}" class="d-block text-light p-3 border-0"><i class="icon ion-md-apps lead mr-2"></i>
                   Calendario</a>
               <a href="{% url 'docente' %}" class="d-block text-light p-3 border-0"><i class="icon ion-md-people lead mr-2"></i>
@@ -18,44 +18,57 @@
                   Estudiante</a>
               <a href= "{% url 'correo' %}" class="d-block text-light p-3 border-0"><i class="icon ion-md-mail-unread mr-2"></i>
                   Mensajes</a>
-                  {% if request.session.perfil == 1 %}<!-- Sidebar -->
-                  <a href= "{% url 'crearAlumno' %}" class="d-block text-light p-3 border-0"><i class="icon ion-md-people lead mr-2"></i>
-                    Crear Alumno</a>
-                    {% endif %}
+              {% if request.session.perfil == '1' %}
+              <a href= "{% url 'crearAlumno' %}" class="d-block text-light p-3 border-0"><i class="icon ion-md-people lead mr-2"></i>Crear Alumno</a>
+              {% endif %}
           </div>
-        </div>
-        <!-- Fin sidebar -->
+      </div>
+      <!-- Fin sidebar -->
 
-        <div class="w-100">
+      <div class="w-100">
 
-         <!-- Navbar -->
-         <nav class="navbar navbar-expand-lg navbar-light bg-light border-bottom">
-            <div class="container">
-    
-              <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
-                aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-              </button>
-    
-              <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                <form class="form-inline position-relative d-inline-block my-2">
-                  <input class="form-control" type="search" placeholder="Buscar por Rut" aria-label="Buscar">
-                  <button class="btn position-absolute btn-search" type="submit"><i class="icon ion-md-search"></i></button>
-                </form>
-                <ul class="navbar-nav ml-auto mt-2 mt-lg-0">
-                  <li class="nav-item dropdown">
-                    <a class="nav-link text-dark dropdown-toggle" href="#" id="navbarDropdown" role="button"
-                      data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">                     
-                    Estimado <span id="storedValue"></span>
-                    </a>
-                    <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
-                      <a class="dropdown-item" href="index">Cerrar sesión</a>
-                    </div>
-                  </li>
-                </ul>
+       <!-- Navbar -->
+       <nav class="navbar navbar-expand-lg navbar-light bg-light border-bottom">
+          <div class="container">
+  
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+              aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+              <span class="navbar-toggler-icon"></span>
+            </button>
+  
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+              <form class="form-inline position-relative d-inline-block my-2">
+                <input class="form-control" type="search" placeholder="Buscar" aria-label="Buscar">
+                <button class="btn position-absolute btn-search" type="submit"><i class="icon ion-md-search"></i></button>
+              </form>
+              <div class="menu" id="menu-container">
+                <a href="{% url 'evento' %}" class="d-block text-primary p-3 border-0"><i class="icon ion-md-apps lead mr-2"></i>
+                    Calendario</a>
+                <a href="{% url 'docente' %}" class="d-block text-primary p-3 border-0"><i class="icon ion-md-people lead mr-2"></i>
+                    Profesores</a>          
+                <a href="{% url 'crearUsuario' %}" class="d-block text-primary p-3 border-0"><i class="icon ion-md-book outline mr-2"></i>
+                    Estudiante</a>
+                <a href= "{% url 'correo' %}" class="d-block text-primary p-3 border-0"><i class="icon ion-md-mail-unread mr-2"></i>
+                    Mensajes</a>
+                {% if request.session.perfil == '1' %}
+                <a href="{% url 'crearAlumno' %}" class="d-block text-light p-3 border-0"> <i class="icon ion-md-people lead mr-2"></i>Crear Alumno</a>
+                {% endif %}
               </div>
+              <ul class="navbar-nav ml-auto mt-2 mt-lg-0">
+                <li class="nav-item dropdown">
+                  <a class="nav-link text-dark dropdown-toggle" href="#" id="navbarDropdown" role="button"
+                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">                  
+                    <i class="icon ion-md-settings"></i><span id="storedValue"></span>
+
+                  </a>
+                  <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+                    <a class="dropdown-item" href="{% url 'cerrarSesion' %}">Cerrar sesión</a>
+                  </div>
+                </li>
+              </ul>
             </div>
-          </nav>
+          </div>
+        </nav>
           <!-- Fin Navbar -->
 
         <!-- Page Content -->
@@ -129,14 +142,34 @@
                                       event.preventDefault(); // Evita que la página se recargue al enviar el formulario
                               
                                       // Obtener los valores de los campos del formulario
-                                      const rut_us = document.getElementById('rut_us').value;
+                                  // Obtener los valores de los campos del formulario
+                                  const rut_us = document.getElementById('rut_us').value;
+                                  const dv_us = document.getElementById('dv_us').value;
+                                  const nom_us = document.getElementById('nom_us').value;
+                                  const ap_pat_us = document.getElementById('ap_pat_us').value;
+                                  const ap_mat_us = document.getElementById('ap_mat_us').value;
+                                  const dir_us = document.getElementById('dir_us').value;
+                                  const tel_us = document.getElementById('tel_us').value;
+                                  const mail_us = document.getElementById('mail_us').value;
+                                  const jardin_cod_jar = document.getElementById('jardin_cod_jar').value;
+                                  const tipo_us_cod_tip = document.getElementById('tipo_us_cod_tip').value;
+                                  const cod_cur = document.getElementById('cod_cur').value;
                                       // Obtener el valor de los demás campos del formulario
                               
-                                      // Crear un objeto con los datos del formulario
-                                      const formData = {
-                                          rut_us: rut_us,
-                                          // Resto de los campos
-                                      };
+                                    // Crear un objeto con los datos del formulario
+                                    const formData = {
+                                        rut_us: rut_us,
+                                        dv_us: dv_us,
+                                        nom_us: nom_us,
+                                        ap_pat_us: ap_pat_us,
+                                        ap_mat_us: ap_mat_us,
+                                        dir_us: dir_us,
+                                        tel_us: tel_us,
+                                        mail_us: mail_us,
+                                        jardin_cod_jar: jardin_cod_jar,
+                                        tipo_us_cod_tip: tipo_us_cod_tip,
+                                        cod_cur: cod_cur
+                                    };
                               
                                       // Convertir el objeto a JSON
                                       const jsonData = JSON.stringify(formData);
@@ -153,6 +186,7 @@
                                           if (!response.ok) {
                                               throw new Error('Error al enviar la solicitud');
                                           }
+                                          alert("se ha guardado");
                                           return response.json();
                                       })
                                       .then(data => {
@@ -208,6 +242,27 @@
             </script>
           <script src="static/js/alumno.js"></script>
 </body> 
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    var menuContainer = document.getElementById('menu-container');
+    var navbarToggle = document.querySelector('.navbar-toggler');
+
+    // Ocultar el menú inicialmente
+    menuContainer.style.display = 'none';
+
+    // Agregar evento de clic al botón de toggle navigation
+    navbarToggle.addEventListener('click', function() {
+      // Verificar si la barra de navegación se está abriendo o cerrando
+      if (menuContainer.style.display === 'none') {
+        // Mostrar el menú si la barra de navegación se está abriendo
+        menuContainer.style.display = 'block';
+      } else {
+        // Ocultar el menú si la barra de navegación se está cerrando
+        menuContainer.style.display = 'none';
+      }
+    });
+  });
+</script>
 
 
 {% endblock %}

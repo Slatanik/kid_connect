@@ -21,18 +21,18 @@
       <div class="row align-items-center">
         <div class="col">
           <section class="form-login" style="border-radius: 11px;">
-            <h5>Ingreso Kids Connect</h5>
+            <h3>Ingreso Kids Connect</h3>
+            <span> {% if mensaje %}
+              <p><span style="color: red;"><strong>Usuario Incorrecto, re-ingresa tus credenciales</strong></span></p>
+                {% else %}
+              <p>Ingresa tus credenciales: </p>
+                 {% endif %}</span> 
             <form method="POST" action="{% url 'index' %}">
               {% csrf_token %}
               <input class="controls" type="text" name="usuario" id="myInput" placeholder="Usuario">
               <input class="controls" type="password" name="contrasena" id="mypass" value="" placeholder="Contraseña">
               <input class="buttons rounded" type="submit" value="Ingresar" id="">
               <br></br>
-              <h6>{% if mensaje %}
-                <p>Usuario Incorrecto</p>
-                  {% else %}
-                <p>Ingresa tus credenciales </p>
-                   {% endif %}</h6> 
             </form>
           </section>
         </div>

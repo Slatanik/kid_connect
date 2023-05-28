@@ -208,6 +208,26 @@
             </script>
           <script src="static/js/alumno.js"></script>
 </body> 
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    var menuContainer = document.getElementById('menu-container');
+    var navbarToggle = document.querySelector('.navbar-toggler');
 
+    // Ocultar el menú inicialmente
+    menuContainer.style.display = 'none';
+
+    // Agregar evento de clic al botón de toggle navigation
+    navbarToggle.addEventListener('click', function() {
+      // Verificar si la barra de navegación se está abriendo o cerrando
+      if (menuContainer.style.display === 'none') {
+        // Mostrar el menú si la barra de navegación se está abriendo
+        menuContainer.style.display = 'block';
+      } else {
+        // Ocultar el menú si la barra de navegación se está cerrando
+        menuContainer.style.display = 'none';
+      }
+    });
+  });
+</script>
 
 {% endblock %}
