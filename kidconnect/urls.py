@@ -2,7 +2,7 @@ from django.contrib import admin
 from django.urls import path
 from kidconnect import views
 from .views import post_region
-from .views import login, menu, docente
+from .views import login, menu, docente, llamar_apod_cur
 
 
 urlpatterns = [
@@ -16,5 +16,6 @@ urlpatterns = [
         path('llamar-endpoint/', views.llamar_endpoint, name='llamar_endpoint'),
         path('post-region/', post_region, name='post_region'),
         path('crearAlumno', views.crearAlumno, name='crearAlumno'),
-        path('cerrarSesion', views.cerrarSesion, name='cerrarSesion')
+        path('cerrarSesion', views.cerrarSesion, name='cerrarSesion'),
+        path('correo', llamar_apod_cur, name='llamar_apod_cur'),
         ]

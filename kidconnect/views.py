@@ -146,18 +146,7 @@ def login(request):
         else:
             print("no valido")
             return render(request, 'index.html', {'mensaje':'Usuario Incorrecto'})
-        # Analiza la respuesta de la API
-     #   if response.status_code == 200:
-     #       # Los datos son válidos
-     #       return redirect('menu')
-     #   else:
-    #        # Los datos son inválidos o hubo un error en la solicitud a la API
-     #       error_message = 'Error en la solicitud a la API'
-    #        if response.status_code == 401:
-     #           error_message = 'Datos inválidos'
-    #        return render(request, 'index.html', {'error_message': error_message})
 
-  #  return render(request, 'index.html')
 
 import requests
 
@@ -209,3 +198,19 @@ def crearAlumno(request):
 def cerrarSesion(request):
     logout(request)
     return render(request, "index.html")
+
+
+
+def llamar_apod_cur(request):
+    url = 'http://tmp.enred.cl/kc/rest/get_lista_curso_por_curso.php'
+    valor = '1'  # Valor deseado para el parámetro 'valor'
+
+    # Realizar la solicitud GET a la API
+    response = requests.get(url, params={'valor': valor})
+
+    # Verificar si la solicitud fue exitosa (código de estado 200)
+    if response.status_code == 200:
+        data = response.json()
+        return JsonResponse(data, safe=False)
+    else:
+        return JsonResponse({'error': 'Error en la llamada a la API'}, status=500)
