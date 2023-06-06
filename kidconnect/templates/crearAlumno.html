@@ -18,42 +18,57 @@
                   Estudiante</a>
               <a href= "{% url 'correo' %}" class="d-block text-light p-3 border-0"><i class="icon ion-md-mail-unread mr-2"></i>
                   Mensajes</a>
-              <a href= "{% url 'crearAlumno' %}" class="d-block text-light p-3 border-0"><i class="icon ion-md-people lead mr-2"></i>
-                 Crear Alumno</a>
+              {% if request.session.perfil == '4' %}
+              <a href= "{% url 'crearAlumno' %}" class="d-block text-light p-3 border-0"><i class="icon ion-md-people lead mr-2"></i>Crear Alumno</a>
+              {% endif %}
           </div>
-        </div>
-        <!-- Fin sidebar -->
+      </div>
+      <!-- Fin sidebar -->
 
-        <div class="w-100">
+      <div class="w-100">
 
-         <!-- Navbar -->
-         <nav class="navbar navbar-expand-lg navbar-light bg-light border-bottom">
-            <div class="container">
-    
-              <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
-                aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-              </button>
-    
-              <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                <form class="form-inline position-relative d-inline-block my-2">
-                  <input class="form-control" type="search" placeholder="Buscar por Rut" aria-label="Buscar">
-                  <button class="btn position-absolute btn-search" type="submit"><i class="icon ion-md-search"></i></button>
-                </form>
-                <ul class="navbar-nav ml-auto mt-2 mt-lg-0">
-                  <li class="nav-item dropdown">
-                    <a class="nav-link text-dark dropdown-toggle" href="#" id="navbarDropdown" role="button"
-                      data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">                     
-                    Estimado <span id="storedValue"></span>
-                    </a>
-                    <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
-                      <a class="dropdown-item" href="index">Cerrar sesión</a>
-                    </div>
-                  </li>
-                </ul>
+       <!-- Navbar -->
+       <nav class="navbar navbar-expand-lg navbar-light bg-light border-bottom">
+          <div class="container">
+  
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+              aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+              <span class="navbar-toggler-icon"></span>
+            </button>
+  
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+              <form class="form-inline position-relative d-inline-block my-2">
+                <input class="form-control" type="search" placeholder="Buscar" aria-label="Buscar">
+                <button class="btn position-absolute btn-search" type="submit"><i class="icon ion-md-search"></i></button>
+              </form>
+              <div class="menu" id="menu-container">
+                <a href="{% url 'evento' %}" class="d-block text-primary p-3 border-0"><i class="icon ion-md-apps lead mr-2"></i>
+                    Calendario</a>
+                <a href="{% url 'docente' %}" class="d-block text-primary p-3 border-0"><i class="icon ion-md-people lead mr-2"></i>
+                    Profesores</a>          
+                <a href="{% url 'crearUsuario' %}" class="d-block text-primary p-3 border-0"><i class="icon ion-md-book outline mr-2"></i>
+                    Estudiante</a>
+                <a href= "{% url 'correo' %}" class="d-block text-primary p-3 border-0"><i class="icon ion-md-mail-unread mr-2"></i>
+                    Mensajes</a>
+                {% if request.session.perfil == '1' %}
+                <a href="{% url 'crearAlumno' %}" class="d-block text-light p-3 border-0"> <i class="icon ion-md-people lead mr-2"></i>Crear Alumno</a>
+                {% endif %}
               </div>
+              <ul class="navbar-nav ml-auto mt-2 mt-lg-0">
+                <li class="nav-item dropdown">
+                  <a class="nav-link text-dark dropdown-toggle" href="#" id="navbarDropdown" role="button"
+                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">                  
+                    <i class="icon ion-md-settings"></i><span id="storedValue"></span>
+
+                  </a>
+                  <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+                    <a class="dropdown-item" href="{% url 'cerrarSesion' %}">Cerrar sesión</a>
+                  </div>
+                </li>
+              </ul>
             </div>
-          </nav>
+          </div>
+        </nav>
           <!-- Fin Navbar -->
 
         <!-- Page Content -->
@@ -72,99 +87,128 @@
                               <div class="card rounded-0">
                                   <div class="card-header bg-light">
                                     <h6 class="font-weight-bold mb-0">Ficha Alumno
-                                        {% if message %}
-                                        {{ message }}
-                                        {% endif %}
-                                        <form method="POST" action="{% url 'crearAlumno' %}">
+                                      <form class="form-inline position-relative d-inline-block my-2">
+                                        <input class="form-control" type="search" placeholder="Buscar por Rut" aria-label="Buscar" id="rutBusqueda">
+                                        <button class="btn position-absolute btn-search" id='Buscar' type="submit"><i class="icon ion-md-search"></i></button>
+                                      </form>
 
-                                            {% csrf_token %}
-                                            <div class="form-group">
-                                              <label for="rut_alu">RUT:</label>
-                                              <input type="text" class="form-control" id="rut_alu" name="rut_alu"   >
-                                            </div>
-                                            <div class="form-group">
-                                              <label for="dv_alu">DV:</label>
-                                              <input type="text" class="form-control" id="dv_alu" name="dv_alu"   >
-                                            </div>
-                                            <div class="form-group">
-                                              <label for="nom_alu">Nombre:</label>
-                                              <input type="text" class="form-control" id="nom_alu" name="nom_alu"   >
-                                            </div>
-                                            <div class="form-group">
-                                              <label for="ap_pat_alu">Apellido Paterno:</label>
-                                              <input type="text" class="form-control" id="ap_pat_alu" name="ap_pat_alu"   >
-                                            </div>
-                                            <div class="form-group">
-                                              <label for="ap_mat_alu">Apellido Materno:</label>
-                                              <input type="text" class="form-control" id="ap_mat_alu" name="ap_mat_alu"   >
-                                            </div>
-                                            <div class="form-group">
-                                              <label for="dir_alu">Dirección:</label>
-                                              <input type="text" class="form-control" id="dir_alu" name="dir_alu"  >
-                                            </div>
-                                            <div class="form-group">
-                                              <label for="curso_cod_cur">Código del Curso:</label>
-                                              <input type="text" class="form-control" id="curso_cod_cur" name="curso_cod_cur"  >
-                                            </div>
-                                            <div class="form-group">
-                                              <label for="curso_cod_niv">Código del Nivel:</label>
-                                              <input type="text" class="form-control" id="curso_cod_niv" name="curso_cod_niv" >
-                                            </div>
-                                            <div class="form-group">
-                                              <label for="usuario_rut_us">RUT del Usuario:</label>
-                                              <input type="text" class="form-control" id="usuario_rut_us" name="usuario_rut_us"  >
-                                            </div>
-                                            <div class="form-group">
-                                              <label for="usuario_jardin_cod_jar">Código del Jardín del Usuario:</label>
-                                              <input type="text" class="form-control" id="usuario_jardin_cod_jar" name="usuario_jardin_cod_jar" >
-                                            </div>
-                                            <div class="form-group">
-                                              <label for="usuario_cod_tip">Código del Tipo de Usuario:</label>
-                                              <input type="text" class="form-control" id="usuario_cod_tip" name="usuario_cod_tip" >
-                                            </div>
-                                            <div class="form-group">
-                                              <label for="curso_cod_jor">Código de la Jornada del Curso:</label>
-                                              <input type="text" class="form-control" id="curso_cod_jor" name="curso_cod_jor" value="" >
-                                            </div>
-                                            <div class="form-group">
-                                              <label for="curso_cod_jar">Código del Jardín del Curso:</label>
-                                              <input type="text" class="form-control" id="curso_cod_jar" name="curso_cod_jar" value="" >
-                                            </div>
-                                            <button type="submit" class="btn btn-primary">Enviar</button>
-                                          </form>
-                                          
                                     </h6>
                                   </div> 
-                                  <div>
-                                    
-                              </head>
-                            
-                                  </div>
-                                  
-                                  <div>
-                                    <div id="rutDiv">
-                                      <label>Rut Alumno:</label>
-                                      <span id="rut_alumno" value=""></span>
+                                  <div class="card rounded-0">
+                                    <div class="card-header bg-light">
+                                        <h6 class="font-weight-bold mb-0">Creacion Alumno</h6>
                                     </div>
-                                    
-                                    <div id="fechaDiv">
-                                      <label>Fecha:</label>
-                                      <span id="fecha" value=""></span>
-                                    
-                                    <div id="contenidoDiv">
-                                      <label>Contenido:</label>
-                                      <sapn id="contenido"></sapn>
-                                    </div>
-                                  </div>
-                                    <div><button id="toggle-btn">Actualizar ficha Alumno</button><div>
+                                    <div class="card-body pt-2">
+                                      <h1>Formulario de Registro de Alumno</h1>
+                                        <form id="registroForm">
+                                        <label for="rut_alu">RUT Alumno:</label>
+                                        <input type="text" id="rut_alu" name="rut_alu" required><br>
+    
+                                        <label for="dv_alu">DV:</label>
+                                        <input type="text" id="dv_alu" name="dv_alu" required><br>
+    
+                                        <label for="nom_alu">Nombre:</label>
+                                        <input type="text" id="nom_alu" name="nom_alu" required><br>
+    
+                                        <label for="ap_pat_alu">Apellido Paterno:</label>
+                                        <input type="text" id="ap_pat_alu" name="ap_pat_alu" required><br>
+    
+                                        <label for="ap_mat_alu">Apellido Materno:</label>
+                                        <input type="text" id="ap_mat_alu" name="ap_mat_alu" required><br>
+    
+                                        <label for="dir_alu">Dirección:</label>
+                                        <input type="text" id="dir_alu" name="dir_alu" required><br>
+    
+                                        <label for="curso_cod_cur">Codigo curso:</label>
+                                        <input type="text" id="curso_cod_cur" name="curso_cod_cur" required><br>
+    
+                                        <label for="curso_cod_niv">Codigo Nivel:</label>
+                                        <input type="text" id="curso_cod_niv" name="curso_cod_niv" required><br>
+    
+                                        <label for="usuario_rut_us">Rut Apoderado:</label>
+                                        <input type="text" id="usuario_rut_us" name="usuario_rut_us" required><br>
+    
+                                        <label for="usuario_jardin_cod_jar">Codigo Jardin:</label>
+                                        <input type="text" id="usuario_jardin_cod_jar" name="usuario_jardin_cod_jar" required><br>
+    
+                                        <label for="usuario_cod_tip">Tipo Usuario:</label>
+                                        <input type="text" id="usuario_cod_tip" name="usuario_cod_tip" required><br>
 
-                                    <form id="formActualizarContenidoFicha">
-                                        <input id="form_rutalumno" value="" disabled hidden>
-                                        <label for="nom_alu">agregue contido al alumno:</label>
-                                        <input type="text" id="nom_alu" name="nom_alu">     
-                                        <div><input type="submit" value="Enviar"><div>
+                                        <label for="curso_cod_jor">Jornada (1=AM - 2=PM):</label>
+                                        <input type="text" id="curso_cod_jor" name="curso_cod_jor" required><br>
+
+                                        <label for="curso_cod_jar">Codigo Jardin:</label>
+                                        <input type="text" id="curso_cod_jar" name="curso_cod_jar" required><br>
+    
+                                        <button type="submit">Registrar</button>
                                     </form>
-                                  </div>                              
+                                <script>
+                                  const form = document.getElementById('registroForm');
+                                  form.addEventListener('submit', function(event) {
+                                      event.preventDefault(); // Evita que la página se recargue al enviar el formulario
+                              
+                                      // Obtener los valores de los campos del formulario
+                                  // Obtener los valores de los campos del formulario
+                                  const rut_alu = document.getElementById('rut_alu').value;
+                                  const dv_alu = document.getElementById('dv_alu').value;
+                                  const nom_alu = document.getElementById('nom_alu').value;
+                                  const ap_pat_alu = document.getElementById('ap_pat_alu').value;
+                                  const ap_mat_alu = document.getElementById('ap_mat_alu').value;
+                                  const dir_alu = document.getElementById('dir_alu').value;
+                                  const curso_cod_cur = document.getElementById('curso_cod_cur').value;
+                                  const curso_cod_niv = document.getElementById('curso_cod_niv').value;
+                                  const usuario_rut_us = document.getElementById('usuario_rut_us').value;
+                                  const usuario_jardin_cod_jar = document.getElementById('usuario_jardin_cod_jar').value;
+                                  const usuario_cod_tip = document.getElementById('usuario_cod_tip').value;
+                                  const curso_cod_jor = document.getElementById('curso_cod_jor').value;
+                                  const curso_cod_jar = document.getElementById('curso_cod_jar').value;
+                                      // Obtener el valor de los demás campos del formulario
+                              
+                                    // Crear un objeto con los datos del formulario
+                                    const formData = {
+                                        rut_alu: rut_alu,
+                                        dv_alu: dv_alu,
+                                        nom_alu: nom_alu,
+                                        ap_pat_alu: ap_pat_alu,
+                                        ap_mat_alu: ap_mat_alu,
+                                        dir_alu: dir_alu,
+                                        curso_cod_cur: curso_cod_cur,
+                                        curso_cod_niv: curso_cod_niv,
+                                        usuario_rut_us: usuario_rut_us,
+                                        usuario_jardin_cod_jar: usuario_jardin_cod_jar,
+                                        usuario_cod_tip: usuario_cod_tip,
+                                        curso_cod_jor: curso_cod_jor,
+                                        curso_cod_jar: curso_cod_jar
+                                    };
+                              
+                                      // Convertir el objeto a JSON
+                                      const jsonData = JSON.stringify(formData);
+                                      console.log(jsonData);
+                                      fetch('http://tmp.enred.cl/kc/rest/post_alumno.php', {
+                                          method: 'POST',
+                                          headers: {
+                                              'Content-Type': 'application/json'
+                                          },
+                                          body: jsonData
+                                      })
+                                      .then(response => {
+                                        
+                                          if (!response.ok) {
+                                              throw new Error('Error al enviar la solicitud');
+                                          }
+                                          alert("Alumno creado correctamnte ");
+                                          return response.json();
+                                      })
+                                      .then(data => {
+                                          console.log('El registro de alumno ha sido creado:', data);
+                                          // Realiza acciones adicionales si es necesario
+                                      })
+                                      .catch(error => {
+                                          console.error(error);
+                                          // Maneja el error de alguna manera apropiada
+                                      });
+                                  });
+                              </script>   
                             
                           </div>
                           <div class="col-lg-4 my-3">
@@ -229,5 +273,6 @@
     });
   });
 </script>
+
 
 {% endblock %}
