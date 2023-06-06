@@ -50,7 +50,7 @@
                       Estudiante</a>
                   <a href= "{% url 'correo' %}" class="d-block text-primary p-3 border-0"><i class="icon ion-md-mail-unread mr-2"></i>
                       Mensajes</a>
-                  {% if request.session.perfil == '1' %}
+                  {% if request.session.perfil == '4' %}
                   <a href="{% url 'crearAlumno' %}" class="d-block text-light p-3 border-0"> <i class="icon ion-md-people lead mr-2"></i>Crear Alumno</a>
                   {% endif %}
                 </div>
