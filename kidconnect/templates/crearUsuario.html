@@ -1,268 +1,405 @@
-{% extends 'layout.html' %}
-{% load static %}
+{% extends 'layout.html' %} 
+{% load static %} 
 {% block content %}
-
 <body>
-    <div class="d-flex" id="content-wrapper">
-        <!-- Sidebar -->
-        <div id="sidebar-container" class="barraLateral">
-          <div class="logo">
-              <h4 class="text-light font-weight-bold mb-0" ><a class="text-light" href= "{% url 'menu' %}">Kids connect</a></h4>
-          </div>
-          <div class="menu">
-              <a href="{% url 'evento' %}" class="d-block text-light p-3 border-0"><i class="icon ion-md-apps lead mr-2"></i>
-                  Calendario</a>
-              <a href="{% url 'docente' %}" class="d-block text-light p-3 border-0"><i class="icon ion-md-people lead mr-2"></i>
-                  Profesores</a>          
-              <a href="{% url 'crearUsuario' %}" class="d-block text-light p-3 border-0"><i class="icon ion-md-book outline mr-2"></i>
-                  Estudiante</a>
-              <a href= "{% url 'correo' %}" class="d-block text-light p-3 border-0"><i class="icon ion-md-mail-unread mr-2"></i>
-                  Mensajes</a>
-              {% if request.session.perfil == '4' %}
-              <a href= "{% url 'crearAlumno' %}" class="d-block text-light p-3 border-0"><i class="icon ion-md-people lead mr-2"></i>Crear Alumno</a>
-              {% endif %}
-          </div>
+  <div class="d-flex" id="content-wrapper">
+    <!-- Sidebar -->
+    <div id="sidebar-container" class="barraLateral">
+      <div class="logo">
+        <h4 class="text-light font-weight-bold mb-0">
+          <a class="text-light" href="{% url 'menu' %}">Kids connect</a>
+        </h4>
       </div>
-      <!-- Fin sidebar -->
+      <div class="menu">
+        <a href="{% url 'evento' %}" class="d-block text-light p-3 border-0"><i class="icon ion-md-apps lead mr-2"></i>
+            Calendario</a>
+        <a href="{% url 'docente' %}" class="d-block text-light p-3 border-0"><i class="icon ion-md-people lead mr-2"></i>
+            Profesores</a>      
+        {% if request.session.perfil == '4' %}    
+        <a href="{% url 'crearUsuario' %}" class="d-block text-light p-3 border-0"><i class="icon ion-md-book outline mr-2"></i>
+            Crear usuario</a>
+        {% endif %}
+        <a href= "{% url 'correo' %}" class="d-block text-light p-3 border-0"><i class="icon ion-md-mail-unread mr-2"></i>
+            Mensajes</a>
+        {% if request.session.perfil == '4'  or request.session.perfil == '2' or request.session.perfil == '3' %}
+        <a href= "{% url 'crearAlumno' %}" class="d-block text-light p-3 border-0"><i class="icon ion-md-people lead mr-2"></i>Crear Alumno</a>
+        {% endif %}
+    </div>
+    </div>
+    <!-- Fin sidebar -->
 
-      <div class="w-100">
+    <div class="w-100">
+      <!-- Navbar -->
+      <nav class="navbar navbar-expand-lg navbar-light bg-light border-bottom">
+        <div class="container">
+          <button
+            class="navbar-toggler"
+            type="button"
+            data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent"
+            aria-expanded="false"
+            aria-label="Toggle navigation"
+          >
+            <span class="navbar-toggler-icon"></span>
+          </button>
 
-       <!-- Navbar -->
-       <nav class="navbar navbar-expand-lg navbar-light bg-light border-bottom">
+          <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <form class="form-inline position-relative d-inline-block my-2">
+              <input
+                class="form-control"
+                type="search"
+                placeholder="Buscar"
+                aria-label="Buscar"
+              />
+              <button class="btn position-absolute btn-search" type="submit">
+                <i class="icon ion-md-search"></i>
+              </button>
+            </form>
+            <div class="menu" id="menu-container">
+              <a
+                href="{% url 'evento' %}"
+                class="d-block text-primary p-3 border-0"
+                ><i class="icon ion-md-apps lead mr-2"></i> Calendario</a
+              >
+              <a
+                href="{% url 'docente' %}"
+                class="d-block text-primary p-3 border-0"
+                ><i class="icon ion-md-people lead mr-2"></i> Profesores</a
+              >
+              <a
+                href="{% url 'crearUsuario' %}"
+                class="d-block text-primary p-3 border-0"
+                ><i class="icon ion-md-book outline mr-2"></i> Estudiante</a
+              >
+              <a
+                href="{% url 'correo' %}"
+                class="d-block text-primary p-3 border-0"
+                ><i class="icon ion-md-mail-unread mr-2"></i> Mensajes</a
+              >
+              {% if request.session.perfil == '1' %}
+              <a
+                href="{% url 'crearAlumno' %}"
+                class="d-block text-light p-3 border-0"
+              >
+                <i class="icon ion-md-people lead mr-2"></i>Crear Alumno</a
+              >
+              {% endif %}
+            </div>
+            <ul class="navbar-nav ml-auto mt-2 mt-lg-0">
+              <li class="nav-item dropdown">
+                <a
+                  class="nav-link text-dark dropdown-toggle"
+                  href="#"
+                  id="navbarDropdown"
+                  role="button"
+                  data-toggle="dropdown"
+                  aria-haspopup="true"
+                  aria-expanded="false"
+                >
+                  <i class="icon ion-md-settings"></i
+                  ><span id="storedValue"></span>
+                </a>
+                <div
+                  class="dropdown-menu dropdown-menu-right"
+                  aria-labelledby="navbarDropdown"
+                >
+                  <a class="dropdown-item" href="{% url 'cerrarSesion' %}"
+                    >Cerrar sesión</a
+                  >
+                </div>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </nav>
+      <!-- Fin Navbar -->
+
+      <!-- Page Content -->
+      <div id="content" class="bg-grey w-100">
+        <section class="py-3">
           <div class="container">
-  
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
-              aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-              <span class="navbar-toggler-icon"></span>
-            </button>
-  
-            <div class="collapse navbar-collapse" id="navbarSupportedContent">
-              <form class="form-inline position-relative d-inline-block my-2">
-                <input class="form-control" type="search" placeholder="Buscar" aria-label="Buscar">
-                <button class="btn position-absolute btn-search" type="submit"><i class="icon ion-md-search"></i></button>
-              </form>
-              <div class="menu" id="menu-container">
-                <a href="{% url 'evento' %}" class="d-block text-primary p-3 border-0"><i class="icon ion-md-apps lead mr-2"></i>
-                    Calendario</a>
-                <a href="{% url 'docente' %}" class="d-block text-primary p-3 border-0"><i class="icon ion-md-people lead mr-2"></i>
-                    Profesores</a>          
-                <a href="{% url 'crearUsuario' %}" class="d-block text-primary p-3 border-0"><i class="icon ion-md-book outline mr-2"></i>
-                    Estudiante</a>
-                <a href= "{% url 'correo' %}" class="d-block text-primary p-3 border-0"><i class="icon ion-md-mail-unread mr-2"></i>
-                    Mensajes</a>
-                {% if request.session.perfil == '1' %}
-                <a href="{% url 'crearAlumno' %}" class="d-block text-light p-3 border-0"> <i class="icon ion-md-people lead mr-2"></i>Crear Alumno</a>
-                {% endif %}
+            <div class="row">
+              <div class="col-lg-9 col-md-8">
+                <h1 class="font-weight-bold mb-0">Información Alumo</h1>
+                <p class="lead text-muted">Revisa la última información</p>
               </div>
-              <ul class="navbar-nav ml-auto mt-2 mt-lg-0">
-                <li class="nav-item dropdown">
-                  <a class="nav-link text-dark dropdown-toggle" href="#" id="navbarDropdown" role="button"
-                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">                  
-                    <i class="icon ion-md-settings"></i><span id="storedValue"></span>
+            </div>
+            <div class="row">
+              <div class="col-lg-8 my-3">
+                <div class="card rounded-0">
+                  <div class="card-header bg-light">
+                    <div class="container">
+                      <div class="row">
+                        <div class="col-md-6">
+                          <h2>Formulario de Registro de Usuario</h2>
+                          <form id="registroForm">
+                            <div class="form-group">
+                              <label for="rut_us">RUT:</label>
+                              <input
+                                type="text"
+                                class="form-control"
+                                id="rut_us"
+                                name="rut_us"
+                                required
+                              />
+                            </div>
 
-                  </a>
-                  <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
-                    <a class="dropdown-item" href="{% url 'cerrarSesion' %}">Cerrar sesión</a>
+                            <div class="form-group">
+                              <label for="dv_us">DV:</label>
+                              <input
+                                type="text"
+                                class="form-control"
+                                id="dv_us"
+                                name="dv_us"
+                                required
+                              />
+                            </div>
+
+                            <div class="form-group">
+                              <label for="nom_us">Nombre:</label>
+                              <input
+                                type="text"
+                                class="form-control"
+                                id="nom_us"
+                                name="nom_us"
+                                required
+                              />
+                            </div>
+
+                            <div class="form-group">
+                              <label for="ap_pat_us">Apellido Paterno:</label>
+                              <input
+                                type="text"
+                                class="form-control"
+                                id="ap_pat_us"
+                                name="ap_pat_us"
+                                required
+                              />
+                            </div>
+
+                            <div class="form-group">
+                              <label for="ap_mat_us">Apellido Materno:</label>
+                              <input
+                                type="text"
+                                class="form-control"
+                                id="ap_mat_us"
+                                name="ap_mat_us"
+                                required
+                              />
+                            </div>
+
+                            <div class="form-group">
+                              <label for="dir_us">Dirección:</label>
+                              <input
+                                type="text"
+                                class="form-control"
+                                id="dir_us"
+                                name="dir_us"
+                                required
+                              />
+                            </div>
+
+                            <div class="form-group">
+                              <label for="tel_us">Teléfono:</label>
+                              <input
+                                type="text"
+                                class="form-control"
+                                id="tel_us"
+                                name="tel_us"
+                                required
+                              />
+                            </div>
+
+                            <div class="form-group">
+                              <label for="mail_us">Correo Electrónico:</label>
+                              <input
+                                type="email"
+                                class="form-control"
+                                id="mail_us"
+                                name="mail_us"
+                                required
+                              />
+                            </div>
+
+                            <div class="form-group">
+                              <label for="jardin_cod_jar"
+                                >Código del Jardín:</label
+                              >
+                              <input
+                                type="text"
+                                class="form-control"
+                                id="jardin_cod_jar"
+                                name="jardin_cod_jar"
+                                required
+                              />
+                            </div>
+
+                            <div class="form-group">
+                              <label for="tipo_us_cod_tip"
+                                >Código del Tipo de Usuario:</label
+                              >
+                              <input
+                                type="text"
+                                class="form-control"
+                                id="tipo_us_cod_tip"
+                                name="tipo_us_cod_tip"
+                                required
+                              />
+                            </div>
+
+                            <div class="form-group">
+                              <label for="cod_cur">Código del Curso:</label>
+                              <input
+                                type="text"
+                                class="form-control"
+                                id="cod_cur"
+                                name="cod_cur"
+                                required
+                              />
+                            </div>
+
+                            <button type="submit" class="btn btn-primary">
+                              Registrar
+                            </button>
+                          </form>
+                        </div>
+                      </div>
+                    </div>
+
+                    <script>
+                      const form = document.getElementById("registroForm");
+                      form.addEventListener("submit", function (event) {
+                        event.preventDefault(); // Evita que la página se recargue al enviar el formulario
+
+                        // Obtener los valores de los campos del formulario
+                        const rut_us = document.getElementById("rut_us").value;
+                        const dv_us = document.getElementById("dv_us").value;
+                        const nom_us = document.getElementById("nom_us").value;
+                        const ap_pat_us =
+                          document.getElementById("ap_pat_us").value;
+                        const ap_mat_us =
+                          document.getElementById("ap_mat_us").value;
+                        const dir_us = document.getElementById("dir_us").value;
+                        const tel_us = document.getElementById("tel_us").value;
+                        const mail_us =
+                          document.getElementById("mail_us").value;
+                        const jardin_cod_jar =
+                          document.getElementById("jardin_cod_jar").value;
+                        const tipo_us_cod_tip =
+                          document.getElementById("tipo_us_cod_tip").value;
+                        const cod_cur =
+                          document.getElementById("cod_cur").value;
+
+                        // Crear un objeto con los datos del formulario
+                        const formData = {
+                          rut_us: rut_us,
+                          dv_us: dv_us,
+                          nom_us: nom_us,
+                          ap_pat_us: ap_pat_us,
+                          ap_mat_us: ap_mat_us,
+                          dir_us: dir_us,
+                          tel_us: tel_us,
+                          mail_us: mail_us,
+                          jardin_cod_jar: jardin_cod_jar,
+                          tipo_us_cod_tip: tipo_us_cod_tip,
+                          cod_cur: cod_cur,
+                        };
+
+                        // Convertir el objeto a JSON
+                        const jsonData = JSON.stringify(formData);
+                        console.log(jsonData);
+                        fetch("http://tmp.enred.cl/kc/rest/user.php", {
+                          method: "POST",
+                          headers: {
+                            "Content-Type": "application/json",
+                          },
+                          body: jsonData,
+                        })
+                          .then((response) => {
+                            if (!response.ok) {
+                              throw new Error("Error al enviar la solicitud");
+                            }
+                            alert("Usuario creado correctamente ");
+                            return response.json();
+                          })
+                          .then((data) => {
+                            console.log("El registro ha sido creado:", data);
+                            // Realiza acciones adicionales si es necesario
+                          })
+                          .catch((error) => {
+                            console.error(error);
+                            // Maneja el error de alguna manera apropiada
+                          });
+                      });
+                    </script>
                   </div>
-                </li>
-              </ul>
+                </div>
+              </div>
+              <div class="col-lg-4 my-3">
+                <div class="card rounded-0">
+                  <div class="card-header bg-light">
+                    <h6 class="font-weight-bold mb-0">TRABAJOS</h6>
+                  </div>
+                  <div class="card-body pt-2">
+                    <div class="d-flex border-bottom py-2">
+                      <div class="d-flex mr-3">
+                        <h2 class="align-self-center mb-0">
+                          <i class="icon ion-md-pricetag"></i>
+                        </h2>
+                      </div>
+                      <div class="align-self-center">
+                        <h6 class="d-inline-block mb-0">CURSO 1</h6>
+                        <span class="badge badge-success ml-2">TODO OK </span>
+                        <small class="d-block text-muted"
+                          >TRABAJO DE ARTES</small
+                        >
+                      </div>
+                    </div>
+                    <div class="d-flex border-bottom py-2">
+                      <div class="d-flex mr-3">
+                        <h2 class="align-self-center mb-0">
+                          <i class="icon logo-ionic"></i>
+                        </h2>
+                      </div>
+                      <div class="align-self-center">
+                        <h6 class="d-inline-block mb-0">CURSO 2</h6>
+                        <span class="badge badge-success ml-2"
+                          >FALTO PEPITO</span
+                        >
+                        <small class="d-block text-muted">Curso BAILE</small>
+                      </div>
+                    </div>
+                    <button class="btn btn-primary w-100">Ver todas</button>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
-        </nav>
-          <!-- Fin Navbar -->
-
-        <!-- Page Content -->
-        <div id="content" class="bg-grey w-100">
-
-              <section class="bg-light py-3">
-                  <div class="container">
-                      <div class="row">
-                          <div class="col-lg-9 col-md-8">
-                            <h1 class="font-weight-bold mb-0">Información Alumo</h1>
-                            <p class="lead text-muted">Revisa la última información</p>
-                          </div>                         
-                  <div class="container">
-                      <div class="row">
-                          <div class="col-lg-8 my-3">
-                              <div class="card rounded-0">
-                                  <div class="card-header bg-light">
-                                    <h6 class="font-weight-bold mb-0">Ficha Alumno
-                                      <form class="form-inline position-relative d-inline-block my-2">
-                                        <input class="form-control" type="search" placeholder="Buscar por Rut" aria-label="Buscar" id="rutBusqueda">
-                                        <button class="btn position-absolute btn-search" id='Buscar' type="submit"><i class="icon ion-md-search"></i></button>
-                                      </form>
-
-                                    </h6>
-                                  </div> 
-                                  <div class="card rounded-0">
-                                    <div class="card-header bg-light">
-                                        <h6 class="font-weight-bold mb-0">TRABAJOS </h6>
-                                    </div>
-                                    <div class="card-body pt-2">
-                                      <h1>Formulario de Registro de Usuario</h1>
-                                        <form id="registroForm">
-                                        <label for="rut_us">RUT:</label>
-                                        <input type="text" id="rut_us" name="rut_us" required><br>
-    
-                                        <label for="dv_us">DV:</label>
-                                        <input type="text" id="dv_us" name="dv_us" required><br>
-    
-                                        <label for="nom_us">Nombre:</label>
-                                        <input type="text" id="nom_us" name="nom_us" required><br>
-    
-                                        <label for="ap_pat_us">Apellido Paterno:</label>
-                                        <input type="text" id="ap_pat_us" name="ap_pat_us" required><br>
-    
-                                        <label for="ap_mat_us">Apellido Materno:</label>
-                                        <input type="text" id="ap_mat_us" name="ap_mat_us" required><br>
-    
-                                        <label for="dir_us">Dirección:</label>
-                                        <input type="text" id="dir_us" name="dir_us" required><br>
-    
-                                        <label for="tel_us">Teléfono:</label>
-                                        <input type="text" id="tel_us" name="tel_us" required><br>
-    
-                                        <label for="mail_us">Correo Electrónico:</label>
-                                        <input type="email" id="mail_us" name="mail_us" required><br>
-    
-                                        <label for="jardin_cod_jar">Código del Jardín:</label>
-                                        <input type="text" id="jardin_cod_jar" name="jardin_cod_jar" required><br>
-    
-                                        <label for="tipo_us_cod_tip">Código del Tipo de Usuario:</label>
-                                        <input type="text" id="tipo_us_cod_tip" name="tipo_us_cod_tip" required><br>
-    
-                                        <label for="cod_cur">Código del Curso:</label>
-                                        <input type="text" id="cod_cur" name="cod_cur" required><br>
-    
-                                        <button type="submit">Registrar</button>
-                                    </form>
-                                <script>
-                                  const form = document.getElementById('registroForm');
-                                  form.addEventListener('submit', function(event) {
-                                      event.preventDefault(); // Evita que la página se recargue al enviar el formulario
-                              
-                                      // Obtener los valores de los campos del formulario
-                                  // Obtener los valores de los campos del formulario
-                                  const rut_us = document.getElementById('rut_us').value;
-                                  const dv_us = document.getElementById('dv_us').value;
-                                  const nom_us = document.getElementById('nom_us').value;
-                                  const ap_pat_us = document.getElementById('ap_pat_us').value;
-                                  const ap_mat_us = document.getElementById('ap_mat_us').value;
-                                  const dir_us = document.getElementById('dir_us').value;
-                                  const tel_us = document.getElementById('tel_us').value;
-                                  const mail_us = document.getElementById('mail_us').value;
-                                  const jardin_cod_jar = document.getElementById('jardin_cod_jar').value;
-                                  const tipo_us_cod_tip = document.getElementById('tipo_us_cod_tip').value;
-                                  const cod_cur = document.getElementById('cod_cur').value;
-                                      // Obtener el valor de los demás campos del formulario
-                              
-                                    // Crear un objeto con los datos del formulario
-                                    const formData = {
-                                        rut_us: rut_us,
-                                        dv_us: dv_us,
-                                        nom_us: nom_us,
-                                        ap_pat_us: ap_pat_us,
-                                        ap_mat_us: ap_mat_us,
-                                        dir_us: dir_us,
-                                        tel_us: tel_us,
-                                        mail_us: mail_us,
-                                        jardin_cod_jar: jardin_cod_jar,
-                                        tipo_us_cod_tip: tipo_us_cod_tip,
-                                        cod_cur: cod_cur
-                                    };
-                              
-                                      // Convertir el objeto a JSON
-                                      const jsonData = JSON.stringify(formData);
-                                      console.log(jsonData);
-                                      fetch('http://tmp.enred.cl/kc/rest/user.php', {
-                                          method: 'POST',
-                                          headers: {
-                                              'Content-Type': 'application/json'
-                                          },
-                                          body: jsonData
-                                      })
-                                      .then(response => {
-                                        
-                                          if (!response.ok) {
-                                              throw new Error('Error al enviar la solicitud');
-                                          }
-                                          alert("Usuario creado correctamente ");
-                                          return response.json();
-                                      })
-                                      .then(data => {
-                                          console.log('El registro ha sido creado:', data);
-                                          // Realiza acciones adicionales si es necesario
-                                      })
-                                      .catch(error => {
-                                          console.error(error);
-                                          // Maneja el error de alguna manera apropiada
-                                      });
-                                  });
-                              </script>   
-                            
-                          </div>
-                          <div class="col-lg-4 my-3">
-                            <div class="card rounded-0">
-                                <div class="card-header bg-light">
-                                    <h6 class="font-weight-bold mb-0">TRABAJOS </h6>
-                                </div>
-                                <div class="card-body pt-2">
-                                    <div class="d-flex border-bottom py-2">
-                                        <div class="d-flex mr-3">
-                                          <h2 class="align-self-center mb-0"><i class="icon ion-md-pricetag"></i></h2>
-                                        </div>
-                                        <div class="align-self-center">
-                                          <h6 class="d-inline-block mb-0">CURSO 1 </h6><span class="badge badge-success ml-2">TODO OK </span>
-                                          <small class="d-block text-muted">TRABAJO DE ARTES</small>
-                                        </div>
-                                    </div>
-                                    <div class="d-flex border-bottom py-2">
-                                        <div class="d-flex mr-3">
-                                          <h2 class="align-self-center mb-0"><i class="icon logo-ionic"></i></h2>
-                                        </div>
-                                        <div class="align-self-center">
-                                          <h6 class="d-inline-block mb-0">CURSO 2</h6><span class="badge badge-success ml-2">FALTO PEPITO</span>
-                                          <small class="d-block text-muted">Curso BAILE</small>
-                                        </div>
-                                    </div>
-                                    <button class="btn btn-primary w-100">Ver todas</button>
-                                </div>
-                            </div>
-                          </div>
-                      </div>
-                  </div>
-              </section>
-
-        </div>
-
-        </div>
+        </section>
+      </div>
     </div>
-
-    
-            </script>
-          <script src="static/js/alumno.js"></script>
-</body> 
+  </div>
+</body>
 <script>
-  document.addEventListener('DOMContentLoaded', function() {
-    var menuContainer = document.getElementById('menu-container');
-    var navbarToggle = document.querySelector('.navbar-toggler');
+  document.addEventListener("DOMContentLoaded", function () {
+    var menuContainer = document.getElementById("menu-container");
+    var navbarToggle = document.querySelector(".navbar-toggler");
 
     // Ocultar el menú inicialmente
-    menuContainer.style.display = 'none';
+    menuContainer.style.display = "none";
 
     // Agregar evento de clic al botón de toggle navigation
-    navbarToggle.addEventListener('click', function() {
+    navbarToggle.addEventListener("click", function () {
       // Verificar si la barra de navegación se está abriendo o cerrando
-      if (menuContainer.style.display === 'none') {
+      if (menuContainer.style.display === "none") {
         // Mostrar el menú si la barra de navegación se está abriendo
-        menuContainer.style.display = 'block';
+        menuContainer.style.display = "block";
       } else {
         // Ocultar el menú si la barra de navegación se está cerrando
-        menuContainer.style.display = 'none';
+        menuContainer.style.display = "none";
       }
     });
   });
 </script>
-
-
 {% endblock %}

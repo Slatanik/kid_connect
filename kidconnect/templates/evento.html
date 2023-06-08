@@ -41,19 +41,21 @@
                   <input class="form-control" type="search" placeholder="Buscar" aria-label="Buscar">
                   <button class="btn position-absolute btn-search" type="submit"><i class="icon ion-md-search"></i></button>
                 </form>
-                <div class="menu" id="menu-container">
-                  <a href="{% url 'evento' %}" class="d-block text-primary p-3 border-0"><i class="icon ion-md-apps lead mr-2"></i>
+                <div class="menu">
+                  <a href="{% url 'evento' %}" class="d-block text-light p-3 border-0"><i class="icon ion-md-apps lead mr-2"></i>
                       Calendario</a>
-                  <a href="{% url 'docente' %}" class="d-block text-primary p-3 border-0"><i class="icon ion-md-people lead mr-2"></i>
-                      Profesores</a>          
-                  <a href="{% url 'crearUsuario' %}" class="d-block text-primary p-3 border-0"><i class="icon ion-md-book outline mr-2"></i>
-                      Estudiante</a>
-                  <a href= "{% url 'correo' %}" class="d-block text-primary p-3 border-0"><i class="icon ion-md-mail-unread mr-2"></i>
-                      Mensajes</a>
-                  {% if request.session.perfil == '4' %}
-                  <a href="{% url 'crearAlumno' %}" class="d-block text-light p-3 border-0"> <i class="icon ion-md-people lead mr-2"></i>Crear Alumno</a>
+                  <a href="{% url 'docente' %}" class="d-block text-light p-3 border-0"><i class="icon ion-md-people lead mr-2"></i>
+                      Profesores</a>      
+                  {% if request.session.perfil == '4' %}    
+                  <a href="{% url 'crearUsuario' %}" class="d-block text-light p-3 border-0"><i class="icon ion-md-book outline mr-2"></i>
+                      Crear usuario</a>
                   {% endif %}
-                </div>
+                  <a href= "{% url 'correo' %}" class="d-block text-light p-3 border-0"><i class="icon ion-md-mail-unread mr-2"></i>
+                      Mensajes</a>
+                  {% if request.session.perfil == '4'  or request.session.perfil == '2' or request.session.perfil == '3' %}
+                  <a href= "{% url 'crearAlumno' %}" class="d-block text-light p-3 border-0"><i class="icon ion-md-people lead mr-2"></i>Crear Alumno</a>
+                  {% endif %}
+              </div>
                 <ul class="navbar-nav ml-auto mt-2 mt-lg-0">
                   <li class="nav-item dropdown">
                     <a class="nav-link text-dark dropdown-toggle" href="#" id="navbarDropdown" role="button"
