@@ -141,6 +141,7 @@ def login(request):
             request.session['data'] = dataUsuario
             request.session['perfil'] = dataUsuario["data"]["tipo_us_cod_tip"]#aqui estoy asignando la respuesta de cod_tip que devolvera api si metemeto Cod_tip en .php de la api
             request.session['nombreDeUsuario'] = dataUsuario["data"]["nom_us"]
+            request.session['apellidoPaternoUsuario'] = dataUsuario["data"]["ap_pat_us"]#asignando ap paternod el usuario apra usarlo en session
             return redirect('menu')
 
         else:

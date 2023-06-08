@@ -80,7 +80,7 @@
                 <div class="container">
                   <div class="row">
                           <div class="col-lg-9 col-md-8">
-                            <h1 class="font-weight-bold mb-0">Mensajeria</h1>
+                            <h1 class="font-weight-bold mb-0">Tus mensajes {{request.session.nombreDeUsuario}}</h1>
                             <p class="lead text-muted">Revisa la última información</p>
                           </div>                         
                           <div class="container">
@@ -124,119 +124,215 @@
                                       <button id="btnSolicitud2" onclick="realizarSolicitud(2)" type="button" class="btn btn-primary btn-block" data-toggle="modal" data-target="#exampleModal">Curso B</button>
                                       <hr>
                                     </div>
-                                  </div>
-                                </div>
-                              
-                                <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                                  <div class="modal-dialog" role="document">
-                                    <div class="modal-content">
-                                      <div class="modal-header">
-                                        <h5 class="modal-title" id="exampleModalLabel">Nuevo Mensaje</h5>
-                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                          <span aria-hidden="true">&times;</span>
-                                        </button>
-                                      </div>
-                                      <div class="modal-body">
-                                        <form>
-                                          <div class="form-group">
-                                            <label for="recipient-name" class="col-form-label">Seleccione Destinatario:</label>
-                                            <div><span><ul id="lista-container"></ul></span></div>
-                                          </div>
-                                          <div class="form-group">
-                                            <label for="message-text" class="col-form-label">Mensaje:</label>
-                                            <textarea class="form-control" id="message-text"></textarea>
-                                          </div>
-                                        </form>
-                                      </div>
-                                      <div class="modal-footer">
-                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                                        <button type="button" class="btn btn-primary">Send message</button>
+                                    </div>
+                                    </div>
+                                    
+                                    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                    <div class="modal-dialog" role="document">
+                                      <div class="modal-content">
+                                        <div class="modal-header">
+                                          <h5 class="modal-title" id="exampleModalLabel">Nuevo Mensaje</h5>
+                                          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                          </button>
+                                        </div>
+                                        <div class="modal-body">
+                                          <form>
+                                            <div class="form-group">
+                                              <label for="recipient-name" class="col-form-label">Seleccione Destinatario:</label>
+                                              <div><span><ul id="lista-container"></ul></span></div>
+                                            </div>
+                                            <div class="form-group">
+                                              <label for="message-text" class="col-form-label">Mensaje:</label>
+                                              <textarea class="form-control" id="message-text"></textarea>
+                                            </div>
+                                            <div class="form-group">
+                                              <label for="message-code" class="col-form-label">Código de Mensaje:</label>
+                                              <select class="form-control" id="message-code">
+                                                <option value="1">Comunicación</option>
+                                                <option value="2">Comprobante</option>
+                                                <option value="3">Justificativo</option>
+                                                <option value="4">Evento</option>
+                                                <option value="5">Anuncio</option>
+                                              </select>
+                                          </form>
+                                        </div>
+                                        <div class="modal-footer">
+                                          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                          <button id="enviarMensajes" type="button" class="btn btn-primary" onclick="enviarMensajes()">Enviar pico</button>
+
+                                        </div>
                                       </div>
                                     </div>
-                                  </div>
-                                </div>
-                              
-                                <!-- JS DEL MODAL -->
-                                <script>
-                                  $('#exampleModal').on('show.bs.modal', function(event) {
-                                    var button = $(event.relatedTarget); // Button that triggered the modal
-                                    var recipient = button.data('whatever'); // Extract info from data-* attributes
-                                    // If necessary, you could initiate an AJAX request here (and then do the updating in a callback).
-                                    // Update the modal's content. We'll use jQuery here, but you could use a data binding library or other methods instead.
-                                    var modal = $(this);
-                                    modal.find('.modal-title').text('New message to ' + recipient);
-                                    modal.find('.modal-body input').val(recipient);
-                                  });
-                                </script>
-                              
-                                <!-- JS DEL GET CURSO -->
-                                <script>
-                                  function realizarSolicitud(valor) {
-                                    const url = 'http://tmp.enred.cl/kc/rest/get_lista_curso_por_curso.php';
-                              
-                                    // Objeto de configuración para la solicitud
-                                    const requestOptions = {
-                                      method: 'POST',
-                                      headers: {
-                                        'Content-Type': 'application/json',
-                                      },
-                                      body: JSON.stringify({ valor }),
-                                    };
-                              
-                                    // Realizar la solicitud a la API
-                                    fetch(url, requestOptions)
-              .then(response => response.json())
-              .then(data => {
-                const participantes = data; // Variable que contiene la respuesta de la API
-                const listaContainer = document.getElementById('lista-container'); // Elemento contenedor de la lista
+                                    </div>
+                                    
+                                    <!-- JS DEL MODAL -->
+                                    <script>
+                                    $('#exampleModal').on('show.bs.modal', function(event) {
+                                      var button = $(event.relatedTarget); // Button that triggered the modal
+                                      var recipient = button.data('whatever'); // Extract info from data-* attributes
+                                      // If necessary, you could initiate an AJAX request here (and then do the updating in a callback).
+                                      // Update the modal's content. We'll use jQuery here, but you could use a data binding library or other methods instead.
+                                      var modal = $(this);
+                                      modal.find('.modal-title').text('New message to ' + recipient);
+                                      modal.find('.modal-body input').val(recipient);
+                                    });
+                                    </script>
+                                    
+                                    <script>
+                                    function realizarSolicitud(valor) {
+                                      const url = 'http://tmp.enred.cl/kc/rest/get_lista_curso_por_curso.php';
+                                    
+                                      // Objeto de configuración para la solicitud
+                                      const requestOptions = {
+                                        method: 'POST',
+                                        headers: {
+                                          'Content-Type': 'application/json',
+                                        },
+                                        body: JSON.stringify({ valor }),
+                                      };
+                                    
+                                      // Realizar la solicitud a la API
+                                      fetch(url, requestOptions)
+                                        .then(response => response.json())
+                                        .then(data => {
+                                          const participantes = data; // Variable que contiene la respuesta de la API
+                                          const listaContainer = document.getElementById('lista-container'); // Elemento contenedor de la lista
+                                    
+                                          // Recorrer los participantes y generar elementos HTML
+                                          participantes.forEach(participante => {
+                                            const rut = participante.rut_participante;
+                                            const nombre = participante.nombre_participante;
+                                            const apellido = participante.apellido_participante;
+                                    
+                                            // Crear elemento de lista con checkbox
+                                            const listItem = document.createElement('li');
+                                            listItem.innerHTML = `
+                                              <input type="checkbox" name="participante" value="${rut} ${nombre} ${apellido}">
+                                              <label>${rut} ${nombre} ${apellido}</label>
+                                            `;
+                                    
+                                            // Agregar el elemento de lista al contenedor
+                                            listaContainer.appendChild(listItem);
+                                          });
+                                    
+                                          // Lógica para mostrar el modal y obtener los elementos seleccionados
+                                          const btnEnviar = document.getElementById('btnEnviar');
+                                          const modal = document.getElementById('exampleModal');
+                                    
+                                          btnEnviar.addEventListener('click', () => {
+                                            // Limpiar el contenido del modal
+                                            const modalBody = modal.querySelector('.modal-body');
+                                            modalBody.innerHTML = '';
+                                    
+                                            // Obtener el valor del mensaje del campo de texto
+                                            const mensaje = document.getElementById('message-text').value;
+                                    
+                                            // Obtener los elementos seleccionados
+                                            const checkboxes = document.querySelectorAll('input[name="participante"]:checked');
+                                            const receptores = [];
+                                            checkboxes.forEach(checkbox => {
+                                              const value = checkbox.value;
+                                              const [rut, nombre, apellido] = value.split(' ');
+                                    
+                                              // Crear objeto receptor con los valores necesarios
+                                              const receptor = {
+                                                rut_receptor: rut,
+                                                nombre_receptor: nombre,
+                                                cont_mensaje: mensaje,
+                                                rut_emisor: '{{ request.session.perfil.user_id }}', // Rut del emisor obtenido del backend
+                                                nombre_emisor: '{{ request.session.nombreDeUsuario }}', // Nombre del emisor obtenido del backend
+                                              };
+                                    
+                                              receptores.push(receptor);
+                                            });
+                                    
+                                            // Objeto de configuración para la solicitud
+                                            const requestOptions = {
+                                              method: 'POST',
+                                              headers: {
+                                                'Content-Type': 'application/json',
+                                              },
+                                              body: JSON.stringify(receptores),
+                                            };
+                                    
+                                            // Realizar la solicitud al endpoint
+                                            fetch('http://tmp.enred.cl/kc/rest/endpoint', requestOptions)
+                                              .then(response => response.json())
+                                              .then(data => {
+                                                // Realizar acciones adicionales después de enviar los datos
+                                              })
+                                              .catch(error => {
+                                                console.error('Error al enviar los datos:', error);
+                                              });
+                                    
+                                            // Mostrar el modal
+                                            $(modal).modal('show');
+                                          });
+                                    
+                                        })
+                                        .catch(error => {
+                                          console.error('Error al realizar la solicitud:', error);
+                                        });
+                                    }
+                                    </script>
+                                    <script>
+                                      var rut_emisor = "{{request.session.user_id}}"
+                                      let nombre_emisor = "{{request.session.nombreDeUsuario}}"
+                                      let apPatAlu = "{{request.session.apellidoPaternoUsuario}}"
+                                    </script>
+                                    <script>
+                                      function enviarMensajes() {
+                                        const mensaje = document.getElementById('message-text').value; // Obtener el contenido del mensaje
+                                        const checkboxes = document.querySelectorAll('input[name="participante"]:checked'); // Obtener los checkboxes seleccionados
+                                    
+                                        if (checkboxes.length === 0) {
+                                          console.log('No se han seleccionado usuarios.');
+                                          return;
+                                        }
+                                    
+                                        const rutsReceptor = [];
+                                        const nombresReceptor = [];
+                                    
+                                        checkboxes.forEach(checkbox => {
+                                          const value = checkbox.value.split(' '); // Obtener el rut, nombre y apellido del checkbox seleccionado
+                                          rutsReceptor.push(value[0]); // Agregar el rut a la lista de ruts
+                                          nombresReceptor.push(value.slice(1).join(' ')); // Agregar el nombre completo a la lista de nombres
+                                        });
+                                    
+                                        const tipoMensaje = document.getElementById('message-code').value; // Obtener el valor seleccionado del combobox
+                                    
+                                        const data = {
+                                          rut_emisor: rut_emisor, // Reemplaza con el rut del emisor adecuado
+                                          nombre_emisor: nombre_emisor + ' ' + apPatAlu, // Reemplaza con el nombre del emisor adecuado
+                                          ruts_receptor: rutsReceptor,
+                                          nombre_receptor: nombresReceptor,
+                                          cont_mensaje: mensaje,
+                                          img_mensaje: null, // Puedes modificar esto si deseas agregar una imagen al mensaje
+                                          tipo_mensaje: tipoMensaje // Usar la variable tipoMensaje para asignar el tipo de mensaje seleccionado
+                                        };
+                                    
+                                        // Realizar la solicitud POST al endpoint en PHP
+                                        fetch('http://tmp.enred.cl/kc/rest/Post_envioAll.php', {
+                                          method: 'POST',
+                                          headers: {
+                                            'Content-Type': 'application/json'
+                                          },
+                                          body: JSON.stringify(data)
+                                        })
+                                          .then(response => response.json())
+                                          .then(result => {
+                                            console.log(result);
+                                            // Aquí puedes agregar lógica adicional después de enviar los mensajes
+                                            // Por ejemplo, mostrar un mensaje de éxito al usuario
+                                          })
+                                          .catch(error => {
+                                            console.error('Error al enviar los mensajes:', error);
+                                            // Aquí puedes manejar el error, mostrar un mensaje al usuario, etc.
+                                          });
+                                      }
+                                    </script>
 
-                // Recorrer los participantes y generar elementos HTML
-                participantes.forEach(participante => {
-                  const rut = participante.rut_participante;
-                  const nombre = participante.nombre_participante;
-                  const apellido = participante.apellido_participante;
-
-                  // Crear elemento de lista con checkbox
-                  const listItem = document.createElement('li');
-                  listItem.innerHTML = `
-                    <input type="checkbox" name="participante" value="${rut} ${nombre} ${apellido}">
-                    <label>${rut} ${nombre} ${apellido}</label>
-                  `;
-
-                  // Agregar el elemento de lista al contenedor
-                  listaContainer.appendChild(listItem);
-                });
-
-                // Lógica para mostrar el modal y obtener los elementos seleccionados
-                const btnAbrirModal = document.getElementById('btnAbrirModal');
-                const modal = document.getElementById('exampleModal');
-
-                btnAbrirModal.addEventListener('click', () => {
-                  // Limpiar el contenido del modal
-                  const modalBody = modal.querySelector('.modal-body');
-                  modalBody.innerHTML = '';
-
-                  // Obtener los elementos seleccionados
-                  const checkboxes = document.querySelectorAll('input[name="participante"]:checked');
-                  checkboxes.forEach(checkbox => {
-                    const participanteSeleccionado = checkbox.value;
-                    // Hacer lo que necesites con los participantes seleccionados
-                    // Por ejemplo, puedes mostrarlos en el modal
-                    const p = document.createElement('p');
-                    p.textContent = participanteSeleccionado;
-                    modalBody.appendChild(p);
-                  });
-
-                  // Mostrar el modal
-                  $(modal).modal('show');
-                });
-
-              })
-              .catch(error => {
-                console.error('Error al realizar la solicitud:', error);
-              });
-                                              }
-                                            </script>
                                           </section>
                                                     </div>
                                     </div>
