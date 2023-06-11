@@ -3,6 +3,29 @@
 {% block content %}
 <head>
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <style>
+    .mensaje-item {
+      border: 1px solid #ccc;
+      background-color: #f5f5f5;
+      padding: 10px;
+      margin-bottom: 10px;
+    }
+
+    .fechaEnvio {
+      font-weight: bold;
+    }
+
+    .emisor {
+      color: #000000;
+      font-weight: bold;
+    }
+
+    .contenido {
+      margin-top: 5px;
+    }
+
+    
+  </style>
 </head>
 <body>
     <div class="d-flex" id="content-wrapper">
@@ -77,43 +100,107 @@
         
         <!-- Page Content -->
         <div id="content" class="bg-grey w-100">
-          
           <section class="bg-light py-3">
-                <div class="container">
-                  <div class="row">
-                          <div class="col-lg-9 col-md-8">
-                            <h1 class="font-weight-bold mb-0">Tus mensajes {{request.session.nombreDeUsuario}}</h1>
-                            <p class="lead text-muted">Revisa la última información</p>
-                          </div>                         
-                          <div class="container">
-                            <div class="row">
-                              <div class="col-lg-8 my-3">
-                                <div class="card rounded-0">
-                                  <div class="card-header bg-light">
-                                    <h6 class="font-weight-bold mb-0">Mensajes Recibidos</h6>
-                                  </div>
-                                  <div class="d-flex border-bottom py-2">
-                                    <div class="d-flex mr-3">
-                                      <h2 class="align-self-center mb-0"><i class="icon logo-ionic"></i></h2>
-                                    </div>
-                                    <div class="card-body pt-2">
-                                      <div class="d-flex border-bottom py-2">
-                                        <div class="d-flex mr-3">
-                                          <h2 class="align-self-center mb-0"><i class="icon ion-md-pricetag"></i></h2>
-                                        </div>
-                                        <div class="align-self-center">
-                                        
-                                        
-                                      <div class="align-self-center">
-                                        <h6 class="d-inline-block mb-0">CURSO 2</h6><span class="badge badge-success ml-2">FALTO PEPITO</span>
-                                        <small class="d-block text-muted">Curso BAILE</small>
-                                      </div>
-                                    </div>
-                                  <button class="btn btn-primary w-100">Ver todas</button>
-                                </div>
-                                </div>
+            <div class="container">
+              <div class="row">
+                <div class="col-lg-9 col-md-8">
+                  <h1 class="font-weight-bold mb-0">Tus mensajes {{request.session.nombreDeUsuario}}</h1>
+                  <p class="lead text-muted">Revisa la última información</p>
+                </div>                
+                
+               <!-- Seccion recibir mensaje -->
+<div class="container">
+  <div class="row">
+    <div class="col-lg-8 my-3">
+      <div class="card rounded-0">
+        <div class="card-header bg-light">
+          <h5 class="font-weight-bold mb-0">Revisar Mensajes</h5>
+        </div>
+        <div class="card-body">
+          <button onclick="abrirModal()" class="btn btn-primary">Mostrar Mensajes</button>
+          <hr>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="myModalLabel">Mensajes</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <ul id="mensajesList"></ul>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  function abrirModal() {
+    // Obtener los mensajes del rut 1234 desde la API
+    const rutReceptor = '{{request.session.user_id}}'; // Cambia esto según tus necesidades
+    fetch(`http://tmp.enred.cl/kc/rest/get_mensaje_by_rutDos.php?rut_receptor=${rutReceptor}`)
+      .then(response => response.json())
+      .then(data => {
+        const mensajesList = document.getElementById('mensajesList');
+        mensajesList.innerHTML = '';
+
+        if (data.length === 0) {
+          const mensajeItem = document.createElement('li');
+          mensajeItem.textContent = 'No hay mensajes para mostrar.';
+          mensajesList.appendChild(mensajeItem);
+        } else {
+          data.forEach(mensaje => {
+            const mensajeItem = document.createElement('li');
+            mensajeItem.classList.add('mensaje-item');
+          
+            const fechaEnvio = document.createElement('p');
+            fechaEnvio.classList.add('fechaEnvio');
+            fechaEnvio.textContent = `Fecha de envio: ${mensaje.fecha_envio} `;
+          
+            const emisor = document.createElement('span');
+            emisor.classList.add('emisor');
+            emisor.textContent = `Emisor: ${mensaje.nom_emisor}`;
+          
+            const contenido = document.createElement('p');
+            contenido.classList.add('contenido');
+            contenido.textContent = `Contenido: ${mensaje.cont_mensaje}`;
+          
+            mensajeItem.appendChild(emisor);
+            mensajeItem.appendChild(fechaEnvio);
+            mensajeItem.appendChild(contenido);
+          
+            mensajesList.appendChild(mensajeItem);
+          });
+          
+        }
+
+        // Abrir el modal utilizando Bootstrap
+        $('#myModal').modal('show');
+      })
+      .catch(error => {
+        console.error('Error al obtener los mensajes:', error);
+      });
+  }
+
+  function cerrarModal() {
+    // Cerrar el modal utilizando Bootstrap
+    $('#myModal').modal('hide');
+  }
+</script>
+
                               </section>
+                              <!-- FIN seccion recibir mensaje-->
+                              <!-- seccion enviar Mensaje-->
                               <section class="py-3">
+                                <div class="container">
+                                <div class="row">
                                 <div class="col-lg-8 my-3">
                                   <div class="card rounded-0">
                                     <div class="card-header bg-light">
@@ -126,8 +213,8 @@
                                       <button id="btnSolicitud2" onclick="realizarSolicitud(2)" type="button" class="btn btn-primary btn-block" data-toggle="modal" data-target="#exampleModal">Curso B</button>
                                       <hr>
                                     </div>
-                                    </div>
-                                    </div>
+                                  </div>
+                                </div>
                                     
                                     <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                                     <div class="modal-dialog" role="document">
@@ -151,17 +238,17 @@
                                             <div class="form-group">
                                               <label for="message-code" class="col-form-label">Código de Mensaje:</label>
                                               <select class="form-control" id="message-code">
-                                                <option value="1">Comunicación</option>
-                                                <option value="2">Comprobante</option>
-                                                <option value="3">Justificativo</option>
-                                                <option value="4">Evento</option>
-                                                <option value="5">Anuncio</option>
+                                                <option value="Comunicacion">Comunicacion</option>
+                                                <option value="Comprobante">Comprobante</option>
+                                                <option value="Justificativo">Justificativo</option>
+                                                <option value="Evento">Evento</option>
+                                                <option value="Anuncio">Anuncio</option>
                                               </select>
                                           </form>
                                         </div>
                                         <div class="modal-footer">
                                           <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                                          <button id="enviarMensajes" type="button" class="btn btn-primary" onclick="enviarMensajes()">Enviar pico</button>
+                                          <button id="enviarMensajes" type="button" class="btn btn-primary" onclick="enviarMensajes()">Enviar Mensaje</button>
 
                                         </div>
                                       </div>
@@ -172,9 +259,7 @@
                                     <script>
                                     $('#exampleModal').on('show.bs.modal', function(event) {
                                       var button = $(event.relatedTarget); // Button that triggered the modal
-                                      var recipient = button.data('whatever'); // Extract info from data-* attributes
-                                      // If necessary, you could initiate an AJAX request here (and then do the updating in a callback).
-                                      // Update the modal's content. We'll use jQuery here, but you could use a data binding library or other methods instead.
+                                      var recipient = button.data('whatever'); 
                                       var modal = $(this);
                                       modal.find('.modal-title').text('New message to ' + recipient);
                                       modal.find('.modal-body input').val(recipient);
@@ -182,6 +267,7 @@
                                     </script>
                                     
                                     <script>
+                                      //Script para obtener lsita de curso------------
                                     function realizarSolicitud(valor) {
                                       const url = 'http://tmp.enred.cl/kc/rest/get_lista_curso_por_curso.php';
                                     
@@ -217,7 +303,7 @@
                                             // Agregar el elemento de lista al contenedor
                                             listaContainer.appendChild(listItem);
                                           });
-                                    
+                                    //comeinza logica pra enviar mensaje ----------------
                                           // Lógica para mostrar el modal y obtener los elementos seleccionados
                                           const btnEnviar = document.getElementById('btnEnviar');
                                           const modal = document.getElementById('exampleModal');
@@ -257,28 +343,18 @@
                                               },
                                               body: JSON.stringify(receptores),
                                             };
-                                    
-                                            // Realizar la solicitud al endpoint
-                                            fetch('http://tmp.enred.cl/kc/rest/endpoint', requestOptions)
-                                              .then(response => response.json())
-                                              .then(data => {
-                                                // Realizar acciones adicionales después de enviar los datos
-                                              })
-                                              .catch(error => {
-                                                console.error('Error al enviar los datos:', error);
-                                              });
-                                    
+
                                             // Mostrar el modal
                                             $(modal).modal('show');
                                           });
                                     
                                         })
-                                        .catch(error => {
-                                          console.error('Error al realizar la solicitud:', error);
-                                        });
+                                        
                                     }
                                     </script>
+                                    
                                     <script>
+                                     
                                       var rut_emisor = "{{request.session.user_id}}"
                                       let nombre_emisor = "{{request.session.nombreDeUsuario}}"
                                       let apPatAlu = "{{request.session.apellidoPaternoUsuario}}"
@@ -290,28 +366,31 @@
                                     
                                         if (checkboxes.length === 0) {
                                           console.log('No se han seleccionado usuarios.');
+
                                           return;
                                         }
                                     
                                         const rutsReceptor = [];
                                         const nombresReceptor = [];
+                                        
                                     
                                         checkboxes.forEach(checkbox => {
                                           const value = checkbox.value.split(' '); // Obtener el rut, nombre y apellido del checkbox seleccionado
                                           rutsReceptor.push(value[0]); // Agregar el rut a la lista de ruts
-                                          nombresReceptor.push(value.slice(1).join(' ')); // Agregar el nombre completo a la lista de nombres
+                                          nombresReceptor.push(value[1]); // Agregar el nombre completo a la lista de nombres
                                         });
                                     
                                         const tipoMensaje = document.getElementById('message-code').value; // Obtener el valor seleccionado del combobox
-                                    
+                                        const nombresReceptorStr = nombresReceptor.join(','); // Convertir el array a una cadena separada por comas
+
                                         const data = {
-                                          rut_emisor: rut_emisor, // Reemplaza con el rut del emisor adecuado
-                                          nombre_emisor: nombre_emisor + ' ' + apPatAlu, // Reemplaza con el nombre del emisor adecuado
+                                          rut_emisor: rut_emisor, 
+                                          nombre_emisor: nombre_emisor + ' ' + apPatAlu, 
                                           ruts_receptor: rutsReceptor,
-                                          nombre_receptor: nombresReceptor,
+                                          nombre_receptor: nombresReceptorStr,
                                           cont_mensaje: mensaje,
-                                          img_mensaje: null, // Puedes modificar esto si deseas agregar una imagen al mensaje
-                                          tipo_mensaje: tipoMensaje // Usar la variable tipoMensaje para asignar el tipo de mensaje seleccionado
+                                          img_mensaje: null, // modificar si deseas agregar una imagen al mensaje
+                                          tipo_mensaje: tipoMensaje 
                                         };
                                     
                                         // Realizar la solicitud POST al endpoint en PHP
@@ -325,17 +404,22 @@
                                           .then(response => response.json())
                                           .then(result => {
                                             console.log(result);
-                                            // Aquí puedes agregar lógica adicional después de enviar los mensajes
-                                            // Por ejemplo, mostrar un mensaje de éxito al usuario
+                                            console.log('Código de estado:', response.status);
+                                            window.alert("Mensaje enviado correctamente");
+                                            $('#exampleModal').modal('hide')
                                           })
                                           .catch(error => {
-                                            console.error('Error al enviar los mensajes:', error);
-                                            // Aquí puedes manejar el error, mostrar un mensaje al usuario, etc.
+                                            window.alert("Mensaje enviado correctamente");
+                                            $('#exampleModal').modal('hide')
+                                            
                                           });
                                       }
                                     </script>
+                                  </div>
+                                </div>
 
-                                          </section>
+                              </section>
+                              <!-- FIN seccion enviar mensaje-->
                                                     </div>
                                     </div>
                             </div>
