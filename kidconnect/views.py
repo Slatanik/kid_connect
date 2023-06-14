@@ -50,7 +50,7 @@ def alumno(request):
             datos = response.json()
 #            amimales = response2.json()
 #            Procesar los datos obtenidos de la API
-            return render (request,'crearUsuario.html', {'datos':datos})#, 'animales' : amimales})
+            return render (request,'crearAlumno.html', {'datos':datos})#, 'animales' : amimales})
         else:
 #            Manejar errores de solicitud
             print('Error en la solicitud:', response.status_code)

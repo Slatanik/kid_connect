@@ -1,7 +1,56 @@
 {% extends 'layout.html' %}
 {% load static %}
 {% block content %}
+<style>
+  .modal {
+    display: none;
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0, 0, 0, 0.4);
+  }
 
+  .modal-content {
+    background-color: #f2f2f2;
+    margin: 15% auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 80%;
+    max-width: 600px;
+    text-align: center;
+  }
+
+  .close {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+  }
+
+  .close:hover,
+  .close:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+  }
+
+  .button {
+    background-color: #4CAF50;
+    border: none;
+    color: white;
+    padding: 10px 20px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    cursor: pointer;
+  }
+</style>
 <body>
   <div class="d-flex" id="content-wrapper">
     <!-- Sidebar -->
@@ -91,53 +140,30 @@
                       </div>
                   </div>
               </section>
+              <button class="button" onclick="openModal()">Eventos</button>
 
-              <section class="bg-mix py-3">
-                <div class="container">
-                    <div class="card rounded-0">
-                        <div class="card-body">
-                            <div class="row">
-                                <div class="col-lg-3 col-md-6 d-flex stat my-3">
-                                    <div class="mx-auto">
-                                        <h6 class="text-muted">Curso 1</h6>
-                                        <h3 class="font-weight-bold">EVENTO 1 </h3>
-                                        <h6 class="text-success"><i class="icon ion-md-arrow-dropup-circle"></i> </h6>
-                                    </div>
-                                </div>
-                                <div class="col-lg-3 col-md-6 d-flex stat my-3">
-                                    <div class="mx-auto">
-                                        <h6 class="text-muted">curso 2</h6>
-                                        <h3 class="font-weight-bold">evento 2</h3>
-                                        <h6 class="text-success"><i class="icon ion-md-arrow-dropup-circle"></i> </h6>
-                                    </div>
-                                </div>
-                                <div class="col-lg-3 col-md-6 d-flex stat my-3">
-                                    <div class="mx-auto">
-                                        <h6 class="text-muted">MENSAJE</h6>
-                                        <h3 class="font-weight-bold">JUSTIFICACION</h3>
-                                        <h6 class="text-success"><i class="icon ion-md-arrow-dropup-circle"></i> </h6>
-                                    </div>
-                                </div>
-                                <div class="col-lg-3 col-md-6 d-flex my-3">
-                                    <div class="mx-auto">
-                                        <h6 class="text-muted">MENSAJE</h6>
-                                        <h3 class="font-weight-bold">COMPRBANTE</h3>
-                                        <h6 class="text-success"><i class="icon ion-md-arrow-dropup-circle"></i> </h6>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+              <div id="modal" class="modal">
+                <div class="modal-content">
+                  <span class="close" onclick="closeModal()">&times;</span>
+                  <h3>Eventos</h3>
+                  <form id="eventosForm" readonly>
+                    <label for="id">ID:</label>
+                    <input type="text" id="id" name="id" readonly><br>
+                    <label for="name">Name:</label>
+                    <input type="text" id="name" name="name" readonly><br>
+                    <label for="fecha">Fecha:</label>
+                    <input type="text" id="fecha" name="fecha" readonly><br>
+                  </form>
                 </div>
-              </section>
-
+              </div>
+             
               <section>
                   <div class="container">
                       <div class="row">
                           <div class="col-lg-8 my-3">
                               <div class="card rounded-0">
                                   <div class="card-header bg-light">
-                                    <h6 class="font-weight-bold mb-0">EVENTOS</h6>
+                                    <h6 class="font-weight-bold mb-0">EVENTOS<div id="mensajesContainer"></div></h6>
                                   </div>
                                   <div class="card-body">               
                                     <div id='calendar'></div>
@@ -148,12 +174,46 @@
                       </div>
                   </div>
               </section>
+ 
 
         </div>
 
         </div>
     </div>
-</body>
+    <script>
+      function openModal() {
+        var modal = document.getElementById("modal");
+        modal.style.display = "block";
+  
+        // Obtener los elementos del formulario
+        var idInput = document.getElementById("id");
+        var nameInput = document.getElementById("name");
+        var fechaInput = document.getElementById("fecha");
+  
+        // Realizar la solicitud HTTP para obtener los datos de la API
+        fetch("http://tmp.enred.cl/kc/rest/get_evento_all.php")
+          .then(function(response) {
+            return response.json();
+          })
+          .then(function(data) {
+            // Obtener el primer evento del array de datos
+            var evento = data[0];
+  
+            // Asignar los valores a los campos del formulario
+            idInput.value = evento.id;
+            nameInput.value = evento.name;
+            fechaInput.value = evento.fecha;
+          })
+          .catch(function(error) {
+            console.log("Error: " + error);
+          });
+      }
+  
+      function closeModal() {
+        var modal = document.getElementById("modal");
+        modal.style.display = "none";
+      }
+    </script>
 <script>
     document.addEventListener('DOMContentLoaded', function() {
       var menuContainer = document.getElementById('menu-container');
@@ -175,5 +235,6 @@
       });
     });
   </script>
-
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</body>
 {% endblock %}
