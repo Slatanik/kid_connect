@@ -1,55 +1,28 @@
 {% extends 'layout.html' %}
 {% load static %}
 {% block content %}
-<style>
-  .modal {
-    display: none;
-    position: fixed;
-    z-index: 1;
-    left: 0;
-    top: 0;
-    width: 100%;
-    height: 100%;
-    overflow: auto;
-    background-color: rgba(0, 0, 0, 0.4);
+ <style>
+  .mensaje-item {
+    border: 1px solid #ccc;
+    background-color: #f5f5f5;
+    padding: 10px;
+    margin-bottom: 10px;
   }
 
-  .modal-content {
-    background-color: #f2f2f2;
-    margin: 15% auto;
-    padding: 20px;
-    border: 1px solid #888;
-    width: 80%;
-    max-width: 600px;
-    text-align: center;
-  }
-
-  .close {
-    color: #aaa;
-    float: right;
-    font-size: 28px;
+  .fechaEnvio {
     font-weight: bold;
   }
 
-  .close:hover,
-  .close:focus {
-    color: black;
-    text-decoration: none;
-    cursor: pointer;
+  .emisor {
+    color: #000000;
+    font-weight: bold;
   }
 
-  .button {
-    background-color: #4CAF50;
-    border: none;
-    color: white;
-    padding: 10px 20px;
-    text-align: center;
-    text-decoration: none;
-    display: inline-block;
-    font-size: 16px;
-    margin: 4px 2px;
-    cursor: pointer;
+  .contenido {
+    margin-top: 5px;
   }
+
+  
 </style>
 <body>
   <div class="d-flex" id="content-wrapper">
@@ -140,81 +113,92 @@
                       </div>
                   </div>
               </section>
-              <button class="button" onclick="openModal()">Eventos</button>
-
-              <div id="modal" class="modal">
-                <div class="modal-content">
-                  <span class="close" onclick="closeModal()">&times;</span>
-                  <h3>Eventos</h3>
-                  <form id="eventosForm" readonly>
-                    <label for="id">ID:</label>
-                    <input type="text" id="id" name="id" readonly><br>
-                    <label for="name">Name:</label>
-                    <input type="text" id="name" name="name" readonly><br>
-                    <label for="fecha">Fecha:</label>
-                    <input type="text" id="fecha" name="fecha" readonly><br>
-                  </form>
+              <div class="container">
+                <div class="row">
+                  <div class="col-lg-8 my-3">
+                    <div class="card rounded-0">
+                      <div class="card-header bg-light">
+                        <h5 class="font-weight-bold mb-0">Revisar Mensajes</h5>
+                      </div>
+                      <div class="card-body">
+                        <button onclick="abrirModal()" class="btn btn-primary">Mostrar Evento</button>
+                        <hr>
+                      </div>
+                    </div>
+                  </div>
                 </div>
               </div>
-             
-              <section>
-                  <div class="container">
-                      <div class="row">
-                          <div class="col-lg-8 my-3">
-                              <div class="card rounded-0">
-                                  <div class="card-header bg-light">
-                                    <h6 class="font-weight-bold mb-0">EVENTOS<div id="mensajesContainer"></div></h6>
-                                  </div>
-                                  <div class="card-body">               
-                                    <div id='calendar'></div>
-                                        <script src="static\css\evento.js"></script>                                    
-                                  </div>
-                              </div>
-                          </div>                         
-                      </div>
+              
+              <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <h5 class="modal-title" id="myModalLabel">Evento</h5>
+                      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                      </button>
+                    </div>
+                    <div class="modal-body">
+                      <ul id="mensajesList"></ul>
+                    </div>
                   </div>
-              </section>
- 
-
-        </div>
-
-        </div>
-    </div>
-    <script>
-      function openModal() {
-        var modal = document.getElementById("modal");
-        modal.style.display = "block";
-  
-        // Obtener los elementos del formulario
-        var idInput = document.getElementById("id");
-        var nameInput = document.getElementById("name");
-        var fechaInput = document.getElementById("fecha");
-  
-        // Realizar la solicitud HTTP para obtener los datos de la API
-        fetch("http://tmp.enred.cl/kc/rest/get_evento_all.php")
-          .then(function(response) {
-            return response.json();
-          })
-          .then(function(data) {
-            // Obtener el primer evento del array de datos
-            var evento = data[0];
-  
-            // Asignar los valores a los campos del formulario
-            idInput.value = evento.id;
-            nameInput.value = evento.name;
-            fechaInput.value = evento.fecha;
-          })
-          .catch(function(error) {
-            console.log("Error: " + error);
-          });
-      }
-  
-      function closeModal() {
-        var modal = document.getElementById("modal");
-        modal.style.display = "none";
-      }
-    </script>
-<script>
+                </div>
+              </div>
+              <script>
+              function abrirModal() {
+                // Obtener los mensajes del rut 1234 desde la API
+                const rutReceptor = '{{request.session.user_id}}'; // Cambia esto según tus necesidades
+                fetch(`http://tmp.enred.cl/kc/rest/get_anuncios.php?rut_receptor=${rutReceptor}`)
+                  .then(response => response.json())
+                  .then(data => {
+                    const mensajesList = document.getElementById('mensajesList');
+                    mensajesList.innerHTML = '';
+              
+                    if (data.length === 0) {
+                      const mensajeItem = document.createElement('li');
+                      mensajeItem.textContent = 'No hay mensajes para mostrar.';
+                      mensajesList.appendChild(mensajeItem);
+                    } else {
+                      const mesSeleccionado = 6; // Cambia esto con el mes que desees filtrar (por ejemplo, 6 para junio)
+              
+                      data.forEach(mensaje => {
+                        const fechaEnvio = new Date(mensaje.fecha_envio);
+                        const mesEnvio = fechaEnvio.getMonth() + 1; // El mes va de 0 a 11, por eso se suma 1
+              
+                        if (mesEnvio === mesSeleccionado) {
+                          const mensajeItem = document.createElement('li');
+                          mensajeItem.classList.add('mensaje-item');
+              
+                          const fechaEnvioElement = document.createElement('p');
+                          fechaEnvioElement.classList.add('fechaEnvio');
+                          fechaEnvioElement.textContent = `Fecha de envío: ${fechaEnvio}`;
+              
+                          const emisor = document.createElement('span');
+                          emisor.classList.add('emisor');
+                          emisor.textContent = `Emisor: ${mensaje.nom_emisor}`;
+              
+                          const contenido = document.createElement('p');
+                          contenido.classList.add('contenido');
+                          contenido.textContent = `Contenido: ${mensaje.cont_mensaje}`;
+              
+                          mensajeItem.appendChild(emisor);
+                          mensajeItem.appendChild(fechaEnvioElement);
+                          mensajeItem.appendChild(contenido);
+              
+                          mensajesList.appendChild(mensajeItem);
+                        }
+                      });
+                    }
+              
+                    // Abrir el modal utilizando Bootstrap
+                    $('#myModal').modal('show');
+                  })
+                  .catch(error => {
+                    console.error('Error al obtener los mensajes:', error);
+                  });
+              }
+            </script>
+              <script>
     document.addEventListener('DOMContentLoaded', function() {
       var menuContainer = document.getElementById('menu-container');
       var navbarToggle = document.querySelector('.navbar-toggler');
