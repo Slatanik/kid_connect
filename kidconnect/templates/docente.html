@@ -13,6 +13,15 @@
     padding: 8px;
   }
 </style>
+<style>
+  .card {
+    display: inline-block;
+    width: 300px;
+    border: 1px solid black;
+    padding: 10px;
+    margin-right: 10px;
+  }
+</style>
     <div class="d-flex" id="content-wrapper">
         <!-- Sidebar -->
         <div id="sidebar-container" class="barraLateral">
@@ -57,7 +66,7 @@
                   <a href="{% url 'evento' %}" class="d-block text-primary p-3 border-0"><i class="icon ion-md-apps lead mr-2"></i>
                       Calendario</a>
                   <a href="{% url 'docente' %}" class="d-block text-primary p-3 border-0"><i class="icon ion-md-people lead mr-2"></i>
-                      Profesores</a>          
+                      Cursos</a>          
                   <a href="{% url 'crearUsuario' %}" class="d-block text-primary p-3 border-0"><i class="icon ion-md-book outline mr-2"></i>
                       Estudiante</a>
                   <a href= "{% url 'correo' %}" class="d-block text-primary p-3 border-0"><i class="icon ion-md-mail-unread mr-2"></i>
@@ -96,46 +105,11 @@
                           </div>
                       </div>
                   </div>
-              </section>
-
-              <section class="bg-mix py-3">
-                <div class="container">
-                    <div class="card rounded-0">
-                        <div class="card-body">
-                            <div class="row">
-                                <div class="col-lg-3 col-md-6 d-flex stat my-3">
-                                    <div class="mx-auto">
-                                        <h6 class="text-muted">Curso 1</h6>
-                                        <h3 class="font-weight-bold">EVENTO 1 </h3>
-                                        <h6 class="text-success"><i class="icon ion-md-arrow-dropup-circle"></i> </h6>
-                                    </div>
-                                </div>
-                                <div class="col-lg-3 col-md-6 d-flex stat my-3">
-                                    <div class="mx-auto">
-                                        <h6 class="text-muted">curso 2</h6>
-                                        <h3 class="font-weight-bold">evento 2</h3>
-                                        <h6 class="text-success"><i class="icon ion-md-arrow-dropup-circle"></i> </h6>
-                                    </div>
-                                </div>
-                                <div class="col-lg-3 col-md-6 d-flex stat my-3">
-                                    <div class="mx-auto">
-                                        <h6 class="text-muted">MENSAJE</h6>
-                                        <h3 class="font-weight-bold">JUSTIFICACION</h3>
-                                        <h6 class="text-success"><i class="icon ion-md-arrow-dropup-circle"></i> </h6>
-                                    </div>
-                                </div>
-                                <div class="col-lg-3 col-md-6 d-flex my-3">
-                                    <div class="mx-auto">
-                                        <h6 class="text-muted">MENSAJE</h6>
-                                        <h3 class="font-weight-bold">COMPRBANTE</h3>
-                                        <h6 class="text-success"><i class="icon ion-md-arrow-dropup-circle"></i> </h6>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-              </section>
+              </section>           
+              <div>
+                  <p style="color:#blue;">Ultimos Eventos<p>
+                  <div id="mensajes-container"></div>
+              </div>           
               <h1>Busqueda de cursos</h1>
               <form id="searchForm">
                   <label for="cod_cur">Código del Curso:</label>
@@ -260,6 +234,74 @@
         }
       });
     });
+    </script>
+    <script>
+      // Función para mostrar los mensajes en el HTML
+      function mostrarMensajes(data) {
+        const container = document.getElementById('mensajes-container');
+  
+        // Limpiar el contenido del contenedor
+        container.innerHTML = '';
+  
+        // Iterar sobre los mensajes y crear cartas para cada uno
+        data.forEach(mensaje => {
+          const mensajeText = mensaje.cont_mensaje;
+          const fechaText = mensaje.fecha_envio;
+  
+          // Crear la carta para el mensaje
+          const card = document.createElement('div');
+          card.classList.add('card');
+          
+          const fechaElement = document.createElement('p');
+          fechaElement.textContent = fechaText;
+          // Crear elementos <h1> y agregarlos a la carta
+          const mensajeElement = document.createElement('strong');
+          mensajeElement.textContent = mensajeText;
+  
+         
+          card.appendChild(fechaElement);
+          card.appendChild(mensajeElement);
+         
+  
+          // Agregar la carta al contenedor
+          container.appendChild(card);
+        });
+      }
+  
+      // Función para realizar la solicitud al endpoint y obtener los mensajes
+      function obtenerMensajes() {
+        const url = 'http://tmp.enred.cl/kc/rest/get_ultimos_eventos.php';
+  
+        // Crear una instancia de XMLHttpRequest
+        const xhr = new XMLHttpRequest();
+  
+        // Configurar la solicitud GET al endpoint
+        xhr.open('GET', url, true);
+  
+        // Configurar el tipo de respuesta esperada
+        xhr.responseType = 'json';
+  
+        // Manejar la respuesta de la solicitud
+        xhr.onload = function() {
+          if (xhr.status === 200) {
+            const data = xhr.response;
+            mostrarMensajes(data);
+          } else {
+            console.error('Error al obtener los mensajes. Código de estado: ' + xhr.status);
+          }
+        };
+  
+        // Manejar errores de conexión
+        xhr.onerror = function() {
+          console.error('Error de conexión al obtener los mensajes.');
+        };
+  
+        // Enviar la solicitud
+        xhr.send();
+      }
+  
+      // Llamar a la función obtenerMensajes() al cargar la página
+      document.addEventListener('DOMContentLoaded', obtenerMensajes);
     </script>
   </body>
 </html>

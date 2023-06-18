@@ -3,6 +3,15 @@
 {% block content %}
 
 <body>
+  <style>
+    .card {
+      display: inline-block;
+      width: 300px;
+      border: 1px solid black;
+      padding: 10px;
+      margin-right: 10px;
+    }
+  </style>
     <div class="d-flex" id="content-wrapper">
         <!-- Sidebar -->
         <div id="sidebar-container" class="barraLateral">
@@ -74,6 +83,10 @@
           <!-- Fin Navbar -->
 
         <!-- Page Content -->
+        <div>
+          <p style="color:#blue;">Ultimos Eventos<p>
+          <div id="mensajes-container"></div>
+      </div> 
         <div id="content" class="bg-grey w-100">
               <section class="bg-light py-3">
                   <div class="container">
@@ -178,7 +191,7 @@
 
         </div>
     </div>
-</body>
+
 <script>
   document.addEventListener('DOMContentLoaded', function() {
     var menuContainer = document.getElementById('menu-container');
@@ -200,6 +213,74 @@
     });
   });
 </script>
+<script>
+  // Función para mostrar los mensajes en el HTML
+  function mostrarMensajes(data) {
+    const container = document.getElementById('mensajes-container');
 
+    // Limpiar el contenido del contenedor
+    container.innerHTML = '';
 
+    // Iterar sobre los mensajes y crear cartas para cada uno
+    data.forEach(mensaje => {
+      const mensajeText = mensaje.cont_mensaje;
+      const fechaText = mensaje.fecha_envio;
+
+      // Crear la carta para el mensaje
+      const card = document.createElement('div');
+      card.classList.add('card');
+      
+      const fechaElement = document.createElement('p');
+      fechaElement.textContent = fechaText;
+      // Crear elementos <h1> y agregarlos a la carta
+      const mensajeElement = document.createElement('strong');
+      mensajeElement.textContent = mensajeText;
+
+     
+      card.appendChild(fechaElement);
+      card.appendChild(mensajeElement);
+     
+
+      // Agregar la carta al contenedor
+      container.appendChild(card);
+    });
+  }
+
+  // Función para realizar la solicitud al endpoint y obtener los mensajes
+  function obtenerMensajes() {
+    const url = 'http://tmp.enred.cl/kc/rest/get_ultimos_eventos.php';
+
+    // Crear una instancia de XMLHttpRequest
+    const xhr = new XMLHttpRequest();
+
+    // Configurar la solicitud GET al endpoint
+    xhr.open('GET', url, true);
+
+    // Configurar el tipo de respuesta esperada
+    xhr.responseType = 'json';
+
+    // Manejar la respuesta de la solicitud
+    xhr.onload = function() {
+      if (xhr.status === 200) {
+        const data = xhr.response;
+        mostrarMensajes(data);
+      } else {
+        console.error('Error al obtener los mensajes. Código de estado: ' + xhr.status);
+      }
+    };
+
+    // Manejar errores de conexión
+    xhr.onerror = function() {
+      console.error('Error de conexión al obtener los mensajes.');
+    };
+
+    // Enviar la solicitud
+    xhr.send();
+  }
+
+  // Llamar a la función obtenerMensajes() al cargar la página
+  document.addEventListener('DOMContentLoaded', obtenerMensajes);
+</script>
+</body>
+</html>
 {% endblock %}

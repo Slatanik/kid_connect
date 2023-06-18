@@ -21,8 +21,15 @@
   .contenido {
     margin-top: 5px;
   }
-
-  
+</style>
+<style>
+  .card {
+    display: inline-block;
+    width: 300px;
+    border: 1px solid black;
+    padding: 10px;
+    margin-right: 10px;
+  }
 </style>
 <body>
   <div class="d-flex" id="content-wrapper">
@@ -99,7 +106,10 @@
 
         <!-- Page Content -->
         <div id="content" class="bg-grey w-100">
-
+          <div>
+            <p style="color:#blue;">Ultimos Eventos<p>
+            <div id="mensajes-container"></div>
+        </div>    
               <section class="bg-light py-3">
                   <div class="container">
                       <div class="row">
@@ -121,12 +131,13 @@
                         <h5 class="font-weight-bold mb-0">Revisar Mensajes</h5>
                       </div>
                       <div class="card-body">
-                        <button onclick="abrirModal()" class="btn btn-primary">Mostrar Evento</button>
+                        <button onclick="abrirModal()" class="btn btn-primary">Mostrar Evento</button>  <button onclick="abrirModalAnuncios()" class="btn btn-primary">Mostrar Anuncios</button>
                         <hr>
                       </div>
                     </div>
                   </div>
                 </div>
+                <input type="date"/> 
               </div>
               
               <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
@@ -149,6 +160,59 @@
                 // Obtener los mensajes del rut 1234 desde la API
                 const rutReceptor = '{{request.session.user_id}}'; // Cambia esto según tus necesidades
                 fetch(`http://tmp.enred.cl/kc/rest/get_anuncios.php?rut_receptor=${rutReceptor}`)
+                  .then(response => response.json())
+                  .then(data => {
+                    const mensajesList = document.getElementById('mensajesList');
+                    mensajesList.innerHTML = '';
+              
+                    if (data.length === 0) {
+                      const mensajeItem = document.createElement('li');
+                      mensajeItem.textContent = 'No hay mensajes para mostrar.';
+                      mensajesList.appendChild(mensajeItem);
+                    } else {
+                      const mesSeleccionado = 6; // Cambia esto con el mes que desees filtrar (por ejemplo, 6 para junio)
+              
+                      data.forEach(mensaje => {
+                        const fechaEnvio = new Date(mensaje.fecha_envio);
+                        const mesEnvio = fechaEnvio.getMonth() + 1; // El mes va de 0 a 11, por eso se suma 1
+              
+                        if (mesEnvio === mesSeleccionado) {
+                          const mensajeItem = document.createElement('li');
+                          mensajeItem.classList.add('mensaje-item');
+              
+                          const fechaEnvioElement = document.createElement('p');
+                          fechaEnvioElement.classList.add('fechaEnvio');
+                          fechaEnvioElement.textContent = `Fecha de envío: ${fechaEnvio}`;
+              
+                          const emisor = document.createElement('span');
+                          emisor.classList.add('emisor');
+                          emisor.textContent = `Emisor: ${mensaje.nom_emisor}`;
+              
+                          const contenido = document.createElement('p');
+                          contenido.classList.add('contenido');
+                          contenido.textContent = `Contenido: ${mensaje.cont_mensaje}`;
+              
+                          mensajeItem.appendChild(emisor);
+                          mensajeItem.appendChild(fechaEnvioElement);
+                          mensajeItem.appendChild(contenido);
+              
+                          mensajesList.appendChild(mensajeItem);
+                        }
+                      });
+                    }              
+                    // Abrir el modal utilizando Bootstrap
+                    $('#myModal').modal('show');
+                  })
+                  .catch(error => {
+                    console.error('Error al obtener los mensajes:', error);
+                  });
+              }
+            </script>
+            <script>
+              function abrirModalAnuncios() {
+                // Obtener los mensajes del rut 1234 desde la API
+                const rutReceptor = '{{request.session.user_id}}'; // Cambia esto según tus necesidades
+                fetch(`http://tmp.enred.cl/kc/rest/Get_anunciosA.php?rut_receptor=${rutReceptor}`)
                   .then(response => response.json())
                   .then(data => {
                     const mensajesList = document.getElementById('mensajesList');
@@ -220,5 +284,73 @@
     });
   </script>
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script>
+    // Función para mostrar los mensajes en el HTML
+    function mostrarMensajes(data) {
+      const container = document.getElementById('mensajes-container');
+
+      // Limpiar el contenido del contenedor
+      container.innerHTML = '';
+
+      // Iterar sobre los mensajes y crear cartas para cada uno
+      data.forEach(mensaje => {
+        const mensajeText = mensaje.cont_mensaje;
+        const fechaText = mensaje.fecha_envio;
+
+        // Crear la carta para el mensaje
+        const card = document.createElement('div');
+        card.classList.add('card');
+        
+        const fechaElement = document.createElement('p');
+        fechaElement.textContent = fechaText;
+        // Crear elementos <h1> y agregarlos a la carta
+        const mensajeElement = document.createElement('strong');
+        mensajeElement.textContent = mensajeText;
+
+       
+        card.appendChild(fechaElement);
+        card.appendChild(mensajeElement);
+       
+
+        // Agregar la carta al contenedor
+        container.appendChild(card);
+      });
+    }
+
+    // Función para realizar la solicitud al endpoint y obtener los mensajes
+    function obtenerMensajes() {
+      const url = 'http://tmp.enred.cl/kc/rest/get_ultimos_eventos.php';
+
+      // Crear una instancia de XMLHttpRequest
+      const xhr = new XMLHttpRequest();
+
+      // Configurar la solicitud GET al endpoint
+      xhr.open('GET', url, true);
+
+      // Configurar el tipo de respuesta esperada
+      xhr.responseType = 'json';
+
+      // Manejar la respuesta de la solicitud
+      xhr.onload = function() {
+        if (xhr.status === 200) {
+          const data = xhr.response;
+          mostrarMensajes(data);
+        } else {
+          console.error('Error al obtener los mensajes. Código de estado: ' + xhr.status);
+        }
+      };
+
+      // Manejar errores de conexión
+      xhr.onerror = function() {
+        console.error('Error de conexión al obtener los mensajes.');
+      };
+
+      // Enviar la solicitud
+      xhr.send();
+    }
+
+    // Llamar a la función obtenerMensajes() al cargar la página
+    document.addEventListener('DOMContentLoaded', obtenerMensajes);
+  </script>
 </body>
 {% endblock %}
