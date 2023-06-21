@@ -34,6 +34,10 @@
       padding: 10px;
       margin-right: 10px;
     }
+    .carousel-image {
+      height: 300px; /* Ajusta la altura deseada para las imágenes */
+      object-fit: cover; /* Para asegurar que las imágenes se ajusten al tamaño sin deformarlas */
+    }
   </style>
 </head>
 <body>
@@ -47,7 +51,7 @@
             <a href="{% url 'evento' %}" class="d-block text-light p-3 border-0"><i class="icon ion-md-apps lead mr-2"></i>
                 Calendario</a>
             <a href="{% url 'docente' %}" class="d-block text-light p-3 border-0"><i class="icon ion-md-people lead mr-2"></i>
-                Profesores</a>      
+                Cursos</a>      
             {% if request.session.perfil == '4' %}    
             <a href="{% url 'crearUsuario' %}" class="d-block text-light p-3 border-0"><i class="icon ion-md-book outline mr-2"></i>
                 Crear usuario</a>
@@ -81,7 +85,7 @@
                 <a href="{% url 'evento' %}" class="d-block text-primary p-3 border-0"><i class="icon ion-md-apps lead mr-2"></i>
                     Calendario</a>
                 <a href="{% url 'docente' %}" class="d-block text-primary p-3 border-0"><i class="icon ion-md-people lead mr-2"></i>
-                    Profesores</a>          
+                    Cursos</a>          
                 <a href="{% url 'crearUsuario' %}" class="d-block text-primary p-3 border-0"><i class="icon ion-md-book outline mr-2"></i>
                     Estudiante</a>
                 <a href= "{% url 'correo' %}" class="d-block text-primary p-3 border-0"><i class="icon ion-md-mail-unread mr-2"></i>
