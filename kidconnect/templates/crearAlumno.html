@@ -60,8 +60,8 @@
                 <li class="nav-item dropdown">
                   <a class="nav-link text-dark dropdown-toggle" href="#" id="navbarDropdown" role="button"
                     data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">                  
-                    <i class="icon ion-md-settings"></i><span id="storedValue"></span>
-
+                    <img src="{% static 'img\logoSideBar.gif' %}" style="width: 50px; height: auto;">
+                    <span id="storedValue"></span>
                   </a>
                   <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
                     <a class="dropdown-item" href="{% url 'cerrarSesion' %}">Cerrar sesión</a>
@@ -83,44 +83,7 @@
                             <h1 class="font-weight-bold mb-0">Información Alumo</h1>
                             <p class="lead text-muted">Revisa la última información</p>
                           </div>                         
-                  <div class="container">
-                      <div class="row">
-                          <div class="col-lg-8 my-3">
-                              <div class="card rounded-0">
-                                  <div class="card-header bg-light">
-                                    <h6 class="font-weight-bold mb-0">Buscar ficha por
-                                      <form id="searchForm">
-                                        <label for="rut_alumno">RUT del Alumno:</label>
-                                        <input type="text" id="rut_alumno" name="rut_alumno">
-                                        <button type="submit">Buscar</button>
-                                      </form>
-
-                                    </h6>
-                                  </div> 
-                                  <div class="card-body pt-2">
-                                    <h1>Ficha de Alumno</h1>
-                                    <form id="dataForm">
-                                      <label for="cod_fc">Código FC:</label>
-                                      <input type="text" id="cod_fc" name="cod_fc" disabled><br><br>
-                                      
-                                      <label for="nom_alu">Nombre:</label>
-                                      <input type="text" id="nom_alu" name="nom_alu" disabled><br><br>
-                                      
-                                      <label for="ap_pat_alu">Apellido Paterno:</label>
-                                      <input type="text" id="ap_pat_alu" name="ap_pat_alu" disabled><br><br>
-                                      
-                                      <label for="ap_mat_alu">Apellido Materno:</label>
-                                      <input type="text" id="ap_mat_alu" name="ap_mat_alu" disabled><br><br>
-                                      
-                                      <label for="fec_cre">Fecha de Creación:</label>
-                                      <input type="text" id="fec_cre" name="fec_cre" disabled><br><br>
-                                      
-                                      <label for="con_fc">Con FC:</label>
-                                      <input type="text" id="con_fc" name="con_fc"><br><br>
-                                      
-                                      <button type="submit">Actualizar ficha</button>
-                                    </form>
-                                  </div>  
+                  
 
                                   <div class="card rounded-0">
                                     <div class="card-header bg-light">
@@ -130,45 +93,41 @@
                                       <h1>Formulario de Registro de Alumno</h1>
                                         <form id="registroForm">
                                         <label for="rut_alu">RUT Alumno:</label>
-                                        <input type="text" id="rut_alu" name="rut_alu" required><br>
+                                        <input type="text" id="rut_alu" name="rut_alu" class="form-control" required><br>
     
                                         <label for="dv_alu">DV:</label>
-                                        <input type="text" id="dv_alu" name="dv_alu" required><br>
+                                        <input type="text" id="dv_alu" name="dv_alu" class="form-control" required><br>
     
                                         <label for="nom_alu">Nombre:</label>
-                                        <input type="text" id="nom_alu" name="nom_alu" required><br>
+                                        <input type="text" id="nom_alumno" name="nom_alumno" class="form-control" required><br>
     
                                         <label for="ap_pat_alu">Apellido Paterno:</label>
-                                        <input type="text" id="ap_pat_alu" name="ap_pat_alu" required><br>
+                                        <input type="text" id="ap_pat_alumno" name="ap_pat_alumno" class="form-control" required><br>
     
                                         <label for="ap_mat_alu">Apellido Materno:</label>
-                                        <input type="text" id="ap_mat_alu" name="ap_mat_alu" required><br>
+                                        <input type="text" id="ap_mat_alumno" name="ap_mat_alumno" class="form-control" required><br>
     
                                         <label for="dir_alu">Dirección:</label>
-                                        <input type="text" id="dir_alu" name="dir_alu" required><br>
+                                        <input type="text" id="dir_alu" name="dir_alu" class="form-control" required><br>
     
                                         <label for="curso_cod_cur">Codigo curso:</label>
-                                        <input type="text" id="curso_cod_cur" name="curso_cod_cur" required><br>
+                                        <input type="text" id="curso_cod_cur" name="curso_cod_cur" class="form-control" required><br>
     
                                         <label for="curso_cod_niv">Codigo Nivel:</label>
-                                        <input type="text" id="curso_cod_niv" name="curso_cod_niv" required><br>
+                                        <input type="text" id="curso_cod_niv" name="curso_cod_niv" class="form-control" required><br>
     
                                         <label for="usuario_rut_us">Rut Apoderado:</label>
-                                        <input type="text" id="usuario_rut_us" name="usuario_rut_us" required><br>
+                                        <input type="text" id="usuario_rut_us" name="usuario_rut_us" class="form-control" required><br>
     
-                                        <label for="usuario_jardin_cod_jar">Codigo Jardin:</label>
-                                        <input type="text" id="usuario_jardin_cod_jar" name="usuario_jardin_cod_jar" required><br>
+                                        
     
-                                        <label for="usuario_cod_tip">Tipo Usuario:</label>
-                                        <input type="text" id="usuario_cod_tip" name="usuario_cod_tip" required><br>
 
                                         <label for="curso_cod_jor">Jornada (1=AM - 2=PM):</label>
-                                        <input type="text" id="curso_cod_jor" name="curso_cod_jor" required><br>
+                                        <input type="text" id="curso_cod_jor" name="curso_cod_jor"  class="form-control" required><br>
 
-                                        <label for="curso_cod_jar">Codigo Jardin:</label>
-                                        <input type="text" id="curso_cod_jar" name="curso_cod_jar" required><br>
+                                        
     
-                                        <button type="submit">Registrar</button>
+                                        <button type="submit" class="btn btn-primary" >Registrar</button>
                                     </form>
                                 <script>
                                   const form = document.getElementById('registroForm');
@@ -179,26 +138,26 @@
                                   // Obtener los valores de los campos del formulario
                                   const rut_alu = document.getElementById('rut_alu').value;
                                   const dv_alu = document.getElementById('dv_alu').value;
-                                  const nom_alu = document.getElementById('nom_alu').value;
-                                  const ap_pat_alu = document.getElementById('ap_pat_alu').value;
-                                  const ap_mat_alu = document.getElementById('ap_mat_alu').value;
+                                  const nom_alumno = document.getElementById('nom_alumno').value;
+                                  const ap_pat_alumno = document.getElementById('ap_pat_alumno').value;
+                                  const ap_mat_alumno = document.getElementById('ap_mat_alumno').value;
                                   const dir_alu = document.getElementById('dir_alu').value;
                                   const curso_cod_cur = document.getElementById('curso_cod_cur').value;
                                   const curso_cod_niv = document.getElementById('curso_cod_niv').value;
                                   const usuario_rut_us = document.getElementById('usuario_rut_us').value;
-                                  const usuario_jardin_cod_jar = document.getElementById('usuario_jardin_cod_jar').value;
-                                  const usuario_cod_tip = document.getElementById('usuario_cod_tip').value;
+                                  const usuario_jardin_cod_jar = 1;
+                                  const usuario_cod_tip = 1;
                                   const curso_cod_jor = document.getElementById('curso_cod_jor').value;
-                                  const curso_cod_jar = document.getElementById('curso_cod_jar').value;
+                                  const curso_cod_jar = 1;
                                       // Obtener el valor de los demás campos del formulario
                               
                                     // Crear un objeto con los datos del formulario
                                     const formData = {
                                         rut_alu: rut_alu,
                                         dv_alu: dv_alu,
-                                        nom_alu: nom_alu,
-                                        ap_pat_alu: ap_pat_alu,
-                                        ap_mat_alu: ap_mat_alu,
+                                        nom_alu: nom_alumno,
+                                        ap_pat_alu: ap_pat_alumno,
+                                        ap_mat_alu: ap_mat_alumno,
                                         dir_alu: dir_alu,
                                         curso_cod_cur: curso_cod_cur,
                                         curso_cod_niv: curso_cod_niv,
@@ -300,38 +259,49 @@
                               </script>
                             
                           </div>
-                          <div class="col-lg-4 my-3">
-                            <div class="card rounded-0">
-                                <div class="card-header bg-light">
-                                    <h6 class="font-weight-bold mb-0">TRABAJOS </h6>
-                                </div>
-                                <div class="card-body pt-2">
-                                    <div class="d-flex border-bottom py-2">
-                                        <div class="d-flex mr-3">
-                                          <h2 class="align-self-center mb-0"><i class="icon ion-md-pricetag"></i></h2>
-                                        </div>
-                                        <div class="align-self-center">
-                                          <h6 class="d-inline-block mb-0">CURSO 1 </h6><span class="badge badge-success ml-2">TODO OK </span>
-                                          <small class="d-block text-muted">TRABAJO DE ARTES</small>
-                                        </div>
-                                    </div>
-                                    <div class="d-flex border-bottom py-2">
-                                        <div class="d-flex mr-3">
-                                          <h2 class="align-self-center mb-0"><i class="icon logo-ionic"></i></h2>
-                                        </div>
-                                        <div class="align-self-center">
-                                          <h6 class="d-inline-block mb-0">CURSO 2</h6><span class="badge badge-success ml-2">FALTO PEPITO</span>
-                                          <small class="d-block text-muted">Curso BAILE</small>
-                                        </div>
-                                    </div>
-                                    <button class="btn btn-primary w-100">Ver todas</button>
-                                </div>
-                            </div>
-                          </div>
+                          
                       </div>
                   </div>
               </section>
 
+              <div class="container">
+                <div class="row">
+                    <div class="col-lg-8 my-3">
+                        <div class="card rounded-0">
+                            <div class="card-header bg-light">
+                              <h6 class="font-weight-bold mb-0"><h5>Buscar ficha por</h5>
+                                <form id="searchForm">
+                                  <label for="rut_alumno">RUT del Alumno:</label>
+                                  <input type="text" id="rut_alumno" name="rut_alumno">
+                                  <button type="submit" class="btn btn-primary" >Buscar</button>
+                                </form>
+
+                              </h6>
+                            </div> 
+                            <div class="card-body pt-2">
+                              <h1>Ficha de Alumno</h1>
+                              <form id="dataForm">
+                                <label for="cod_fc">Código FC:</label>
+                                <input type="text" id="cod_fc" name="cod_fc" disabled><br><br>
+                                
+                                <label for="nom_alu">Nombre:</label>
+                                <input type="text" id="nom_alu" name="nom_alu" disabled><br><br>
+                                
+                                <label for="ap_pat_alu">Apellido Paterno:</label>
+                                <input type="text" id="ap_pat_alu" name="ap_pat_alu" disabled><br><br>
+                                
+                                <label for="ap_mat_alu">Apellido Materno:</label>
+                                <input type="text" id="ap_mat_alu" name="ap_mat_alu" disabled><br><br>
+                                
+                                <label for="fec_cre">Fecha de Creación:</label>
+                                <input type="text" id="fec_cre" name="fec_cre" disabled><br><br>
+                                
+                                <label for="con_fc">Con FC:</label>
+                                <input type="text" id="con_fc" name="con_fc"><br><br>
+                                
+                                <button type="submit" class="btn btn-primary">Actualizar ficha</button>
+                              </form>
+                            </div>  
         </div>
 
         </div>

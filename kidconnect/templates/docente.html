@@ -104,34 +104,55 @@
                       </div>
                   </div>
               </section>           
-              <div>
-                  <p style="color:#blue;">Ultimos Eventos<p>
-                  <div id="mensajes-container"></div>
-              </div>           
+              <div class="container">
+                <h2>Últimos Eventos</h2>
+                <div id="mensajes-container"></div>
+              </div>
+              
               <h1>Busqueda de cursos</h1>
               <form id="searchForm">
-                  <label for="cod_cur">Código del Curso:</label>
-                  <select id="cod_cur" name="cod_cur">
-                      <option value= 1 >Medio Mayor A</option>
-                      <option value= 2 >Medio Mayor B</option>
-                      <option value= 3 >Medio Menor A</option>
-                      <option value= 4 >Medio Menor B</option>
-                  </select>
-                  <button type="submit">Buscar</button>
+                <label for="cod_cur">Código del Curso:</label>
+                <select id="cod_cur" name="cod_cur">
+                  <option value="1">Medio Mayor A</option>
+                  <option value="2">Medio Mayor B</option>
+                  <option value="3">Medio Menor A</option>
+                  <option value="4">Medio Menor B</option>
+                </select>
+                <button type="submit" class="btn btn-primary">Buscar</button>
               </form>
-              <table id="resultsTable">
+              
+              <div class="table-container">
+                <table id="resultsTable">
                   <thead>
-                      <tr>
-                          <th>RUT</th>
-                          <th>Nombre</th>
-                          <th>Apellido</th>
-                          <th>Apellido Materno</th>
-                          <th>Código Curso</th>
-                          <th>Tipo de Usuario</th>
-                      </tr>
+                    <tr>
+                      <th>RUT</th>
+                      <th>Nombre</th>
+                      <th>Apellido</th>
+                      <th>Apellido Materno</th>
+                      <th>Tipo de Usuario</th>
+                    </tr>
                   </thead>
                   <tbody id="resultsBody"></tbody>
-              </table>
+                </table>
+              </div>
+              
+              <style>
+                .table-container {
+                  background-color: rgba(250, 183, 36, 0.8);solid;
+                  padding: 20px;
+                  margin-top: 20px;
+                  border-radius: 5px;
+                }
+              
+                #resultsTable th {
+                  font-weight: bold;
+                }
+              
+                #resultsTable td {
+                  font-weight: 600;
+                }
+              </style>
+              
               <script>
                 document.getElementById('searchForm').addEventListener('submit', function(event) {
                   event.preventDefault(); // Evitar el envío del formulario
@@ -141,31 +162,31 @@
               
                   // Realizar la solicitud GET al endpoint con el parámetro cod_cur
                   fetch('http://tmp.enred.cl/kc/rest/get_curso_alumnos.php?cod_cur=' + cod_cur)
-                      .then(function(response) {
-                          return response.json();
-                      })
-                      .then(function(data) {
-                          // Limpiar el contenido actual de la tabla
-                          var tableBody = document.getElementById('resultsBody');
-                          tableBody.innerHTML = '';
+                    .then(function(response) {
+                      return response.json();
+                    })
+                    .then(function(data) {
+                      // Limpiar el contenido actual de la tabla
+                      var tableBody = document.getElementById('resultsBody');
+                      tableBody.innerHTML = '';
               
-                          // Rellenar la tabla con los datos obtenidos
-                          data.forEach(function(row) {
-                              var newRow = document.createElement('tr');
-                              newRow.innerHTML = '<td>' + row.rut_participante + '</td>' +
-                                                 '<td>' + row.nombre_participante + '</td>' +
-                                                 '<td>' + row.apellido_participante + '</td>' +
-                                                 '<td>' + row.apellido_materno + '</td>' +
-                                                 '<td>' + row.nom_cur + '</td>' +
-                                                 '<td>' + row.tipo_usuario + '</td>';
-                              tableBody.appendChild(newRow);
-                          });
-                      })
-                      .catch(function(error) {
-                          console.log('Error:', error);
+                      // Rellenar la tabla con los datos obtenidos
+                      data.forEach(function(row) {
+                        var newRow = document.createElement('tr');
+                        newRow.innerHTML =
+                          '<td>' + row.rut_participante + '</td>' +
+                          '<td>' + row.nombre_participante + '</td>' +
+                          '<td>' + row.apellido_participante + '</td>' +
+                          '<td>' + row.apellido_materno + '</td>' +
+                          '<td>' + row.tipo_usuario + '</td>';
+                        tableBody.appendChild(newRow);
                       });
-              });
-            </script>
+                    })
+                    .catch(function(error) {
+                      console.log('Error:', error);
+                    });
+                });
+              </script>
         </div>
       </div>
     </div>
@@ -234,33 +255,31 @@
     });
     </script>
     <script>
-      // Función para mostrar los mensajes en el HTML
       function mostrarMensajes(data) {
         const container = document.getElementById('mensajes-container');
-  
+    
         // Limpiar el contenido del contenedor
         container.innerHTML = '';
-  
+    
         // Iterar sobre los mensajes y crear cartas para cada uno
         data.forEach(mensaje => {
           const mensajeText = mensaje.cont_mensaje;
           const fechaText = mensaje.fecha_envio;
-  
+    
           // Crear la carta para el mensaje
           const card = document.createElement('div');
           card.classList.add('card');
-          
+    
           const fechaElement = document.createElement('p');
           fechaElement.textContent = fechaText;
+    
           // Crear elementos <h1> y agregarlos a la carta
           const mensajeElement = document.createElement('strong');
           mensajeElement.textContent = mensajeText;
-  
-         
+    
           card.appendChild(fechaElement);
           card.appendChild(mensajeElement);
-         
-  
+    
           // Agregar la carta al contenedor
           container.appendChild(card);
         });
