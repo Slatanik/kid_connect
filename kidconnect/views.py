@@ -119,11 +119,12 @@ def login(request):
         # Obtén los datos del formulario de inicio de sesión
         usuario = request.POST.get('usuario')
         contrasena = request.POST.get('contrasena')
-
+        ##codigoUsuarioTipo = request.Post.get('CodigoUsuario')
         # Construye el cuerpo de la solicitud POST
         data = {
             'rut': usuario,
-            'password': contrasena
+            'password': contrasena,
+            ##'codUsuTipo': codigoUsuarioTipo
         }
 
         # Realiza la solicitud a la API
@@ -134,7 +135,7 @@ def login(request):
 
         if data['valid']:
             request.session['user_id'] = usuario
-        
+           
             dataUsuario = requests.get(api_urlget_userdata)
             print(dataUsuario)
             dataUsuario = dataUsuario.json()
@@ -142,7 +143,13 @@ def login(request):
             request.session['perfil'] = dataUsuario["data"]["tipo_us_cod_tip"]#aqui estoy asignando la respuesta de cod_tip que devolvera api si metemeto Cod_tip en .php de la api
             request.session['nombreDeUsuario'] = dataUsuario["data"]["nom_us"]
             request.session['apellidoPaternoUsuario'] = dataUsuario["data"]["ap_pat_us"]#asignando ap paternod el usuario apra usarlo en session
-            return redirect('menu')
+            elTipoUsuario= request.session['tipo_usuario'] = dataUsuario["data"]['tipo_us_cod_tip']
+            if elTipoUsuario == "1":
+                return render(request, 'index.html', {'mensaje':'Los apoderados no pueden ingresar, solo '})
+            else:
+                return redirect('menu')
+            
+            
 
         else:
             print("no valido")
@@ -215,3 +222,8 @@ def llamar_apod_cur(request):
         return JsonResponse(data, safe=False)
     else:
         return JsonResponse({'error': 'Error en la llamada a la API'}, status=500)
+    
+
+
+def crearUsuario(request):
+     return render(request, "crearUsuario.html")

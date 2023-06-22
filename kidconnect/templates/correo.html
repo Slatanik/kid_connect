@@ -34,10 +34,7 @@
       padding: 10px;
       margin-right: 10px;
     }
-    .carousel-image {
-      height: 300px; /* Ajusta la altura deseada para las imágenes */
-      object-fit: cover; /* Para asegurar que las imágenes se ajusten al tamaño sin deformarlas */
-    }
+   
   </style>
 </head>
 <body>
@@ -98,8 +95,8 @@
                 <li class="nav-item dropdown">
                   <a class="nav-link text-dark dropdown-toggle" href="#" id="navbarDropdown" role="button"
                     data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">                  
-                    <i class="icon ion-md-settings"></i><span id="storedValue"></span>
-
+                    <img src="{% static 'img\logoSideBar.gif' %}" style="width: 50px; height: auto;">
+                    <span id="storedValue"></span>
                   </a>
                   <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
                     <a class="dropdown-item" href="{% url 'cerrarSesion' %}">Cerrar sesión</a>

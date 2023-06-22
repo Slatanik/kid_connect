@@ -91,8 +91,8 @@
                   <li class="nav-item dropdown">
                     <a class="nav-link text-dark dropdown-toggle" href="#" id="navbarDropdown" role="button"
                       data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">                  
-                      <i class="icon ion-md-settings"></i><span id="storedValue"></span>
-
+                      <img src="{% static 'img\logoSideBar.gif' %}" style="width: 50px; height: auto;">
+                      <span id="storedValue"></span>
                     </a>
                     <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
                       <a class="dropdown-item" href="{% url 'cerrarSesion' %}">Cerrar sesión</a>
@@ -106,39 +106,38 @@
 
         <!-- Page Content -->
         <div id="content" class="bg-grey w-100">
-          <div>
-            <p style="color:#blue;">Ultimos Eventos<p>
-            <div id="mensajes-container"></div>
-        </div>    
-              <section class="bg-light py-3">
-                  <div class="container">
-                      <div class="row">
-                          <div class="col-lg-9 col-md-8">
-                            <h1 class="font-weight-bold mb-0">Calendario</h1>
-                            <p class="lead text-muted">Revisa la última información</p>
-                          </div>
-                          <div class="col-lg-3 col-md-4 d-flex">
-                            <button class="btn btn-primary w-100 align-self-center">Crear Evento</button>
-                          </div>
-                      </div>
-                  </div>
-              </section>
-              <div class="container">
-                <div class="row">
-                  <div class="col-lg-8 my-3">
-                    <div class="card rounded-0">
-                      <div class="card-header bg-light">
-                        <h5 class="font-weight-bold mb-0">Revisar Mensajes</h5>
-                      </div>
-                      <div class="card-body">
-                        <button onclick="abrirModal()" class="btn btn-primary">Mostrar Evento</button>  <button onclick="abrirModalAnuncios()" class="btn btn-primary">Mostrar Anuncios</button>
-                        <hr>
-                      </div>
-                    </div>
+          <section class="bg-light py-3">
+            <div class="container">
+              <div class="row align-items-center">
+                <div class="col-lg-9 col-md-8">
+                  <h1 class="font-weight-bold mb-0">Calendario</h1>
+                  <p class="lead text-muted">Revisa la última información</p>
+                </div>
+                <div class="col-lg-3 col-md-4 d-flex">
+                  <div class="card-body">
+                    <button onclick="abrirModal()" class="btn btn-primary">Mostrar Evento</button>
+                    <br><br>
+                    <button onclick="abrirModalAnuncios()" class="btn btn-primary">Mostrar Anuncios</button>
                   </div>
                 </div>
-                <input type="date"/> 
               </div>
+            </div>
+            
+          </section>
+          <div class="container">
+            <div class="row">
+              <div class="col-lg-8 my-3">
+                <div >
+                
+                  <iframe src="https://calendar.google.com/calendar/embed?height=600&wkst=1&bgcolor=%23f5f5f5&ctz=America%2FSantiago&showPrint=0&mode=MONTH&src=Y18xZTE3ODU3NDI1NmM3OWY1NjY4MTk2NWQ1YjhjYzk4MjI0ZDUyYTFjN2JmNDdmMjYwZGFkYzJmODI4NTg3ZDUyQGdyb3VwLmNhbGVuZGFyLmdvb2dsZS5jb20&src=YWRkcmVzc2Jvb2sjY29udGFjdHNAZ3JvdXAudi5jYWxlbmRhci5nb29nbGUuY29t&src=ZXMuY2wjaG9saWRheUBncm91cC52LmNhbGVuZGFyLmdvb2dsZS5jb20&color=%23C0CA33&color=%2333B679&color=%230B8043" style="border-width:0" width="800" height="600" frameborder="0" scrolling="no"></iframe>
+                    <a href="https://calendar.google.com/calendar/render?action=TEMPLATE" target="_blank" rel="noopener noreferrer"> <br>
+                      <button class="btn btn-primary">Agregar evento</button>
+                    </a>
+                  </div>
+                  
+                </div>
+              </div>
+               
               
               <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
                 <div class="modal-dialog" role="document">
@@ -155,31 +154,35 @@
                   </div>
                 </div>
               </div>
+              <div>
+                <p style="color:#blue;">Ultimos Eventos<p>
+                <div id="mensajes-container"></div>
+            </div>    
               <script>
-              function abrirModal() {
-                // Obtener los mensajes del rut 1234 desde la API
-                const rutReceptor = '{{request.session.user_id}}'; // Cambia esto según tus necesidades
-                fetch(`http://tmp.enred.cl/kc/rest/get_anuncios.php?rut_receptor=${rutReceptor}`)
+                function abrirModal() {
+                  // Obtener los mensajes del rut 1234 desde la API
+                  const rutReceptor = '{{request.session.user_id}}'; // Cambia esto según tus necesidades
+                  fetch(`http://tmp.enred.cl/kc/rest/get_anuncios.php?rut_receptor=${rutReceptor}`)
                   .then(response => response.json())
                   .then(data => {
                     const mensajesList = document.getElementById('mensajesList');
                     mensajesList.innerHTML = '';
-              
+                    
                     if (data.length === 0) {
                       const mensajeItem = document.createElement('li');
                       mensajeItem.textContent = 'No hay mensajes para mostrar.';
                       mensajesList.appendChild(mensajeItem);
                     } else {
                       const mesSeleccionado = 6; // Cambia esto con el mes que desees filtrar (por ejemplo, 6 para junio)
-              
+                      
                       data.forEach(mensaje => {
                         const fechaEnvio = new Date(mensaje.fecha_envio);
                         const mesEnvio = fechaEnvio.getMonth() + 1; // El mes va de 0 a 11, por eso se suma 1
-              
+                        
                         if (mesEnvio === mesSeleccionado) {
                           const mensajeItem = document.createElement('li');
                           mensajeItem.classList.add('mensaje-item');
-              
+                          
                           const fechaEnvioElement = document.createElement('p');
                           fechaEnvioElement.classList.add('fechaEnvio');
                           fechaEnvioElement.textContent = `Fecha de envío: ${fechaEnvio}`;

@@ -79,8 +79,8 @@
                   <li class="nav-item dropdown">
                     <a class="nav-link text-dark dropdown-toggle" href="#" id="navbarDropdown" role="button"
                       data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">                  
-                      <i class="icon ion-md-settings"></i><span id="storedValue"></span>
-
+                      <img src="{% static 'img\logoSideBar.gif' %}" style="width: 50px; height: auto;">
+                      <span id="storedValue"></span>
                     </a>
                     <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
                       <a class="dropdown-item" href="{% url 'cerrarSesion' %}">Cerrar sesión</a>
@@ -100,9 +100,7 @@
                             <h1 class="font-weight-bold mb-0">Información Docente</h1>
                             <p class="lead text-muted">Revisa la última información</p>
                           </div>
-                          <div class="col-lg-3 col-md-4 d-flex">
-                            <button class="btn btn-primary w-100 align-self-center">Crear Evento</button>
-                          </div>
+                          
                       </div>
                   </div>
               </section>           
@@ -114,10 +112,10 @@
               <form id="searchForm">
                   <label for="cod_cur">Código del Curso:</label>
                   <select id="cod_cur" name="cod_cur">
-                      <option value="1">Medio Mayor A</option>
-                      <option value="2">Medio Mayor B</option>
-                      <option value="3">Medio Menor A</option>
-                      <option value="4">Medio Menor B</option>
+                      <option value= 1 >Medio Mayor A</option>
+                      <option value= 2 >Medio Mayor B</option>
+                      <option value= 3 >Medio Menor A</option>
+                      <option value= 4 >Medio Menor B</option>
                   </select>
                   <button type="submit">Buscar</button>
               </form>
