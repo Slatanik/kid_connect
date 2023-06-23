@@ -24,6 +24,13 @@
       display: flex;
       align-items: center;
     }
+    .center-section {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+  
+    }
+    
     
     .text {
       flex: 1;
@@ -34,7 +41,10 @@
       flex: 1;
       text-align: right;
     }
-  </style>
+
+    .btn-group {
+      gap: 10px; /* Ajusta el espacio entre los botones según tus necesidades */
+    }
   </style>
   <div class="d-flex" id="content-wrapper">
     <!-- Sidebar -->
@@ -105,83 +115,109 @@
       <!-- Fin Navbar -->
   
       <!-- Page Content -->
-      <div  class="bg-grey w-100">
-        <section class="bg-light py-3">
+      <div class="bg-grey w-100">
+        <section class="bg-light py-1">
           <div class="container">
             <div class="row">
-              <div class="col-lg-9 col-md-8">
+              <div class="">
                 <h1 class="font-weight-bold">Bienvenido {{ request.session.nombreDeUsuario }}</h1>
                 <p class="lead text-muted">Revisa la última información</p>
               </div>
             </div>
-          </div>                 
+          </div>
         </section>
-        <br>
-        <br>
-        <br>
-        <br>
+      
         <center>
-          <div id="carouselExampleFade" class="carousel slide carousel-fade" style="width: 75%;" >
-            <div class="carousel-inner">
-              <div class="carousel-item active">
-                <img src="{% static 'img\imgCarrusel1.jpg' %}" class="d-block w-100" alt="...">
-              </div>
-              <div class="carousel-item">
-                <img src="{% static 'img\imgCarrusel3.jpg' %}" class="d-block w-100" alt="...">
-              </div>
-              <div class="carousel-item">
-                <img src="{% static 'img\imgCarrusel3N.jpg' %}" class="d-block w-100" alt="...">
-              </div>
-            </div>
-            <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleFade" data-bs-slide="prev">
-              <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-              <span class="visually-hidden">Previous</span>
-            </button>
-            <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleFade" data-bs-slide="next">
-              <span class="carousel-control-next-icon" aria-hidden="true"></span>
-              <span class="visually-hidden">Next</span>
-            </button>
-          </div>
-  
-          <div class="container">
-            <div class="text">
-              <h2>Metodología Pikler:</h2>
-              <p>Desarrollada por la pediatra húngara Emmi Pikler, esta metodología se centra en el cuidado respetuoso y el desarrollo motor de los niños. Se enfoca en brindar un ambiente seguro y libre para que los niños exploren y desarrollen su autonomía a su propio ritmo.</p>
-            </div>
-            <div class="image">
-              <img src="{% static 'img\que-es-el-metodo-pikler-y-juguetes-ponerlo-en-practica.jpg' %}" alt="Imagen" width="200">
-            </div>
-            <div class="container">
-              <div class="image">
-                <img src="{% static 'img\metodo-waldorf-.jpg' %}" alt="Imagen" width="200">
-              </div>
-              <div class="text">
-                <h2>Metodología Waldorf</h2>
-                <p>Originada por Rudolf Steiner, esta metodología se centra en el desarrollo holístico del niño. Se enfoca en el juego libre, la creatividad y la imaginación, y valora el aprendizaje a través de las artes, la música y las actividades prácticas.</p>
-              </div>
-              <br>
-              <div class="container">
-                <h3>Últimos Eventos</h3>
-                <br>
-                <br>
-                <div class="row" id="mensajes-container">
-                  <!-- Aquí se mostrarán los eventos -->
+          <div id="">
+            <section class="py-3">
+              <div id="carouselExampleFade" class="carousel slide carousel-fade" style="width: 60%; height: 600px;">
+                <div class="carousel-inner">
+                  <div class="carousel-item active">
+                    <img src="{% static 'img\imgCarrusel1.jpg' %}" class="d-block w-100 h-200" alt="...">
+                  </div>
+                  <div class="carousel-item">
+                    <img src="{% static 'img\imgCarrusel3.jpg' %}" class="d-block w-100 h-200" alt="...">
+                  </div>
+                  <div class="carousel-item">
+                    <img src="{% static 'img\imgCarrusel3N.jpg' %}" class="d-block w-100 h-200" alt="...">
+                  </div>
                 </div>
-              </div> 
+                <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleFade"
+                  data-bs-slide="prev">
+                  <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                  <span class="visually-hidden">Previous</span>
+                </button>
+                <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleFade"
+                  data-bs-slide="next">
+                  <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                  <span class="visually-hidden">Next</span>
+                </button>
+              </div>
+            </section>
+      
+            <section class="py-3">
+              <div class="container">
+                <div class="row mt-4">
+                  <div class="col-md-6">
+                    <div class="card">
+                      <div class="card-body">
+                        <h2 class="card-title">Metodología Pikler:</h2>
+                        <p class="card-text">Desarrollada por la pediatra húngara Emmi Pikler, esta metodología se centra en el cuidado respetuoso y el desarrollo motor de los niños. Se enfoca en brindar un ambiente seguro y libre para que los niños exploren y desarrollen su autonomía a su propio ritmo.</p>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-md-6">
+                    <div class="card">
+                      <img src="{% static 'img\que-es-el-metodo-pikler-y-juguetes-ponerlo-en-practica.jpg' %}" class="card-img-top" alt="Imagen">
+                    </div>
+                  </div>
+                </div>
+                <div class="row mt-4">
+                  <div class="col-md-6">
+                    <div class="card">
+                      <img src="{% static 'img\metodo-waldorf-.jpg' %}" class="card-img-top" alt="Imagen">
+                    </div>
+                  </div>
+                  <div class="col-md-6">
+                    <div class="card">
+                      <div class="card-body">
+                        <h2 class="card-title">Metodología Waldorf</h2>
+                        <p class="card-text">Originada por Rudolf Steiner, esta metodología se centra en el desarrollo holístico del niño. Se enfoca en el juego libre, la creatividad y la imaginación, y valora el aprendizaje a través de las artes, la música y las actividades prácticas.</p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </section>
+              <section class="py-3 my-5 text-center center-section">
+                <div class="">
+                  <div class="row justify-content-center">
+                    <div class="">
+                      <h3 class="text-center">Últimos Eventos</h3>
+                      <div class="row" id="mensajes-container">
+                        <!-- Aquí se mostrarán los eventos -->
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </section>
+            <div class="">
+              <div class="btn-group d-flex justify-content-center" role="group">
+                {% if request.session.perfil == 1 %}
+                <a class="btn btn-secundary btn-lg" href="{% url 'crearAlumno' %}" role="button">Creación Alumno</a>
+                {% endif %}
+                <a class="btn btn-primary btn-lg" href="{% url 'correo' %}" role="button">Correo</a>
+                {% if request.session.perfil == 1 %}
+                <a class="btn btn-primary btn-lg" href="{% url 'crearUsuario' %}" role="button">Creación de usuarios</a>
+                {% endif %}
+                <a class="btn btn-primary btn-lg" href="{% url 'docente' %}" role="button">Cursos</a>
+                <a class="btn btn-primary btn-lg" href="{% url 'evento' %}" role="button">Calendario</a>
+              </div>
             </div>
-          </div>
-          <center>
-            <div>
-              {% if request.session.perfil == 1 %}<a class="btn btn-primary" href="{% url 'crearAlumno' %}" role="button">Creación Alumno</a>
-              {% endif %}
-              <a class="btn btn-primary" href="{% url 'correo' %}" role="button">Correo</a>               
-              {% if request.session.perfil == 1 %}
-              <a class="btn btn-primary" href="{% url 'crearUsuario' %}" role="button">Creación de usuarios</a>
-              {% endif %}
-              <a class="btn btn-primary" href="{% url 'docente' %}" role="button">Cursos</a>
-              <a class="btn btn-primary" href="{% url 'evento' %}" role="button">Calendario</a>
-            </div>  
-          </center>   
+      
+            
+            
+      </div>
           <footer>
             <div class="divfooter pt-3">
               <center>
@@ -190,8 +226,7 @@
               </center>
             </div>
           </footer>
-        </div>
-      </div>
+       
     </div>
   </div>
   
@@ -199,13 +234,12 @@
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
   
   <script>
-    $(document).ready(function() {
-      $('#myCarousel').carousel({
-        interval: 5000, // Intervalo de tiempo entre transiciones de los slides (en milisegundos)
-        pause: 'hover', // Pausar la reproducción automática cuando el cursor está sobre el carrusel
-        wrap: true // Reproducción continua del carrusel (vuelve al primer slide después del último)
-      });
+    document.addEventListener('DOMContentLoaded', function () {
+    var carousel = document.querySelector('#carouselExampleFade');
+    var carouselInstance = new bootstrap.Carousel(carousel, {
+      interval: 3000 // Cambiar imagen cada 3 segundos
     });
+  });
   </script>
   
   <script>
