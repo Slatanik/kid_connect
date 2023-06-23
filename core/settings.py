@@ -76,23 +76,23 @@ WSGI_APPLICATION = 'core.wsgi.application'
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
 
-#DATABASES = {
-        #'default': {
-        #'ENGINE': 'django.db.backends.postgresql',
-        #'NAME': 'kids_connect',
-        #'USER': 'postgres',
-        #'PASSWORD': 'wordpass',
-        #'HOST': 'tmp.enred.cl',
-        #'PORT':'5432',
-    #}
- #}
-
 DATABASES = {
-    'default': {
-    'ENGINE': 'django.db.backends.sqlite3',
-    'NAME': BASE_DIR / 'db.sqlite3',
+        'default': {
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'kc_final',
+        'USER': 'postgres',
+        'PASSWORD': 'Postgres$37116',
+        'HOST': 'tmp.enred.cl',
+        'PORT':'5432',
     }
-}
+ }
+
+# DATABASES = {
+#     'default': {
+#     'ENGINE': 'django.db.backends.sqlite3',
+#     'NAME': BASE_DIR / 'db.sqlite3',
+#     }
+# }
 
 
 # Password validation

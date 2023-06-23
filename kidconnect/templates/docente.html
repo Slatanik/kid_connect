@@ -1,0 +1,326 @@
+{% extends 'layout.html' %}
+{% load static %}
+{% block content %}
+
+<body>
+<style>
+  table {
+    border-collapse: collapse;
+  }
+
+  th, td {
+    border: 1px solid black;
+    padding: 8px;
+  }
+</style>
+<style>
+  .card {
+    display: inline-block;
+    width: 300px;
+    border: 1px solid black;
+    padding: 10px;
+    margin-right: 10px;
+  }
+</style>
+    <div class="d-flex" id="content-wrapper">
+        <!-- Sidebar -->
+        <div id="sidebar-container" class="barraLateral">
+            <div class="logo">
+                <h4 class="text-light font-weight-bold mb-0" ><a class="text-light" href= "{% url 'menu' %}">Kids connect</a></h4>
+            </div>
+            <div class="menu">
+              <a href="{% url 'evento' %}" class="d-block text-light p-3 border-0"><i class="icon ion-md-apps lead mr-2"></i>
+                  Calendario</a>
+              <a href="{% url 'docente' %}" class="d-block text-light p-3 border-0"><i class="icon ion-md-people lead mr-2"></i>
+                  Cursos</a>      
+              {% if request.session.perfil == '4' %}    
+              <a href="{% url 'crearUsuario' %}" class="d-block text-light p-3 border-0"><i class="icon ion-md-book outline mr-2"></i>
+                  Crear usuario</a>
+              {% endif %}
+              <a href= "{% url 'correo' %}" class="d-block text-light p-3 border-0"><i class="icon ion-md-mail-unread mr-2"></i>
+                  Mensajes</a>
+              {% if request.session.perfil == '4'  or request.session.perfil == '2' or request.session.perfil == '3' %}
+              <a href= "{% url 'crearAlumno' %}" class="d-block text-light p-3 border-0"><i class="icon ion-md-people lead mr-2"></i>Crear Alumno</a>
+              {% endif %}
+          </div>
+        </div>
+        <!-- Fin sidebar -->
+
+        <div class="w-100">
+
+         <!-- Navbar -->
+         <nav class="navbar navbar-expand-lg navbar-light bg-light border-bottom">
+            <div class="container">
+    
+              <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+                aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+              </button>
+    
+              <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <form class="form-inline position-relative d-inline-block my-2">
+                  <input class="form-control" type="search" placeholder="Buscar" aria-label="Buscar">
+                  <button class="btn position-absolute btn-search" type="submit"><i class="icon ion-md-search"></i></button>
+                </form>
+                <div class="menu" id="menu-container">
+                  <a href="{% url 'evento' %}" class="d-block text-primary p-3 border-0"><i class="icon ion-md-apps lead mr-2"></i>
+                      Calendario</a>
+                  <a href="{% url 'docente' %}" class="d-block text-primary p-3 border-0"><i class="icon ion-md-people lead mr-2"></i>
+                      Cursos</a>          
+                  <a href="{% url 'crearUsuario' %}" class="d-block text-primary p-3 border-0"><i class="icon ion-md-book outline mr-2"></i>
+                      Estudiante</a>
+                  <a href= "{% url 'correo' %}" class="d-block text-primary p-3 border-0"><i class="icon ion-md-mail-unread mr-2"></i>
+                      Mensajes</a>
+                  {% if request.session.perfil == '1' %}
+                  <a href="{% url 'crearAlumno' %}" class="d-block text-light p-3 border-0"> <i class="icon ion-md-people lead mr-2"></i>Crear Alumno</a>
+                  {% endif %}
+                </div>
+                <ul class="navbar-nav ml-auto mt-2 mt-lg-0">
+                  <li class="nav-item dropdown">
+                    <a class="nav-link text-dark dropdown-toggle" href="#" id="navbarDropdown" role="button"
+                      data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">                  
+                      <img src="{% static 'img\logoSideBar.gif' %}" style="width: 50px; height: auto;">
+                      <span id="storedValue"></span>
+                    </a>
+                    <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+                      <a class="dropdown-item" href="{% url 'cerrarSesion' %}">Cerrar sesión</a>
+                    </div>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </nav>
+          <!-- Fin Navbar -->
+        <!-- Page Content -->
+        <div id="content" class="bg-grey w-100">
+              <section class="bg-light py-3">
+                  <div class="container">
+                      <div class="row">
+                          <div class="col-lg-9 col-md-8">
+                            <h1 class="font-weight-bold mb-0">Información Docente</h1>
+                            <p class="lead text-muted">Revisa la última información</p>
+                          </div>
+                          
+                      </div>
+                  </div>
+              </section>           
+              <div class="container">
+                <h2>Últimos Eventos</h2>
+                <div id="mensajes-container"></div>
+              </div>
+              
+              <h1>Busqueda de cursos</h1>
+              <form id="searchForm">
+                <label for="cod_cur">Código del Curso:</label>
+                <select id="cod_cur" name="cod_cur">
+                  <option value="1">Medio Mayor A</option>
+                  <option value="2">Medio Mayor B</option>
+                  <option value="3">Medio Menor A</option>
+                  <option value="4">Medio Menor B</option>
+                </select>
+                <button type="submit" class="btn btn-primary">Buscar</button>
+              </form>
+              
+              <div class="table-container">
+                <table id="resultsTable">
+                  <thead>
+                    <tr>
+                      <th>RUT</th>
+                      <th>Nombre</th>
+                      <th>Apellido</th>
+                      <th>Apellido Materno</th>
+                      <th>Tipo de Usuario</th>
+                    </tr>
+                  </thead>
+                  <tbody id="resultsBody"></tbody>
+                </table>
+              </div>
+              
+              <style>
+                .table-container {
+                  background-color: rgba(250, 183, 36, 0.8);solid;
+                  padding: 20px;
+                  margin-top: 20px;
+                  border-radius: 5px;
+                }
+              
+                #resultsTable th {
+                  font-weight: bold;
+                }
+              
+                #resultsTable td {
+                  font-weight: 600;
+                }
+              </style>
+              
+              <script>
+                document.getElementById('searchForm').addEventListener('submit', function(event) {
+                  event.preventDefault(); // Evitar el envío del formulario
+              
+                  // Obtener el valor del campo cod_cur
+                  var cod_cur = document.getElementById('cod_cur').value;
+              
+                  // Realizar la solicitud GET al endpoint con el parámetro cod_cur
+                  fetch('http://tmp.enred.cl/kc/rest/get_curso_alumnos.php?cod_cur=' + cod_cur)
+                    .then(function(response) {
+                      return response.json();
+                    })
+                    .then(function(data) {
+                      // Limpiar el contenido actual de la tabla
+                      var tableBody = document.getElementById('resultsBody');
+                      tableBody.innerHTML = '';
+              
+                      // Rellenar la tabla con los datos obtenidos
+                      data.forEach(function(row) {
+                        var newRow = document.createElement('tr');
+                        newRow.innerHTML =
+                          '<td>' + row.rut_participante + '</td>' +
+                          '<td>' + row.nombre_participante + '</td>' +
+                          '<td>' + row.apellido_participante + '</td>' +
+                          '<td>' + row.apellido_materno + '</td>' +
+                          '<td>' + row.tipo_usuario + '</td>';
+                        tableBody.appendChild(newRow);
+                      });
+                    })
+                    .catch(function(error) {
+                      console.log('Error:', error);
+                    });
+                });
+              </script>
+        </div>
+      </div>
+    </div>
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+        crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+        integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+        crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+        integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+        crossorigin="anonymous"></script>
+        <script src="https://cdn.jsdelivr.net/npm/chart.js@2.9.3/dist/Chart.min.js" integrity="sha256-R4pqcOYV8lt7snxMQO/HSbVCFRPMdrhAFMH+vr9giYI=" crossorigin="anonymous"></script>
+        <script>
+            var ctx = document.getElementById('myChart').getContext('2d');
+            var myChart = new Chart(ctx, { 
+                type: 'bar',
+                data: {
+                    labels: ['Feb 2020', 'Mar 2020', 'Abr 2020', 'May 2020'],
+                    datasets: [{
+                        label: 'Nuevos usuarios',
+                        data: [50, 100, 150, 200],
+                        backgroundColor: [
+                            '#12C9E5',  
+                            '#12C9E5',
+                            '#12C9E5',
+                            '#111B54'
+                        ],
+                        maxBarThickness: 30,
+                        maxBarLength: 2
+                    }]
+                },
+                options: {
+                    scales: {
+                        yAxes: [{
+                            ticks: {
+                                beginAtZero: true
+                            }
+                        }]
+                    }
+                }
+            });
+            </script>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+      var menuContainer = document.getElementById('menu-container');
+      var navbarToggle = document.querySelector('.navbar-toggler');
+  
+      // Ocultar el menú inicialmente
+      menuContainer.style.display = 'none';
+  
+      // Agregar evento de clic al botón de toggle navigation
+      navbarToggle.addEventListener('click', function() {
+        // Verificar si la barra de navegación se está abriendo o cerrando
+        if (menuContainer.style.display === 'none') {
+          // Mostrar el menú si la barra de navegación se está abriendo
+          menuContainer.style.display = 'block';
+        } else {
+          // Ocultar el menú si la barra de navegación se está cerrando
+          menuContainer.style.display = 'none';
+        }
+      });
+    });
+    </script>
+    <script>
+      function mostrarMensajes(data) {
+        const container = document.getElementById('mensajes-container');
+    
+        // Limpiar el contenido del contenedor
+        container.innerHTML = '';
+    
+        // Iterar sobre los mensajes y crear cartas para cada uno
+        data.forEach(mensaje => {
+          const mensajeText = mensaje.cont_mensaje;
+          const fechaText = mensaje.fecha_envio;
+    
+          // Crear la carta para el mensaje
+          const card = document.createElement('div');
+          card.classList.add('card');
+    
+          const fechaElement = document.createElement('p');
+          fechaElement.textContent = fechaText;
+    
+          // Crear elementos <h1> y agregarlos a la carta
+          const mensajeElement = document.createElement('strong');
+          mensajeElement.textContent = mensajeText;
+    
+          card.appendChild(fechaElement);
+          card.appendChild(mensajeElement);
+    
+          // Agregar la carta al contenedor
+          container.appendChild(card);
+        });
+      }
+  
+      // Función para realizar la solicitud al endpoint y obtener los mensajes
+      function obtenerMensajes() {
+        const url = 'http://tmp.enred.cl/kc/rest/get_ultimos_eventos.php';
+  
+        // Crear una instancia de XMLHttpRequest
+        const xhr = new XMLHttpRequest();
+  
+        // Configurar la solicitud GET al endpoint
+        xhr.open('GET', url, true);
+  
+        // Configurar el tipo de respuesta esperada
+        xhr.responseType = 'json';
+  
+        // Manejar la respuesta de la solicitud
+        xhr.onload = function() {
+          if (xhr.status === 200) {
+            const data = xhr.response;
+            mostrarMensajes(data);
+          } else {
+            console.error('Error al obtener los mensajes. Código de estado: ' + xhr.status);
+          }
+        };
+  
+        // Manejar errores de conexión
+        xhr.onerror = function() {
+          console.error('Error de conexión al obtener los mensajes.');
+        };
+  
+        // Enviar la solicitud
+        xhr.send();
+      }
+  
+      // Llamar a la función obtenerMensajes() al cargar la página
+      document.addEventListener('DOMContentLoaded', obtenerMensajes);
+    </script>
+  </body>
+</html>
+
+{% endblock %}

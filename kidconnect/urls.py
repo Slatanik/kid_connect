@@ -1,11 +1,21 @@
 from django.contrib import admin
 from django.urls import path
 from kidconnect import views
+from .views import post_region
+from .views import login, menu, docente, llamar_apod_cur
+
 
 urlpatterns = [
         path('', views.home),
-        path('index', views.home),
-        path('menu', views.menu),
-        path('alumno', views.alumno),
+        path('index/', login, name='index'),
+        path('menu/', menu, name='menu'),
+        path('docente/', docente, name='docente'),
+        path('crearUsuario', views.crearUsuario, name='crearUsuario'),
+        path('evento', views.evento, name='evento'),
+        path('correo', views.correo, name='correo'),
         path('llamar-endpoint/', views.llamar_endpoint, name='llamar_endpoint'),
+        path('post-region/', post_region, name='post_region'),
+        path('crearAlumno', views.crearAlumno, name='crearAlumno'),
+        path('cerrarSesion', views.cerrarSesion, name='cerrarSesion'),
+        path('correo', llamar_apod_cur, name='llamar_apod_cur'),
         ]

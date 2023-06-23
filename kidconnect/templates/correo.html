@@ -1,0 +1,543 @@
+{% extends 'layout.html' %}
+{% load static %}
+{% block content %}
+<head>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <style>
+    .mensaje-item {
+      border: 1px solid #ccc;
+      background-color: #f5f5f5;
+      padding: 10px;
+      margin-bottom: 10px;
+    }
+
+    .fechaEnvio {
+      font-weight: bold;
+    }
+
+    .emisor {
+      color: #000000;
+      font-weight: bold;
+    }
+
+    .contenido {
+      margin-top: 5px;
+    }
+
+    
+  </style>
+  <style>
+    .card {
+      display: inline-block;
+      width: 300px;
+      border: 1px solid black;
+      padding: 10px;
+      margin-right: 10px;
+    }
+   
+  </style>
+</head>
+<body>
+    <div class="d-flex" id="content-wrapper">
+        <!-- Sidebar -->
+        <div id="sidebar-container" class="barraLateral">
+          <div class="logo">
+              <h4 class="text-light font-weight-bold mb-0" ><a class="text-light" href= "{% url 'menu' %}">Kids connect</a></h4>
+          </div>
+          <div class="menu">
+            <a href="{% url 'evento' %}" class="d-block text-light p-3 border-0"><i class="icon ion-md-apps lead mr-2"></i>
+                Calendario</a>
+            <a href="{% url 'docente' %}" class="d-block text-light p-3 border-0"><i class="icon ion-md-people lead mr-2"></i>
+                Cursos</a>      
+            {% if request.session.perfil == '4' %}    
+            <a href="{% url 'crearUsuario' %}" class="d-block text-light p-3 border-0"><i class="icon ion-md-book outline mr-2"></i>
+                Crear usuario</a>
+            {% endif %}
+            <a href= "{% url 'correo' %}" class="d-block text-light p-3 border-0"><i class="icon ion-md-mail-unread mr-2"></i>
+                Mensajes</a>
+            {% if request.session.perfil == '4'  or request.session.perfil == '2' or request.session.perfil == '3' %}
+            <a href= "{% url 'crearAlumno' %}" class="d-block text-light p-3 border-0"><i class="icon ion-md-people lead mr-2"></i>Crear Alumno</a>
+            {% endif %}
+        </div>
+      </div>
+      <!-- Fin sidebar -->
+
+      <div class="w-100">
+
+       <!-- Navbar -->
+       <nav class="navbar navbar-expand-lg navbar-light bg-light border-bottom">
+          <div class="container">
+  
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+              aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+              <span class="navbar-toggler-icon"></span>
+            </button>
+  
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+              <form class="form-inline position-relative d-inline-block my-2">
+                <input class="form-control" type="search" placeholder="Buscar" aria-label="Buscar">
+                <button class="btn position-absolute btn-search" type="submit"><i class="icon ion-md-search"></i></button>
+              </form>
+              <div class="menu" id="menu-container">
+                <a href="{% url 'evento' %}" class="d-block text-primary p-3 border-0"><i class="icon ion-md-apps lead mr-2"></i>
+                    Calendario</a>
+                <a href="{% url 'docente' %}" class="d-block text-primary p-3 border-0"><i class="icon ion-md-people lead mr-2"></i>
+                    Cursos</a>          
+                <a href="{% url 'crearUsuario' %}" class="d-block text-primary p-3 border-0"><i class="icon ion-md-book outline mr-2"></i>
+                    Estudiante</a>
+                <a href= "{% url 'correo' %}" class="d-block text-primary p-3 border-0"><i class="icon ion-md-mail-unread mr-2"></i>
+                    Mensajes</a>
+                {% if request.session.perfil == '1' %}
+                <a href="{% url 'crearAlumno' %}" class="d-block text-light p-3 border-0"> <i class="icon ion-md-people lead mr-2"></i>Crear Alumno</a>
+                {% endif %}
+              </div>
+              <ul class="navbar-nav ml-auto mt-2 mt-lg-0">
+                <li class="nav-item dropdown">
+                  <a class="nav-link text-dark dropdown-toggle" href="#" id="navbarDropdown" role="button"
+                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">                  
+                    <img src="{% static 'img\logoSideBar.gif' %}" style="width: 50px; height: auto;">
+                    <span id="storedValue"></span>
+                  </a>
+                  <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+                    <a class="dropdown-item" href="{% url 'cerrarSesion' %}">Cerrar sesión</a>
+                  </div>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </nav>
+        <!-- Fin Navbar -->
+        
+        <!-- Page Content -->
+        <div>
+          <p style="color:#blue;">Ultimos Eventos<p>
+          <div id="mensajes-container"></div>
+      </div> 
+        <div id="content" class="bg-grey w-100">
+          <section class="bg-light py-3">
+            <div class="container">
+              <div class="row">
+                <div class="col-lg-9 col-md-8">
+                  <h1 class="font-weight-bold mb-0">Tus mensajes {{request.session.nombreDeUsuario}}</h1>
+                  <p class="lead text-muted">Revisa la última información</p>
+                </div>                
+                
+               <!-- Seccion recibir mensaje -->
+<div class="container">
+  <div class="row">
+    <div class="col-lg-8 my-3">
+      <div class="card rounded-0">
+        <div class="card-header bg-light">
+          <h5 class="font-weight-bold mb-0">Revisar Mensajes</h5>
+        </div>
+        <div class="card-body">
+          <button onclick="abrirModal()" class="btn btn-primary">Mostrar Mensajes</button>
+          <hr>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="myModalLabel">Mensajes</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <ul id="mensajesList"></ul>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  function abrirModal() {
+    // Obtener los mensajes del rut 1234 desde la API
+    const rutReceptor = '{{request.session.user_id}}'; // Cambia esto según tus necesidades
+    fetch(`http://tmp.enred.cl/kc/rest/get_mensaje_by_rutDos.php?rut_receptor=${rutReceptor}`)
+      .then(response => response.json())
+      .then(data => {
+        const mensajesList = document.getElementById('mensajesList');
+        mensajesList.innerHTML = '';
+
+        if (data.length === 0) {
+          const mensajeItem = document.createElement('li');
+          mensajeItem.textContent = 'No hay mensajes para mostrar.';
+          mensajesList.appendChild(mensajeItem);
+        } else {
+          data.forEach(mensaje => {
+            const mensajeItem = document.createElement('li');
+            mensajeItem.classList.add('mensaje-item');
+          
+            const fechaEnvio = document.createElement('p');
+            fechaEnvio.classList.add('fechaEnvio');
+            fechaEnvio.textContent = `Fecha de envio: ${mensaje.fecha_envio} `;
+          
+            const emisor = document.createElement('span');
+            emisor.classList.add('emisor');
+            emisor.textContent = `Emisor: ${mensaje.nom_emisor}`;
+          
+            const contenido = document.createElement('p');
+            contenido.classList.add('contenido');
+            contenido.textContent = `Contenido: ${mensaje.cont_mensaje}`;
+          
+            mensajeItem.appendChild(emisor);
+            mensajeItem.appendChild(fechaEnvio);
+            mensajeItem.appendChild(contenido);
+          
+            mensajesList.appendChild(mensajeItem);
+          });
+          
+        }
+
+        // Abrir el modal utilizando Bootstrap
+        $('#myModal').modal('show');
+      })
+      .catch(error => {
+        console.error('Error al obtener los mensajes:', error);
+      });
+  }
+
+  function cerrarModal() {
+    // Cerrar el modal utilizando Bootstrap
+    $('#myModal').modal('hide');
+  }
+</script>
+                              </section>
+                              <!-- FIN seccion recibir mensaje-->
+                              <!-- seccion enviar Mensaje-->
+                              <section class="py-3">
+                                <div class="container">
+                                <div class="row">
+                                <div class="col-lg-8 my-3">
+                                  <div class="card rounded-0">
+                                    <div class="card-header bg-light">
+                                      <h5 class="font-weight-bold mb-0">Mandar Mensajes</h5>
+                                      <h6 class="font-weight-bold mb-0">Seleccione un curso:</h6>
+                                    </div>
+                                    <div class="card-body">
+                                      <button id="btnSolicitud1" onclick="realizarSolicitud(1)" type="button" class="btn btn-primary btn-block" data-toggle="modal" data-target="#exampleModal">Curso A</button>
+                                      <hr>
+                                      <button id="btnSolicitud2" onclick="realizarSolicitud(2)" type="button" class="btn btn-primary btn-block" data-toggle="modal" data-target="#exampleModal">Curso B</button>
+                                      <hr>
+                                    </div>
+                                  </div>
+                                </div>
+                                    
+                                    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                    <div class="modal-dialog" role="document">
+                                      <div class="modal-content">
+                                        <div class="modal-header">
+                                          <h5 class="modal-title" id="exampleModalLabel">Nuevo Mensaje</h5>
+                                          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                          </button>
+                                        </div>
+                                        <div class="modal-body">
+                                          <form>
+                                            <div class="form-group">
+                                              <label for="recipient-name" class="col-form-label">Seleccione Destinatario:</label>
+                                              <div><span><ul id="lista-container"></ul></span></div>
+                                            </div>
+                                            <div class="form-group">
+                                              <label for="message-text" class="col-form-label">Mensaje:</label>
+                                              <textarea class="form-control" id="message-text"></textarea>
+                                            </div>
+                                            <div class="form-group">
+                                              <label for="message-code" class="col-form-label">Código de Mensaje:</label>
+                                              <select class="form-control" id="message-code">
+                                                <option value="Comunicacion">Comunicacion</option>
+                                                <option value="Comprobante">Comprobante</option>
+                                                <option value="Justificativo">Justificativo</option>
+                                                <option value="Evento">Evento</option>
+                                                <option value="Anuncio">Anuncio</option>
+                                              </select>
+                                          </form>
+                                        </div>
+                                        <div class="modal-footer">
+                                          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                          <button id="enviarMensajes" type="button" class="btn btn-primary" onclick="enviarMensajes()">Enviar Mensaje</button>
+
+                                        </div>
+                                      </div>
+                                    </div>
+                                    </div>
+                                    
+                                    <!-- JS DEL MODAL -->
+                                    <script>
+                                    $('#exampleModal').on('show.bs.modal', function(event) {
+                                      var button = $(event.relatedTarget); // Button that triggered the modal
+                                      var recipient = button.data('whatever'); 
+                                      var modal = $(this);
+                                      modal.find('.modal-title').text('New message to ' + recipient);
+                                      modal.find('.modal-body input').val(recipient);
+                                    });
+                                    </script>
+                                    
+                                    <script>
+                                      //Script para obtener lsita de curso------------
+                                    function realizarSolicitud(valor) {
+                                      
+                                      document.getElementById('lista-container').innerHTML = ''; //esto soluciona el problema parcialmente solamente en mensaje curso A y en el b elimna los receptores ARREGLAR!
+
+                                      const url = 'http://tmp.enred.cl/kc/rest/get_lista_curso_por_curso.php';
+                                    
+                                      // Objeto de configuración para la solicitud
+                                      const requestOptions = {
+                                        method: 'POST',
+                                        headers: {
+                                          'Content-Type': 'application/json',
+                                        },
+                                        body: JSON.stringify({ valor }),
+                                      };
+                                    
+                                      // Realizar la solicitud a la API
+                                      fetch(url, requestOptions)
+                                        .then(response => response.json())
+                                        .then(data => {
+                                          const participantes = data; // Variable que contiene la respuesta de la API
+                                          const listaContainer = document.getElementById('lista-container'); // Elemento contenedor de la lista
+                                    
+                                          // Recorrer los participantes y generar elementos HTML
+                                          participantes.forEach(participante => {
+                                            const rut = participante.rut_participante;
+                                            const nombre = participante.nombre_participante;
+                                            const apellido = participante.apellido_participante;
+                                    
+                                            // Crear elemento de lista con checkbox
+                                            const listItem = document.createElement('li');
+                                            listItem.innerHTML = `
+                                              <input type="checkbox" name="participante" value="${rut} ${nombre} ${apellido}">
+                                              <label>${rut} ${nombre} ${apellido}</label>
+                                            `;
+                                    
+                                            // Agregar el elemento de lista al contenedor
+                                            listaContainer.appendChild(listItem);
+                                          });
+                                    //comeinza logica pra enviar mensaje ----------------
+                                          // Lógica para mostrar el modal y obtener los elementos seleccionados
+                                          const btnEnviar = document.getElementById('btnEnviar');
+                                          const modal = document.getElementById('exampleModal');
+                                    
+                                          btnEnviar.addEventListener('click', () => {
+                                            // Limpiar el contenido del modal
+                                            const modalBody = modal.querySelector('.modal-body');
+                                            modalBody.innerHTML = '';
+                                    
+                                            // Obtener el valor del mensaje del campo de texto
+                                            const mensaje = document.getElementById('message-text').value;
+                                    
+                                            // Obtener los elementos seleccionados
+                                            const checkboxes = document.querySelectorAll('input[name="participante"]:checked');
+                                            const receptores = [];
+                                            checkboxes.forEach(checkbox => {
+                                              const value = checkbox.value;
+                                              const [rut, nombre, apellido] = value.split(' ');
+                                    
+                                              // Crear objeto receptor con los valores necesarios
+                                              const receptor = {
+                                                rut_receptor: rut,
+                                                nombre_receptor: nombre,
+                                                cont_mensaje: mensaje,
+                                                rut_emisor: '{{ request.session.perfil.user_id }}', // Rut del emisor obtenido del backend
+                                                nombre_emisor: '{{ request.session.nombreDeUsuario }}', // Nombre del emisor obtenido del backend
+                                              };
+                                    
+                                              receptores.push(receptor);
+                                            });
+                                    
+                                            // Objeto de configuración para la solicitud
+                                            const requestOptions = {
+                                              method: 'POST',
+                                              headers: {
+                                                'Content-Type': 'application/json',
+                                              },
+                                              body: JSON.stringify(receptores),
+                                            };
+
+                                            // Mostrar el modal
+                                            $(modal).modal('show');
+                                          });
+                                    
+                                        })
+                                        
+                                    }
+                                    </script>
+                                    
+                                    <script>
+                                     
+                                      var rut_emisor = "{{request.session.user_id}}"
+                                      let nombre_emisor = "{{request.session.nombreDeUsuario}}"
+                                      let apPatAlu = "{{request.session.apellidoPaternoUsuario}}"
+                                    </script>
+                                    <script>
+                                      function enviarMensajes() {
+                                        const mensaje = document.getElementById('message-text').value; // Obtener el contenido del mensaje
+                                        const checkboxes = document.querySelectorAll('input[name="participante"]:checked'); // Obtener los checkboxes seleccionados
+                                    
+                                        if (checkboxes.length === 0) {
+                                          console.log('No se han seleccionado usuarios.');
+
+                                          return;
+                                        }
+                                    
+                                        const rutsReceptor = [];
+                                        const nombresReceptor = [];
+                                        
+                                    
+                                        checkboxes.forEach(checkbox => {
+                                          const value = checkbox.value.split(' '); // Obtener el rut, nombre y apellido del checkbox seleccionado
+                                          rutsReceptor.push(value[0]); // Agregar el rut a la lista de ruts
+                                          nombresReceptor.push(value[1]); // Agregar el nombre completo a la lista de nombres
+                                        });
+                                    
+                                        const tipoMensaje = document.getElementById('message-code').value; // Obtener el valor seleccionado del combobox
+                                        const nombresReceptorStr = nombresReceptor.join(','); // Convertir el array a una cadena separada por comas
+
+                                        const data = {
+                                          rut_emisor: rut_emisor, 
+                                          nombre_emisor: nombre_emisor + ' ' + apPatAlu, 
+                                          ruts_receptor: rutsReceptor,
+                                          nombre_receptor: nombresReceptorStr,
+                                          cont_mensaje: mensaje,
+                                          img_mensaje: null, // modificar si deseas agregar una imagen al mensaje
+                                          tipo_mensaje: tipoMensaje 
+                                        };
+                                    
+                                        // Realizar la solicitud POST al endpoint en PHP
+                                        fetch('http://tmp.enred.cl/kc/rest/Post_envioAll.php', {
+                                          method: 'POST',
+                                          headers: {
+                                            'Content-Type': 'application/json'
+                                          },
+                                          body: JSON.stringify(data)
+                                        })
+                                          .then(response => response.json())
+                                          .then(result => {
+                                            console.log(result);
+                                            console.log('Código de estado:', response.status);
+                                            window.alert("Mensaje enviado correctamente");
+                                            $('#exampleModal').modal('hide')
+                                          })
+                                          .catch(error => {
+                                            window.alert("Mensaje enviado correctamente");
+                                            $('#exampleModal').modal('hide')
+                                            
+                                          });
+                                      }
+                                    </script>
+                                  </div>
+                                </div>
+
+                              </section>
+                              <!-- FIN seccion enviar mensaje-->
+                                                    </div>
+                                    </div>
+                            </div>
+                          </div>
+                      </div>
+                  </div>
+              </section>
+
+        </div>
+
+        </div>
+    </div>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    var menuContainer = document.getElementById('menu-container');
+    var navbarToggle = document.querySelector('.navbar-toggler');
+
+    // Ocultar el menú inicialmente
+    menuContainer.style.display = 'none';
+
+    // Agregar evento de clic al botón de toggle navigation
+    navbarToggle.addEventListener('click', function() {
+      // Verificar si la barra de navegación se está abriendo o cerrando
+      if (menuContainer.style.display === 'none') {
+        // Mostrar el menú si la barra de navegación se está abriendo
+        menuContainer.style.display = 'block';
+      } else {
+        // Ocultar el menú si la barra de navegación se está cerrando
+        menuContainer.style.display = 'none';
+      }
+    });
+  });
+</script>
+<script>
+  // Función para mostrar los mensajes en el HTML
+  function mostrarMensajes(data) {
+    const container = document.getElementById('mensajes-container');
+
+    // Limpiar el contenido del contenedor
+    container.innerHTML = '';
+
+    // Iterar sobre los mensajes y crear cartas para cada uno
+    data.forEach(mensaje => {
+      const mensajeText = mensaje.cont_mensaje;
+      const fechaText = mensaje.fecha_envio;
+
+      // Crear la carta para el mensaje
+      const card = document.createElement('div');
+      card.classList.add('card');
+      
+      const fechaElement = document.createElement('p');
+      fechaElement.textContent = fechaText;
+      // Crear elementos <h1> y agregarlos a la carta
+      const mensajeElement = document.createElement('strong');
+      mensajeElement.textContent = mensajeText;
+
+     
+      card.appendChild(fechaElement);
+      card.appendChild(mensajeElement);
+     
+
+      // Agregar la carta al contenedor
+      container.appendChild(card);
+    });
+  }
+
+  // Función para realizar la solicitud al endpoint y obtener los mensajes
+  function obtenerMensajes() {
+    const url = 'http://tmp.enred.cl/kc/rest/get_ultimos_eventos.php';
+
+    // Crear una instancia de XMLHttpRequest
+    const xhr = new XMLHttpRequest();
+
+    // Configurar la solicitud GET al endpoint
+    xhr.open('GET', url, true);
+
+    // Configurar el tipo de respuesta esperada
+    xhr.responseType = 'json';
+
+    // Manejar la respuesta de la solicitud
+    xhr.onload = function() {
+      if (xhr.status === 200) {
+        const data = xhr.response;
+        mostrarMensajes(data);
+      } else {
+        console.error('Error al obtener los mensajes. Código de estado: ' + xhr.status);
+      }
+    };
+
+    // Manejar errores de conexión
+    xhr.onerror = function() {
+      console.error('Error de conexión al obtener los mensajes.');
+    };
+
+    // Enviar la solicitud
+    xhr.send();
+  }
+
+  // Llamar a la función obtenerMensajes() al cargar la página
+  document.addEventListener('DOMContentLoaded', obtenerMensajes);
+</script>
+</body>
+</html>
+{% endblock %}

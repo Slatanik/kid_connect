@@ -1,0 +1,415 @@
+{% extends 'layout.html' %}
+{% load static %}
+{% block content %}
+ <style>
+  .mensaje-item {
+    border: 1px solid #ccc;
+    background-color: #f5f5f5;
+    padding: 10px;
+    margin-bottom: 10px;
+  }
+
+  .fechaEnvio {
+    font-weight: bold;
+  }
+
+  .emisor {
+    color: #000000;
+    font-weight: bold;
+  }
+
+  .contenido {
+    margin-top: 5px;
+  }
+</style>
+<style>
+  .card {
+    display: inline-block;
+    width: 300px;
+    border: 1px solid black;
+    padding: 10px;
+    margin-right: 10px;
+  }
+</style>
+<body>
+  <div class="d-flex" id="content-wrapper">
+    <!-- Sidebar -->
+    <div id="sidebar-container" class="barraLateral">
+      <div class="logo">
+          <h4 class="text-light font-weight-bold mb-0" ><a class="text-light" href= "{% url 'menu' %}">Kids connect</a></h4>
+      </div>
+      <div class="menu">
+        <a href="{% url 'evento' %}" class="d-block text-light p-3 border-0"><i class="icon ion-md-apps lead mr-2"></i>
+            Calendario</a>
+        <a href="{% url 'docente' %}" class="d-block text-light p-3 border-0"><i class="icon ion-md-people lead mr-2"></i>
+            Cursos</a>      
+        {% if request.session.perfil == '4' %}    
+        <a href="{% url 'crearUsuario' %}" class="d-block text-light p-3 border-0"><i class="icon ion-md-book outline mr-2"></i>
+            Crear usuario</a>
+        {% endif %}
+        <a href= "{% url 'correo' %}" class="d-block text-light p-3 border-0"><i class="icon ion-md-mail-unread mr-2"></i>
+            Mensajes</a>
+        {% if request.session.perfil == '4'  or request.session.perfil == '2' or request.session.perfil == '3' %}
+        <a href= "{% url 'crearAlumno' %}" class="d-block text-light p-3 border-0"><i class="icon ion-md-people lead mr-2"></i>Crear Alumno</a>
+        {% endif %}
+    </div>
+  </div>
+        <!-- Fin sidebar -->
+
+        <div class="w-100">
+
+         <!-- Navbar -->
+         <nav class="navbar navbar-expand-lg navbar-light bg-light border-bottom">
+            <div class="container">
+    
+              <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+                aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+              </button>
+    
+              <div  class="collapse navbar-collapse" id="navbarSupportedContent">
+                <form class="form-inline position-relative d-inline-block my-2">
+                  <input class="form-control" type="search" placeholder="Buscar" aria-label="Buscar">
+                  <button class="btn position-absolute btn-search" type="submit"><i class="icon ion-md-search"></i></button>
+                </form>
+                <div class="menu" id="menu-container">
+                  <a href="{% url 'evento' %}" class="d-block text-light p-3 border-0"><i class="icon ion-md-apps lead mr-2"></i>
+                      Calendario</a>
+                  <a href="{% url 'docente' %}" class="d-block text-light p-3 border-0"><i class="icon ion-md-people lead mr-2"></i>
+                      Profesores</a>      
+                  {% if request.session.perfil == '4' %}    
+                  <a href="{% url 'crearUsuario' %}" class="d-block text-light p-3 border-0"><i class="icon ion-md-book outline mr-2"></i>
+                      Crear usuario</a>
+                  {% endif %}
+                  <a href= "{% url 'correo' %}" class="d-block text-light p-3 border-0"><i class="icon ion-md-mail-unread mr-2"></i>
+                      Mensajes</a>
+                  {% if request.session.perfil == '4'  or request.session.perfil == '2' or request.session.perfil == '3' %}
+                  <a href= "{% url 'crearAlumno' %}" class="d-block text-light p-3 border-0"><i class="icon ion-md-people lead mr-2"></i>Crear Alumno</a>
+                  {% endif %}
+              </div>
+                <ul class="navbar-nav ml-auto mt-2 mt-lg-0">
+                  <li class="nav-item dropdown">
+                    <a class="nav-link text-dark dropdown-toggle" href="#" id="navbarDropdown" role="button"
+                      data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">                  
+                      <img src="{% static 'img\logoSideBar.gif' %}" style="width: 50px; height: auto;">
+                      <span id="storedValue"></span>
+                    </a>
+                    <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+                      <a class="dropdown-item" href="{% url 'cerrarSesion' %}">Cerrar sesión</a>
+
+                    </div>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </nav>
+          <!-- Fin Navbar -->
+
+        <!-- Page Content -->
+        <div  id="content" class="bg-grey w-100">
+          <section class="bg-light py-3">
+            <div class="container">
+              <div class="row align-items-center">
+                <div class="col-lg-9 col-md-8">
+                  <h1 class="font-weight-bold mb-0">Calendario</h1>
+                  <p class="lead text-muted">Revisa la última información</p>
+                </div>
+                <div class="col-lg-3 col-md-4 d-flex">
+                  <div class="card-body">
+                    <button onclick="abrirModal()" class="btn btn-primary">Mostrar Evento</button>
+                    <br><br>
+                    <button onclick="abrirModalAnuncios()" class="btn btn-primary">Mostrar Anuncios</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+            
+          </section>
+          <div class="container">
+            <div class="row">
+              <div class="col-lg-8 my-3">
+                <div >
+                
+                  <iframe src="https://calendar.google.com/calendar/embed?height=600&wkst=1&bgcolor=%23f5f5f5&ctz=America%2FSantiago&showPrint=0&mode=MONTH&src=Y18xZTE3ODU3NDI1NmM3OWY1NjY4MTk2NWQ1YjhjYzk4MjI0ZDUyYTFjN2JmNDdmMjYwZGFkYzJmODI4NTg3ZDUyQGdyb3VwLmNhbGVuZGFyLmdvb2dsZS5jb20&src=YWRkcmVzc2Jvb2sjY29udGFjdHNAZ3JvdXAudi5jYWxlbmRhci5nb29nbGUuY29t&src=ZXMuY2wjaG9saWRheUBncm91cC52LmNhbGVuZGFyLmdvb2dsZS5jb20&color=%23C0CA33&color=%2333B679&color=%230B8043" style="border-width:0" width="800" height="600" frameborder="0" scrolling="no"></iframe>
+                    <a href="https://calendar.google.com/calendar/render?action=TEMPLATE" target="_blank" rel="noopener noreferrer"> <br>
+                      <button class="btn btn-primary" disabled>Agregar evento</button>
+                    </a>
+                  </div>
+                  
+                </div>
+              </div>
+               
+              
+              <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <h5 class="modal-title" id="myModalLabel">Mensajes</h5>
+                      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                      </button>
+                    </div>
+                    <div class="modal-body">
+                      <ul id="mensajesList"></ul>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div>
+                <p style="color:#blue;">Ultimos Eventos<p>
+                <div id="mensajes-container"></div>
+            </div>    
+            <script>
+            // Script para mostrar eventos
+function abrirModal() {
+  // Obtener los mensajes del rut 1234 desde la API
+  const rutReceptor = '{{request.session.user_id}}';
+  fetch(`http://tmp.enred.cl/kc/rest/get_anuncios.php?rut_receptor=${rutReceptor}`)
+    .then(response => response.json())
+    .then(data => {
+      const mensajesList = document.getElementById('mensajesList');
+      mensajesList.innerHTML = '';
+
+      if (data.length === 0) {
+        const mensajeItem = document.createElement('div');
+        mensajeItem.textContent = 'No hay mensajes para mostrar.';
+        mensajesList.appendChild(mensajeItem);
+      } else {
+        const mesSeleccionado = 6; // Cambia esto con el mes que desees filtrar (por ejemplo, 6 para junio)
+
+        // Ordenar los mensajes por fecha de envío (de la más nueva a la más antigua)
+        data.sort((a, b) => new Date(b.fecha_envio) - new Date(a.fecha_envio));
+
+        data.forEach(mensaje => {
+          const fechaEnvio = new Date(mensaje.fecha_envio);
+          const mesEnvio = fechaEnvio.getMonth() + 1; // El mes va de 0 a 11, por eso se suma 1
+
+          if (mesEnvio === mesSeleccionado) {
+            const mensajeItem = document.createElement('div');
+            mensajeItem.classList.add('mensaje-item');
+
+            const mensajeContent = document.createElement('div');
+            mensajeContent.classList.add('mensaje-content');
+
+            const titulo = document.createElement('h4');
+            titulo.classList.add('mensaje-titulo');
+            titulo.textContent = 'Evento'; // Cambia "Mensaje" por "Evento"
+
+            const separador = document.createElement('hr');
+            separador.classList.add('mensaje-separador');
+
+            const fechaEnvioElement = document.createElement('p');
+            fechaEnvioElement.classList.add('fechaEnvio');
+            const fechaEnvio = new Date(mensaje.fecha_envio);
+            const dia = fechaEnvio.getDate();
+            const mes = fechaEnvio.getMonth() + 1;
+            const anio = fechaEnvio.getFullYear();
+            const fechaFormateada = `${dia}/${mes}/${anio}`;
+            fechaEnvioElement.textContent = `Fecha de envío: ${fechaFormateada}`;
+
+            const emisor = document.createElement('p');
+            emisor.classList.add('emisor');
+            emisor.textContent = `Emisor: ${mensaje.nom_emisor}`;
+
+            const contenido = document.createElement('p');
+            contenido.classList.add('contenido');
+            contenido.textContent = `Contenido: ${mensaje.cont_mensaje}`;
+
+            mensajeContent.appendChild(titulo);
+            mensajeContent.appendChild(separador);
+            mensajeContent.appendChild(fechaEnvioElement);
+            mensajeContent.appendChild(emisor);
+            mensajeContent.appendChild(contenido);
+
+            mensajeItem.appendChild(mensajeContent);
+
+            mensajesList.appendChild(mensajeItem);
+          }
+        });
+      }
+      // Abrir el modal utilizando Bootstrap y aplicar estilos personalizados
+      $('#myModal').modal('show');
+      $('#myModal .modal-dialog').addClass('modal-lg'); // Clase para hacer el modal más grande
+      $('#myModal .modal-content').addClass('modal-thick-border'); // Clase para hacer el borde del modal más grueso
+    })
+    .catch(error => {
+      console.error('Error al obtener los mensajes:', error);
+    });
+}
+
+            </script>
+            
+            
+            
+          
+              <script>
+               // Script para mostrar anuncios
+function abrirModalAnuncios() {
+  // Obtener los anuncios del rut receptor desde la API
+  const rutReceptor = '{{request.session.user_id}}'; // Cambia esto según tus necesidades
+  fetch(`http://tmp.enred.cl/kc/rest/Get_anunciosA.php?rut_receptor=${rutReceptor}`)
+      .then(response => response.json())
+      .then(data => {
+          const mensajesList = document.getElementById('mensajesList');
+          mensajesList.innerHTML = '';
+
+          if (data.length === 0) {
+              const mensajeItem = document.createElement('li');
+              mensajeItem.textContent = 'No hay mensajes para mostrar.';
+              mensajesList.appendChild(mensajeItem);
+          } else {
+              const mesSeleccionado = 6; // Cambia esto con el mes que desees filtrar (por ejemplo, 6 para junio)
+
+              // Ordenar los anuncios por fecha de envío, de la más nueva a la más antigua
+              data.sort((a, b) => new Date(b.fecha_envio) - new Date(a.fecha_envio));
+
+              data.forEach(mensaje => {
+                  const fechaEnvio = new Date(mensaje.fecha_envio);
+                  const mesEnvio = fechaEnvio.getMonth() + 1; // El mes va de 0 a 11, por eso se suma 1
+
+                  if (mesEnvio === mesSeleccionado) {
+                      const mensajeItem = document.createElement('div');
+                      mensajeItem.classList.add('mensaje-item');
+
+                      const titulo = document.createElement('h4');
+                      titulo.classList.add('mensaje-titulo', 'font-weight-bold', 'mb-3');
+                      titulo.textContent = 'Anuncios';
+
+                      const lineaGris = document.createElement('hr');
+                      lineaGris.classList.add('mensaje-linea-gris', 'mb-3');
+
+                      const contenidoWrapper = document.createElement('div');
+                      contenidoWrapper.classList.add('mensaje-contenido-wrapper');
+
+                      const emisor = document.createElement('div');
+                      emisor.classList.add('mensaje-emisor');
+                      emisor.textContent = `Emisor: ${mensaje.nom_emisor}`;
+
+                      const fechaEnvioElement = document.createElement('div');
+                      fechaEnvioElement.classList.add('mensaje-fecha-envio');
+                      const dia = fechaEnvio.getDate();
+                      const mes = fechaEnvio.getMonth() + 1;
+                      const anio = fechaEnvio.getFullYear();
+                      const fechaFormateada = `${dia}/${mes}/${anio}`;
+                      fechaEnvioElement.textContent = `Fecha de envío: ${fechaFormateada}`;
+
+                      const contenido = document.createElement('div');
+                      contenido.classList.add('mensaje-contenido');
+                      contenido.textContent = mensaje.cont_mensaje;
+
+                      contenidoWrapper.appendChild(emisor);
+                      contenidoWrapper.appendChild(fechaEnvioElement);
+                      contenidoWrapper.appendChild(contenido);
+
+                      mensajeItem.appendChild(titulo);
+                      mensajeItem.appendChild(lineaGris);
+                      mensajeItem.appendChild(contenidoWrapper);
+
+                      mensajesList.appendChild(mensajeItem);
+                  }
+              });
+          }
+
+          // Abrir el modal utilizando Bootstrap
+          $('#myModal').modal('show');
+          $('#myModal .modal-dialog').addClass('modal-lg'); // Clase para hacer el modal más grande
+          $('#myModal .modal-content').addClass('modal-thick-border'); //
+      })
+      .catch(error => {
+          console.error('Error al obtener los mensajes:', error);
+      });
+}
+  
+            </script>
+              <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      var menuContainer = document.getElementById('menu-container');
+      var navbarToggle = document.querySelector('.navbar-toggler');
+  
+      // Ocultar el menú inicialmente
+      menuContainer.style.display = 'none';
+  
+      // Agregar evento de clic al botón de toggle navigation
+      navbarToggle.addEventListener('click', function() {
+        // Verificar si la barra de navegación se está abriendo o cerrando
+        if (menuContainer.style.display === 'none') {
+          // Mostrar el menú si la barra de navegación se está abriendo
+          menuContainer.style.display = 'block';
+        } else {
+          // Ocultar el menú si la barra de navegación se está cerrando
+          menuContainer.style.display = 'none';
+        }
+      });
+    });
+  </script>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script>
+    // Función para mostrar los mensajes en el HTML
+    function mostrarMensajes(data) {
+      const container = document.getElementById('mensajes-container');
+
+      // Limpiar el contenido del contenedor
+      container.innerHTML = '';
+
+      // Iterar sobre los mensajes y crear cartas para cada uno
+      data.forEach(mensaje => {
+        const mensajeText = mensaje.cont_mensaje;
+        const fechaText = mensaje.fecha_envio;
+
+        // Crear la carta para el mensaje
+        const card = document.createElement('div');
+        card.classList.add('card');
+        
+        const fechaElement = document.createElement('p');
+        fechaElement.textContent = fechaText;
+        // Crear elementos <h1> y agregarlos a la carta
+        const mensajeElement = document.createElement('strong');
+        mensajeElement.textContent = mensajeText;
+
+       
+        card.appendChild(fechaElement);
+        card.appendChild(mensajeElement);
+       
+
+        // Agregar la carta al contenedor
+        container.appendChild(card);
+      });
+    }
+
+    // Función para realizar la solicitud al endpoint y obtener los mensajes
+    function obtenerMensajes() {
+      const url = 'http://tmp.enred.cl/kc/rest/get_ultimos_eventos.php';
+
+      // Crear una instancia de XMLHttpRequest
+      const xhr = new XMLHttpRequest();
+
+      // Configurar la solicitud GET al endpoint
+      xhr.open('GET', url, true);
+
+      // Configurar el tipo de respuesta esperada
+      xhr.responseType = 'json';
+
+      // Manejar la respuesta de la solicitud
+      xhr.onload = function() {
+        if (xhr.status === 200) {
+          const data = xhr.response;
+          mostrarMensajes(data);
+        } else {
+          console.error('Error al obtener los mensajes. Código de estado: ' + xhr.status);
+        }
+      };
+
+      // Manejar errores de conexión
+      xhr.onerror = function() {
+        console.error('Error de conexión al obtener los mensajes.');
+      };
+
+      // Enviar la solicitud
+      xhr.send();
+    }
+
+    // Llamar a la función obtenerMensajes() al cargar la página
+    document.addEventListener('DOMContentLoaded', obtenerMensajes);
+  </script>
+</body>
+{% endblock %}

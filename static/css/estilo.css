@@ -1,21 +1,17 @@
-:root {
-    --primary: #111B54;
-    --light: #ffffff;
-    --grey: #efefef;
-}
-
 body {
-    overflow: hidden;
-    font-family: 'Muli', sans-serif;
-    font-weight: 300;
-    color: var(--primary);
+  background-image: url("{% static 'img/Logo Kids Connect.png' %}");   
+  font-family: 'Muli', sans-serif;
+  font-weight: 300;
+  
 }
 
 a:hover {
-    text-decoration: none;
+  text-decoration: none;
 }
 
-.bg-primary { background-color: var(--primary) !important; }
+.barraLateral {background-color:#f0b434}
+
+.transcolor {background-color:#00000000;}
 
 .bg-light { background-color: var(--light) !important; }
 
@@ -24,86 +20,110 @@ a:hover {
 .bg-mix { background: linear-gradient(180deg, var(--light) 50%, var(--grey) 0); }
 
 .btn-primary {
-    background-color: var(--primary);
-    border: 0;
+  background-color: var(--primary);
+  border: 0;
 }
 
 .btn-primary:hover {
-    background-color: var(--primary);
+  background-color: var(--primary);
 }
 
 #sidebar-container {
-    min-height: 100vh;
+  min-height: 100vh;
 }
-  
+
 #sidebar-container .logo{
-    padding: 0.875rem 1.25rem;
+  padding: 0.875rem 1.25rem;
 }
-  
+
 #sidebar-container .menu {
-    width: 18rem;
+  width: 18rem;
 }
 
 #content {
-    overflow-y: auto;
-    height: 100vh;
-    padding-bottom: 5rem;
+  overflow-y: auto;
+  height: 100vh;
+  padding-bottom: 5rem;
+  
+
 }
 
 .avatar {
-    max-width: 35px;
+  max-width: 35px;
 }
 
 .btn-search {
-    right: 0;
+  right: 0;
 }
 
 .stat {
-    border-right: 1px solid var(--grey);
+  border-right: 1px solid var(--grey);
 }
 
-  
-@media (max-width: 768px) {
-    #sidebar-container {
-      display: none;
-    }
-    .stat {
-        border: 0;
-    }
-  }
-  
 
-  table {
-    border-collapse: collapse;
-    width: 100%;
+
+
+
+
+@media (max-width: 768px) {
+  #sidebar-container {
+    display: none;
   }
-  
-  th,
-  td {
-    border: 1px solid black;
-    padding: 8px;
-    text-align: center;
+  .stat {
+      border: 0;
   }
-  
-  th button,
-  td button {
-    width: 100%;
-  }
-  
-  th:last-child button,
-  td:last-child button {
-    display: block;
-  }
-  
-  th:last-child input,
-  td:last-child input {
-    display: block;
-    width: 100%;
-    margin-bottom: 8px;
-  }
-  
-  th:last-child input:focus,
-  td:last-child input:focus {
-    outline: none;
-    border: 1px solid blue;
-  }
+}
+
+
+table {
+  border-collapse: collapse;
+  width: 100%;
+}
+
+th,
+td {
+  border: 1px solid black;
+  padding: 8px;
+  text-align: center;
+}
+
+th button,
+td button {
+  width: 100%;
+}
+
+th:last-child button,
+td:last-child button {
+  display: block;
+}
+
+th:last-child input,
+td:last-child input {
+  display: block;
+  width: 100%;
+  margin-bottom: 8px;
+}
+
+th:last-child input:focus,
+td:last-child input:focus {
+  outline: none;
+  border: 1px solid blue;
+}
+/* Estilos para el modal de correo */
+.mensaje-container {
+  border: 1px solid #ccc;
+  background-color: #f5f5f5;
+  padding: 10px;
+  margin-bottom: 10px;
+}
+
+.mensaje-container h6 {
+  font-size: 18px;
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+
+.mensaje-container p {
+  font-size: 14px;
+  margin-bottom: 3px;
+}

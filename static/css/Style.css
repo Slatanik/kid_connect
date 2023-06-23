@@ -191,3 +191,7 @@ a:hover {
       border: 0;
   }
 }
+
+#lista_curso{
+  align-items: center;
+}
