@@ -93,6 +93,7 @@
               </div>
               <ul class="navbar-nav ml-auto mt-2 mt-lg-0">
                 <li class="nav-item dropdown">
+                  <div>
                   <a class="nav-link text-dark dropdown-toggle" href="#" id="navbarDropdown" role="button"
                     data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">                  
                     <img src="{% static 'img\logoSideBar.gif' %}" style="width: 50px; height: auto;">
@@ -101,6 +102,7 @@
                   <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
                     <a class="dropdown-item" href="{% url 'cerrarSesion' %}">Cerrar sesión</a>
                   </div>
+                </div>
                 </li>
               </ul>
             </div>
@@ -421,7 +423,6 @@
                                         })
                                           .then(response => response.json())
                                           .then(result => {
-                                            console.log(result);
                                             console.log('Código de estado:', response.status);
                                             window.alert("Mensaje enviado correctamente");
                                             $('#exampleModal').modal('hide')

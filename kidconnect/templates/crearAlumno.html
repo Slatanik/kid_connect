@@ -275,25 +275,23 @@
     function guardarContenido() {
       var codFc = document.getElementById("cod_fc").value;
       var conFc = document.getElementById("con_fc").value;
-
-      fetch('http://tmp.enred.cl/kc/rest/update_con_fc.php', {
+      var rutAlumno = document.getElementById("rut_alumno").value;
+      fetch('http://tmp.enred.cl/kc/rest/update_con_fc.php/', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
         },
         body: JSON.stringify({
-          rut_alumno: codFc,
-          con_fc: conFc
+          rut_alumno: rutAlumno,
+          contenido: conFc
         })
       })
         .then(response => response.json())
-        console.log(response)
         .then(data => {
           if (data.success) {
-            console.log(response)
-            alert('Ficha actualizada con éxito.');
+            window.alert('Ficha actualizada con éxito.');
           } else {
-            alert('Error al actualizar la ficha.');
+            window.alert('Error al actualizar la ficha.');
           }
         })
         .catch(error => {
