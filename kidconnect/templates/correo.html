@@ -56,7 +56,7 @@
             <a href= "{% url 'correo' %}" class="d-block text-light p-3 border-0"><i class="icon ion-md-mail-unread mr-2"></i>
                 Mensajes</a>
             {% if request.session.perfil == '4'  or request.session.perfil == '2' or request.session.perfil == '3' %}
-            <a href= "{% url 'crearAlumno' %}" class="d-block text-light p-3 border-0"><i class="icon ion-md-people lead mr-2"></i>Crear Alumno</a>
+            <a href= "{% url 'crearAlumno' %}" class="d-block text-light p-3 border-0"><i class="icon ion-md-people lead mr-2"></i>Alumnos</a>
             {% endif %}
         </div>
       </div>
@@ -88,7 +88,7 @@
                 <a href= "{% url 'correo' %}" class="d-block text-primary p-3 border-0"><i class="icon ion-md-mail-unread mr-2"></i>
                     Mensajes</a>
                 {% if request.session.perfil == '1' %}
-                <a href="{% url 'crearAlumno' %}" class="d-block text-light p-3 border-0"> <i class="icon ion-md-people lead mr-2"></i>Crear Alumno</a>
+                <a href="{% url 'crearAlumno' %}" class="d-block text-light p-3 border-0"> <i class="icon ion-md-people lead mr-2"></i>Alumnos</a>
                 {% endif %}
               </div>
               <ul class="navbar-nav ml-auto mt-2 mt-lg-0">
@@ -135,7 +135,7 @@
           <h5 class="font-weight-bold mb-0">Revisar Mensajes</h5>
         </div>
         <div class="card-body">
-          <button onclick="abrirModal()" class="btn btn-primary">Mostrar Mensajes</button>
+          <button onclick="abrirModal()" class="btn btn-primary btn-block">Mostrar Mensajes</button>
           <hr>
         </div>
       </div>
