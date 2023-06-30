@@ -21,7 +21,7 @@
         <a href= "{% url 'correo' %}" class="d-block text-light p-3 border-0"><i class="icon ion-md-mail-unread mr-2"></i>
             Mensajes</a>
         {% if request.session.perfil == '4'  or request.session.perfil == '2' or request.session.perfil == '3' %}
-        <a href= "{% url 'crearAlumno' %}" class="d-block text-light p-3 border-0"><i class="icon ion-md-people lead mr-2"></i>Crear Alumno</a>
+        <a href= "{% url 'crearAlumno' %}" class="d-block text-light p-3 border-0"><i class="icon ion-md-people lead mr-2"></i>Alumnos</a>
         {% endif %}
     </div>
   </div>
@@ -53,7 +53,7 @@
                 <a href= "{% url 'correo' %}" class="d-block text-primary p-3 border-0"><i class="icon ion-md-mail-unread mr-2"></i>
                     Mensajes</a>
                 {% if request.session.perfil == '1' %}
-                <a href="{% url 'crearAlumno' %}" class="d-block text-light p-3 border-0"> <i class="icon ion-md-people lead mr-2"></i>Crear Alumno</a>
+                <a href="{% url 'crearAlumno' %}" class="d-block text-light p-3 border-0"> <i class="icon ion-md-people lead mr-2"></i>Alumnos</a>
                 {% endif %}
               </div>
               <ul class="navbar-nav ml-auto mt-2 mt-lg-0">
@@ -208,7 +208,7 @@
   <form id="searchForm">
     <label for="rut_alumno">RUT del Alumno:</label>
     <input type="text" id="rut_alumno" name="rut_alumno">
-    <button type="submit">Buscar</button>
+    <button type="submit" class="btn btn-primary">Buscar</button>
   </form>
 
   <h2>Ficha de Alumno</h2>
@@ -231,7 +231,7 @@
     <label for="con_fc">Contenido de la Ficha:</label>
     <textarea id="con_fc" name="con_fc" rows="5" cols="30" disabled></textarea><br><br>
 
-    <button id="actualizarBtn" type="button" onclick="guardarContenido()" disabled>Actualizar Ficha</button>
+    <button id="actualizarBtn" class="btn btn-primary" type="button" onclick="guardarContenido()" disabled>Actualizar Ficha</button>
   </form>
                             
   <script>

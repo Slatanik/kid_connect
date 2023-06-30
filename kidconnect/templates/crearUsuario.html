@@ -22,7 +22,7 @@
         <a href= "{% url 'correo' %}" class="d-block text-light p-3 border-0"><i class="icon ion-md-mail-unread mr-2"></i>
             Mensajes</a>
         {% if request.session.perfil == '4'  or request.session.perfil == '2' or request.session.perfil == '3' %}
-        <a href= "{% url 'crearAlumno' %}" class="d-block text-light p-3 border-0"><i class="icon ion-md-people lead mr-2"></i>Crear Alumno</a>
+        <a href= "{% url 'crearAlumno' %}" class="d-block text-light p-3 border-0"><i class="icon ion-md-people lead mr-2"></i>Alumnos</a>
         {% endif %}
     </div>
     </div>
@@ -82,7 +82,7 @@
                 href="{% url 'crearAlumno' %}"
                 class="d-block text-light p-3 border-0"
               >
-                <i class="icon ion-md-people lead mr-2"></i>Crear Alumno</a
+                <i class="icon ion-md-people lead mr-2"></i>Alumnos</a
               >
               {% endif %}
             </div>
