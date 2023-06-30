@@ -74,17 +74,20 @@
           <!-- Fin Navbar -->
 
         <!-- Page Content -->
-        <div id="content" class="bg-grey w-100">
-
+        
+        <div  class="bg-grey w-100">
               <section class="bg-light py-3">
                   <div class="container">
                       <div class="row">
-                          <div class="col-lg-9 col-md-8">
-                            <h1 class="font-weight-bold mb-0">Información Alumo</h1>
+                          <div class="col-lg-9 col-md-8">   <h1 class="font-weight-bold mb-0">Información Alumo</h1>
                             <p class="lead text-muted">Revisa la última información</p>
-                          </div>                         
-                  
-
+                          </div>
+                          
+                      </div>
+                  </div>
+              </section>                         
+                  <section>
+                                  <div class="container" style="max-width: 600px; margin-top: 50px; margin-bottom: 20px; margin-left: 80px">
                                   <div class="card rounded-0">
                                     <div class="card-header bg-light">
                                         <h6 class="font-weight-bold mb-0">Creacion Alumno</h6>
@@ -204,7 +207,19 @@
                                   display: none;
                                 }
                               </style>  
-                              <h1>Buscar y Actualizar Ficha</h1>
+                            </div>
+                          </section>
+                               <section>
+                            <div class="container">
+                              <div class="row justify-content-left" style="margin-top: 50px; margin-bottom: 20px; margin-left: -65px">
+                                <div class="col-lg-6 col-md-8">
+                            <div class="card rounded-0">
+                              <div class="card-header ">
+                                <h1 class="font-weight-bold mb-0">Buscar y Actualizar Ficha</h1>
+                                
+                              </div>
+                              <div class="card-body pt-2">
+                              
   <form id="searchForm">
     <label for="rut_alumno">RUT del Alumno:</label>
     <input type="text" id="rut_alumno" name="rut_alumno">
@@ -233,7 +248,10 @@
 
     <button id="actualizarBtn" class="btn btn-primary" type="button" onclick="guardarContenido()" disabled>Actualizar Ficha</button>
   </form>
-                            
+</div>
+</div>
+</div>
+</section>
   <script>
     document.getElementById("searchForm").addEventListener("submit", function(event) {
       event.preventDefault(); // Evitar el envío del formulario
