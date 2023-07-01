@@ -3,6 +3,11 @@
 {% block content %}
 
 <body>
+  <style>
+    .hidden {
+      display: none;
+    }
+  </style>  
   <div class="d-flex" id="content-wrapper">
     <!-- Sidebar -->
     <div id="sidebar-container" class="barraLateral">
@@ -75,182 +80,120 @@
 
         <!-- Page Content -->
         
-        <div  class="bg-grey w-100">
-              <section class="bg-light py-3">
-                  <div class="container">
-                      <div class="row">
-                          <div class="col-lg-9 col-md-8">   <h1 class="font-weight-bold mb-0">Información Alumo</h1>
-                            <p class="lead text-muted">Revisa la última información</p>
-                          </div>
-                          
-                      </div>
+        <style>
+          .form-container {
+            max-width: 800px;
+            margin: 50px auto;
+          }
+      
+          .form-card {
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 20px;
+          }
+        </style>
+        <div class="bg-grey w-100">
+          <section class="bg-light py-3">
+            <div class="container">
+              <div class="row">
+                <div class="col-lg-9 col-md-8">
+                  <h1 class="font-weight-bold mb-0">Información Alumno</h1>
+                  <p class="lead text-muted">Revisa la última información</p>
+                </div>
+              </div>
+            </div>
+          </section>
+      
+          <div class="container form-container">
+            <div class="row">
+              <div class="col-lg-6 col-md-6">
+                <div class="card rounded-0 form-card">
+                  <div class="card-header bg-light">
+                    <h6 class="font-weight-bold mb-0">Creación Alumno</h6>
                   </div>
-              </section>                         
-                  <section>
-                                  <div class="container" style="max-width: 600px; margin-top: 50px; margin-bottom: 20px; margin-left: 80px">
-                                  <div class="card rounded-0">
-                                    <div class="card-header bg-light">
-                                        <h6 class="font-weight-bold mb-0">Creacion Alumno</h6>
-                                    </div>
-                                    <div class="card-body pt-2">
-                                      <h1>Formulario de Registro de Alumno</h1>
-                                        <form id="registroForm">
-                                        <label for="rut_alu">RUT Alumno:</label>
-                                        <input type="text" id="rut_alu" name="rut_alu" class="form-control" required><br>
-    
-                                        <label for="dv_alu">DV:</label>
-                                        <input type="text" id="dv_alu" name="dv_alu" class="form-control" required><br>
-    
-                                        <label for="nom_alu">Nombre:</label>
-                                        <input type="text" id="nom_alumno" name="nom_alumno" class="form-control" required><br>
-    
-                                        <label for="ap_pat_alu">Apellido Paterno:</label>
-                                        <input type="text" id="ap_pat_alumno" name="ap_pat_alumno" class="form-control" required><br>
-    
-                                        <label for="ap_mat_alu">Apellido Materno:</label>
-                                        <input type="text" id="ap_mat_alumno" name="ap_mat_alumno" class="form-control" required><br>
-    
-                                        <label for="dir_alu">Dirección:</label>
-                                        <input type="text" id="dir_alu" name="dir_alu" class="form-control" required><br>
-    
-                                        <label for="curso_cod_cur">Codigo curso:</label>
-                                        <input type="text" id="curso_cod_cur" name="curso_cod_cur" class="form-control" required><br>
-    
-                                        <label for="curso_cod_niv">Codigo Nivel:</label>
-                                        <input type="text" id="curso_cod_niv" name="curso_cod_niv" class="form-control" required><br>
-    
-                                        <label for="usuario_rut_us">Rut Apoderado:</label>
-                                        <input type="text" id="usuario_rut_us" name="usuario_rut_us" class="form-control" required><br>
-    
-                                        
-    
-
-                                        <label for="curso_cod_jor">Jornada (1=AM - 2=PM):</label>
-                                        <input type="text" id="curso_cod_jor" name="curso_cod_jor"  class="form-control" required><br>
-
-                                        
-    
-                                        <button type="submit" class="btn btn-primary" >Registrar</button>
-                                    </form>
-
-
-
-                                <script>
-                                  const form = document.getElementById('registroForm');
-                                  form.addEventListener('submit', function(event) {
-                                      event.preventDefault(); // Evita que la página se recargue al enviar el formulario
-                              
-                                      // Obtener los valores de los campos del formulario
-                                  // Obtener los valores de los campos del formulario
-                                  const rut_alu = document.getElementById('rut_alu').value;
-                                  const dv_alu = document.getElementById('dv_alu').value;
-                                  const nom_alumno = document.getElementById('nom_alumno').value;
-                                  const ap_pat_alumno = document.getElementById('ap_pat_alumno').value;
-                                  const ap_mat_alumno = document.getElementById('ap_mat_alumno').value;
-                                  const dir_alu = document.getElementById('dir_alu').value;
-                                  const curso_cod_cur = document.getElementById('curso_cod_cur').value;
-                                  const curso_cod_niv = document.getElementById('curso_cod_niv').value;
-                                  const usuario_rut_us = document.getElementById('usuario_rut_us').value;
-                                  const usuario_jardin_cod_jar = 1;
-                                  const usuario_cod_tip = 1;
-                                  const curso_cod_jor = document.getElementById('curso_cod_jor').value;
-                                  const curso_cod_jar = 1;
-                                      // Obtener el valor de los demás campos del formulario
-                              
-                                    // Crear un objeto con los datos del formulario
-                                    const formData = {
-                                        rut_alu: rut_alu,
-                                        dv_alu: dv_alu,
-                                        nom_alu: nom_alumno,
-                                        ap_pat_alu: ap_pat_alumno,
-                                        ap_mat_alu: ap_mat_alumno,
-                                        dir_alu: dir_alu,
-                                        curso_cod_cur: curso_cod_cur,
-                                        curso_cod_niv: curso_cod_niv,
-                                        usuario_rut_us: usuario_rut_us,
-                                        usuario_jardin_cod_jar: usuario_jardin_cod_jar,
-                                        usuario_cod_tip: usuario_cod_tip,
-                                        curso_cod_jor: curso_cod_jor,
-                                        curso_cod_jar: curso_cod_jar
-                                    };
-                              
-                                      // Convertir el objeto a JSON
-                                      const jsonData = JSON.stringify(formData);
-                                      console.log(jsonData);
-                                      fetch('http://tmp.enred.cl/kc/rest/post_alumno.php', {
-                                          method: 'POST',
-                                          headers: {
-                                              'Content-Type': 'application/json'
-                                          },
-                                          body: jsonData
-                                      })
-                                      .then(response => {
-                                        
-                                          if (!response.ok) {
-                                              throw new Error('Error al enviar la solicitud');
-                                          }
-                                          alert("Alumno creado correctamnte ");
-                                          return response.json();
-                                      })
-                                      .then(data => {
-                                          console.log('El registro de alumno ha sido creado:', data);
-                                          // Realiza acciones adicionales si es necesario
-                                      })
-                                      .catch(error => {
-                                          console.error(error);
-                                          // Maneja el error de alguna manera apropiada
-                                      });
-                                  });
-                              </script> 
-                              <style>
-                                .hidden {
-                                  display: none;
-                                }
-                              </style>  
-                            </div>
-                          </section>
-                               <section>
-                            <div class="container">
-                              <div class="row justify-content-left" style="margin-top: 50px; margin-bottom: 20px; margin-left: -65px">
-                                <div class="col-lg-6 col-md-8">
-                            <div class="card rounded-0">
-                              <div class="card-header ">
-                                <h1 class="font-weight-bold mb-0">Buscar y Actualizar Ficha</h1>
-                                
-                              </div>
-                              <div class="card-body pt-2">
-                              
-  <form id="searchForm">
-    <label for="rut_alumno">RUT del Alumno:</label>
-    <input type="text" id="rut_alumno" name="rut_alumno">
-    <button type="submit" class="btn btn-primary">Buscar</button>
-  </form>
-
-  <h2>Ficha de Alumno</h2>
-  <form id="dataForm">
-    <label for="cod_fc">Código FC:</label>
-    <input type="text" id="cod_fc" name="cod_fc" disabled><br><br>
-
-    <label for="nom_alu">Nombre:</label>
-    <input type="text" id="nom_alu" name="nom_alu" disabled><br><br>
-
-    <label for="ap_pat_alu">Apellido Paterno:</label>
-    <input type="text" id="ap_pat_alu" name="ap_pat_alu" disabled><br><br>
-
-    <label for="ap_mat_alu">Apellido Materno:</label>
-    <input type="text" id="ap_mat_alu" name="ap_mat_alu" disabled><br><br>
-
-    <label for="fec_cre">Fecha de Creación:</label>
-    <input type="text" id="fec_cre" name="fec_cre" disabled><br><br>
-
-    <label for="con_fc">Contenido de la Ficha:</label>
-    <textarea id="con_fc" name="con_fc" rows="5" cols="30" disabled></textarea><br><br>
-
-    <button id="actualizarBtn" class="btn btn-primary" type="button" onclick="guardarContenido()" disabled>Actualizar Ficha</button>
-  </form>
-</div>
-</div>
-</div>
+                  <div class="card-body pt-2">
+                    <h1>Formulario de Registro de Alumno</h1>
+                    <form id="registroForm">
+                      <!-- Tus campos de formulario aquí -->
+                      <label for="rut_alu">RUT Alumno:</label>
+                      <input type="text" id="rut_alu" name="rut_alu" class="form-control" required><br>
+        
+                      <label for="dv_alu">DV:</label>
+                      <input type="text" id="dv_alu" name="dv_alu" class="form-control" required><br>
+        
+                      <label for="nom_alu">Nombre:</label>
+                      <input type="text" id="nom_alumno" name="nom_alumno" class="form-control" required><br>
+        
+                      <label for="ap_pat_alu">Apellido Paterno:</label>
+                      <input type="text" id="ap_pat_alumno" name="ap_pat_alumno" class="form-control" required><br>
+        
+                      <label for="ap_mat_alu">Apellido Materno:</label>
+                      <input type="text" id="ap_mat_alumno" name="ap_mat_alumno" class="form-control" required><br>
+        
+                      <label for="dir_alu">Dirección:</label>
+                      <input type="text" id="dir_alu" name="dir_alu" class="form-control" required><br>
+        
+                      <label for="curso_cod_cur">Codigo curso:</label>
+                      <input type="text" id="curso_cod_cur" name="curso_cod_cur" class="form-control" required><br>
+        
+                      <label for="curso_cod_niv">Codigo Nivel:</label>
+                      <input type="text" id="curso_cod_niv" name="curso_cod_niv" class="form-control" required><br>
+        
+                      <label for="usuario_rut_us">Rut Apoderado:</label>
+                      <input type="text" id="usuario_rut_us" name="usuario_rut_us" class="form-control" required><br>
+        
+                      <label for="curso_cod_jor">Jornada (1=AM - 2=PM):</label>
+                      <input type="text" id="curso_cod_jor" name="curso_cod_jor" class="form-control" required><br>
+        
+                      <button type="submit" class="btn btn-primary">Registrar</button>
+                    </form>
+                  </div>
+                </div>
+              </div>
+      
+              <div class="col-lg-6 col-md-6">
+                <div class="card rounded-0 form-card">
+                  <div class="card-header">
+                    <h6 class="font-weight-bold mb-0">Buscar y Actualizar Ficha</h6>
+                  </div>
+                  <div class="card-body pt-2">
+                    <form id="searchForm">
+                      <!-- Tus campos de formulario de búsqueda aquí -->
+                      <label for="rut_alumno">RUT del Alumno:</label>
+                      <input type="text" id="rut_alumno" name="rut_alumno" class="form-control">
+                      <button type="submit" class="btn btn-primary">Buscar</button>
+                    </form>
+      
+                    <h2>Ficha de Alumno</h2>
+                    <form id="dataForm">
+                      <!-- Tus campos de formulario de datos aquí -->
+                      <label for="cod_fc">Código FC:</label>
+                      <input type="text" id="cod_fc" name="cod_fc" disabled><br><br>
+      
+                      <label for="nom_alu">Nombre:</label>
+                      <input type="text" id="nom_alu" name="nom_alu" disabled><br><br>
+      
+                      <label for="ap_pat_alu">Apellido Paterno:</label>
+                      <input type="text" id="ap_pat_alu" name="ap_pat_alu" disabled><br><br>
+      
+                      <label for="ap_mat_alu">Apellido Materno:</label>
+                      <input type="text" id="ap_mat_alu" name="ap_mat_alu" disabled><br><br>
+      
+                      <label for="fec_cre">Fecha de Creación:</label>
+                      <input type="text" id="fec_cre" name="fec_cre" disabled><br><br>
+      
+                      <label for="con_fc">Contenido de la Ficha:</label>
+                      <textarea id="con_fc" name="con_fc" rows="5" cols="30" disabled></textarea><br><br>
+      
+                      <button id="actualizarBtn" class="btn btn-primary" type="button" onclick="guardarContenido()" disabled>Actualizar Ficha</button>
+                    </form>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        
 </section>
   <script>
     document.getElementById("searchForm").addEventListener("submit", function(event) {
@@ -338,6 +281,73 @@
     });
   });
 </script>
+<script>
+  const form = document.getElementById('registroForm');
+  form.addEventListener('submit', function(event) {
+      event.preventDefault(); // Evita que la página se recargue al enviar el formulario
+
+      // Obtener los valores de los campos del formulario
+  // Obtener los valores de los campos del formulario
+  const rut_alu = document.getElementById('rut_alu').value;
+  const dv_alu = document.getElementById('dv_alu').value;
+  const nom_alumno = document.getElementById('nom_alumno').value;
+  const ap_pat_alumno = document.getElementById('ap_pat_alumno').value;
+  const ap_mat_alumno = document.getElementById('ap_mat_alumno').value;
+  const dir_alu = document.getElementById('dir_alu').value;
+  const curso_cod_cur = document.getElementById('curso_cod_cur').value;
+  const curso_cod_niv = document.getElementById('curso_cod_niv').value;
+  const usuario_rut_us = document.getElementById('usuario_rut_us').value;
+  const usuario_jardin_cod_jar = 1;
+  const usuario_cod_tip = 1;
+  const curso_cod_jor = document.getElementById('curso_cod_jor').value;
+  const curso_cod_jar = 1;
+      // Obtener el valor de los demás campos del formulario
+
+    // Crear un objeto con los datos del formulario
+    const formData = {
+        rut_alu: rut_alu,
+        dv_alu: dv_alu,
+        nom_alu: nom_alumno,
+        ap_pat_alu: ap_pat_alumno,
+        ap_mat_alu: ap_mat_alumno,
+        dir_alu: dir_alu,
+        curso_cod_cur: curso_cod_cur,
+        curso_cod_niv: curso_cod_niv,
+        usuario_rut_us: usuario_rut_us,
+        usuario_jardin_cod_jar: usuario_jardin_cod_jar,
+        usuario_cod_tip: usuario_cod_tip,
+        curso_cod_jor: curso_cod_jor,
+        curso_cod_jar: curso_cod_jar
+    };
+
+      // Convertir el objeto a JSON
+      const jsonData = JSON.stringify(formData);
+      console.log(jsonData);
+      fetch('http://tmp.enred.cl/kc/rest/post_alumno.php', {
+          method: 'POST',
+          headers: {
+              'Content-Type': 'application/json'
+          },
+          body: jsonData
+      })
+      .then(response => {
+        
+          if (!response.ok) {
+              throw new Error('Error al enviar la solicitud');
+          }
+          alert("Alumno creado correctamnte ");
+          return response.json();
+      })
+      .then(data => {
+          console.log('El registro de alumno ha sido creado:', data);
+          // Realiza acciones adicionales si es necesario
+      })
+      .catch(error => {
+          console.error(error);
+          // Maneja el error de alguna manera apropiada
+      });
+  });
+</script> 
 
 
 {% endblock %}
